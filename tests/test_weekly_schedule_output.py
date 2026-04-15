@@ -71,3 +71,28 @@ def test_specific_eligible_employees():
 
     assert mon_shift["eligible_employees"][0]["employee_name"] == "Daniel Brooks"
     assert fri_shift["eligible_employees"][0]["employee_name"] == "Aarav Patel"
+
+def test_recommended_employee_names_cluster_a():
+    result = build_weekly_schedule_output("A")
+    shifts = result["shift_eligibility_summary"]
+
+    mon_shift = next(s for s in shifts if s["shift_id"] == "mon_morning_01")
+    wed_shift = next(s for s in shifts if s["shift_id"] == "wed_afternoon_01")
+    fri_shift = next(s for s in shifts if s["shift_id"] == "fri_evening_01")
+
+    assert mon_shift["recommended_employee_name"] == "Daniel Brooks"
+    assert wed_shift["recommended_employee_name"] is None
+    assert fri_shift["recommended_employee_name"] == "Aarav Patel"
+
+
+def test_recommended_employee_names_cluster_b():
+    result = build_weekly_schedule_output("B")
+    shifts = result["shift_eligibility_summary"]
+
+    support_shift = next(s for s in shifts if s["shift_id"] == "mon_support_block_01")
+    review_shift = next(s for s in shifts if s["shift_id"] == "wed_review_block_01")
+    dev_shift = next(s for s in shifts if s["shift_id"] == "fri_dev_block_01")
+
+    assert support_shift["recommended_employee_name"] == "Jason Miller"
+    assert review_shift["recommended_employee_name"] == "Neha Sharma"
+    assert dev_shift["recommended_employee_name"] == "Priya Nair"
