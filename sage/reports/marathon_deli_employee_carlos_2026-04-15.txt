@@ -1,0 +1,5 @@
+Employee Report: Carlos (Delivery Driver)
+Score: 84/100
+Flags: ['Late delivery pattern in notes — 2 incidents mentioned']
+Actions: ['Issue formal warning and review delivery process']
+Praise: []

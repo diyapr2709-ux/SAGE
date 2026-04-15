@@ -1,0 +1,5 @@
+Employee Report: Tom (Manager)
+Score: 65/100
+Flags: ['Manager working excessive overtime — single point of failure risk', 'Managing understaffed shifts — unsustainable and risky']
+Actions: ['Cross-train another employee for management coverage', 'Hire minimum one part-time backup for peak coverage']
+Praise: []

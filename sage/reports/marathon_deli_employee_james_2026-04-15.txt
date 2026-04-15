@@ -1,0 +1,5 @@
+Employee Report: James (Line Cook)
+Score: 80/100
+Flags: ['Dish returns or complaints attributed to this station']
+Actions: ['Review recipe standards and portion sizes']
+Praise: []
