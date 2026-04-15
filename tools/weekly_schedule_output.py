@@ -3,8 +3,8 @@ from sage.tools.weekly_shifts import get_weekly_open_shifts
 from sage.tools.employee_shift_view import get_sample_employees, build_employee_shift_view
 
 
-def build_shift_eligibility_summary(employees: list[dict], employee_views: dict) -> list[dict]:
-    open_shifts = get_weekly_open_shifts()
+def build_shift_eligibility_summary(employees: list[dict], employee_views: dict, cluster: str) -> list[dict]:
+    open_shifts = get_weekly_open_shifts(cluster)
     shift_summary = []
 
     for shift in open_shifts:
@@ -46,16 +46,16 @@ def build_shift_eligibility_summary(employees: list[dict], employee_views: dict)
     return shift_summary
 
 
-def build_weekly_schedule_output() -> dict:
-    employees = get_sample_employees()
-    open_shifts = get_weekly_open_shifts()
+def build_weekly_schedule_output(cluster: str = "A") -> dict:
+    employees = get_sample_employees(cluster)
+    open_shifts = get_weekly_open_shifts(cluster)
 
     employee_views = {}
     selectable_shift_count = 0
     blocked_shift_count = 0
 
     for employee in employees:
-        shift_view = build_employee_shift_view(employee)
+        shift_view = build_employee_shift_view(employee, cluster)
         employee_views[employee["name"]] = shift_view
 
         for shift in shift_view:
@@ -64,9 +64,12 @@ def build_weekly_schedule_output() -> dict:
             else:
                 blocked_shift_count += 1
 
-    shift_eligibility_summary = build_shift_eligibility_summary(employees, employee_views)
+    shift_eligibility_summary = build_shift_eligibility_summary(
+        employees, employee_views, cluster
+    )
 
     return {
+        "cluster": cluster,
         "week_start": "2026-04-17",
         "open_shifts": open_shifts,
         "employee_views": employee_views,
@@ -81,4 +84,8 @@ def build_weekly_schedule_output() -> dict:
 
 
 if __name__ == "__main__":
-    print(json.dumps(build_weekly_schedule_output(), indent=4))
+    print("CLUSTER A WEEKLY SCHEDULE OUTPUT:")
+    print(json.dumps(build_weekly_schedule_output("A"), indent=4))
+
+    print("\nCLUSTER B WEEKLY SCHEDULE OUTPUT:")
+    print(json.dumps(build_weekly_schedule_output("B"), indent=4))

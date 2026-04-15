@@ -1,5 +1,34 @@
 from sage.tools.weekly_schedule_output import build_weekly_schedule_output
 
+from sage.tools.weekly_schedule_output import build_weekly_schedule_output
+
+
+def test_cluster_b_weekly_schedule_output():
+    result = build_weekly_schedule_output("B")
+
+    assert result["cluster"] == "B"
+    assert result["summary"]["total_open_shifts"] == 3
+    assert result["summary"]["total_employees"] == 3
+    assert result["summary"]["selectable_shift_count"] == 3
+    assert result["summary"]["blocked_shift_count"] == 6
+
+
+def test_cluster_b_shift_eligibility_summary():
+    result = build_weekly_schedule_output("B")
+    shifts = result["shift_eligibility_summary"]
+
+    support_shift = next(s for s in shifts if s["shift_id"] == "mon_support_block_01")
+    review_shift = next(s for s in shifts if s["shift_id"] == "wed_review_block_01")
+    dev_shift = next(s for s in shifts if s["shift_id"] == "fri_dev_block_01")
+
+    assert support_shift["has_eligible_employee"] is True
+    assert review_shift["has_eligible_employee"] is True
+    assert dev_shift["has_eligible_employee"] is True
+
+    assert support_shift["eligible_employees"][0]["employee_name"] == "Jason Miller"
+    assert review_shift["eligible_employees"][0]["employee_name"] == "Neha Sharma"
+    assert dev_shift["eligible_employees"][0]["employee_name"] == "Priya Nair"
+
 
 def test_weekly_schedule_output_structure():
     result = build_weekly_schedule_output()

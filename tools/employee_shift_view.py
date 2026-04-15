@@ -1,14 +1,25 @@
 import json
+from sage.data.cluster_a_data import get_cluster_a_employees
+from sage.data.cluster_b_data import get_cluster_b_employees
 from sage.tools.weekly_shifts import get_weekly_open_shifts
 from sage.tools.crew_preferences import matches_preference
 from sage.tools.crew_hours import check_hour_cap
+
+
+def get_sample_employees(cluster: str = "A") -> list[dict]:
+    if cluster == "A":
+        return get_cluster_a_employees()
+    if cluster == "B":
+        return get_cluster_b_employees()
+    raise ValueError("cluster must be 'A' or 'B'")
+
 
 def matches_role(employee: dict, required_role: str) -> bool:
     return employee["employee_role"] == required_role
 
 
-def build_employee_shift_view(employee: dict) -> list[dict]:
-    shifts = get_weekly_open_shifts()
+def build_employee_shift_view(employee: dict, cluster: str = "A") -> list[dict]:
+    shifts = get_weekly_open_shifts(cluster)
     result = []
 
     for shift in shifts:
@@ -63,42 +74,13 @@ def build_employee_shift_view(employee: dict) -> list[dict]:
     return result
 
 
-def get_sample_employees() -> list[dict]:
-    return [
-        {
-            "name": "Aarav Patel",
-            "employee_type": "part_time",
-            "employee_role": "cashier",
-            "preferred_days": ["Friday", "Saturday", "Sunday"],
-            "preferred_start": "16:00",
-            "preferred_end": "22:00",
-            "max_hours_per_week": 20,
-            "current_hours_assigned": 14,
-        },
-        {
-            "name": "Emily Chen",
-            "employee_type": "student_worker",
-            "employee_role": "front_desk",
-            "preferred_days": ["Monday", "Wednesday", "Friday"],
-            "preferred_start": "10:00",
-            "preferred_end": "16:00",
-            "max_hours_per_week": 15,
-            "current_hours_assigned": 15,
-        },
-        {
-            "name": "Daniel Brooks",
-            "employee_type": "part_time",
-            "employee_role": "cashier",
-            "preferred_days": ["Monday", "Tuesday", "Thursday"],
-            "preferred_start": "08:00",
-            "preferred_end": "14:00",
-            "max_hours_per_week": 25,
-            "current_hours_assigned": 22,
-        },
-    ]
-
-
 if __name__ == "__main__":
-    for employee in get_sample_employees():
+    print("CLUSTER A EMPLOYEE SHIFT VIEWS:")
+    for employee in get_sample_employees("A"):
         print(f"\nEMPLOYEE SHIFT VIEW: {employee['name']}")
-        print(json.dumps(build_employee_shift_view(employee), indent=4))
+        print(json.dumps(build_employee_shift_view(employee, "A"), indent=4))
+
+    print("\nCLUSTER B EMPLOYEE SHIFT VIEWS:")
+    for employee in get_sample_employees("B"):
+        print(f"\nEMPLOYEE SHIFT VIEW: {employee['name']}")
+        print(json.dumps(build_employee_shift_view(employee, "B"), indent=4))
