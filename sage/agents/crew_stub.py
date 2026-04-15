@@ -1,12 +1,32 @@
 import json
 from sage.schemas.crew_signal import CrewSignal, EmployeeAssignment
 from sage.tools.crew_preferences import matches_preference
+from sage.tools.crew_hours import check_hour_cap
 
 
 def build_preference_summary(signal_dict: dict) -> str:
     total = len(signal_dict["employees"])
     matched = sum(1 for employee in signal_dict["employees"] if employee["preference_match"])
     return f"{matched} of {total} employees match their preferred hours"
+
+
+def build_selection_status(employee: dict) -> dict:
+    if not employee["preference_match"]:
+        return {
+            "can_select_shift": False,
+            "selection_note": "This shift does not match your preferred work hours.",
+        }
+
+    if not employee["within_hour_cap"]:
+        return {
+            "can_select_shift": False,
+            "selection_note": "Choosing this shift would exceed your allowed weekly hours.",
+        }
+
+    return {
+        "can_select_shift": True,
+        "selection_note": "You can select this shift.",
+    }
 
 
 def add_preference_flags(signal_dict: dict) -> dict:
@@ -17,6 +37,16 @@ def add_preference_flags(signal_dict: dict) -> dict:
             signal_dict["shift_start"],
             signal_dict["shift_end"],
         )
+
+        hour_cap_result = check_hour_cap(
+            employee,
+            signal_dict["shift_start"],
+            signal_dict["shift_end"],
+        )
+        employee.update(hour_cap_result)
+
+        selection_result = build_selection_status(employee)
+        employee.update(selection_result)
 
     signal_dict["preference_summary"] = build_preference_summary(signal_dict)
     return signal_dict
@@ -41,7 +71,8 @@ def run_crew_stub(scenario: str = "understaffed_evening") -> dict:
                     preferred_start="16:00",
                     preferred_end="22:00",
                     max_hours_per_week=20,
-                ),
+                    current_hours_assigned=14,
+),
                 EmployeeAssignment(
                     name="Michael Rivera",
                     employee_type="full_time",
@@ -50,6 +81,7 @@ def run_crew_stub(scenario: str = "understaffed_evening") -> dict:
                     preferred_start="09:00",
                     preferred_end="18:00",
                     max_hours_per_week=40,
+                    current_hours_assigned=38,
                 ),
             ],
         ),
@@ -70,6 +102,7 @@ def run_crew_stub(scenario: str = "understaffed_evening") -> dict:
                     preferred_start="10:00",
                     preferred_end="16:00",
                     max_hours_per_week=15,
+                    current_hours_assigned=15,
                 ),
                 EmployeeAssignment(
                     name="Daniel Brooks",
@@ -79,6 +112,7 @@ def run_crew_stub(scenario: str = "understaffed_evening") -> dict:
                     preferred_start="08:00",
                     preferred_end="14:00",
                     max_hours_per_week=25,
+                    current_hours_assigned=22,
                 ),
             ],
         ),
@@ -99,6 +133,7 @@ def run_crew_stub(scenario: str = "understaffed_evening") -> dict:
                     preferred_start="12:00",
                     preferred_end="18:00",
                     max_hours_per_week=18,
+                    current_hours_assigned=8,
                 ),
                 EmployeeAssignment(
                     name="Michael Rivera",
@@ -108,6 +143,7 @@ def run_crew_stub(scenario: str = "understaffed_evening") -> dict:
                     preferred_start="09:00",
                     preferred_end="18:00",
                     max_hours_per_week=40,
+                    current_hours_assigned=36,
                 ),
                 EmployeeAssignment(
                     name="Emily Chen",
@@ -117,6 +153,7 @@ def run_crew_stub(scenario: str = "understaffed_evening") -> dict:
                     preferred_start="10:00",
                     preferred_end="16:00",
                     max_hours_per_week=15,
+                    current_hours_assigned=15,
                 ),
             ],
         ),

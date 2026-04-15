@@ -10,6 +10,7 @@ class EmployeeAssignment(BaseModel):
     preferred_start: str
     preferred_end: str
     max_hours_per_week: int
+    current_hours_assigned: int
 
 
 class CrewSignal(BaseModel):
@@ -35,22 +36,24 @@ if __name__ == "__main__":
         financial_impact=140.0,
         employees=[
             EmployeeAssignment(
-                name="Aarav Patel",
-                employee_type="part_time",
-                employee_role="cashier",
-                preferred_days=["Friday", "Saturday", "Sunday"],
-                preferred_start="16:00",
-                preferred_end="22:00",
-                max_hours_per_week=20,
-            ),
+                name = "Aarav Patel",
+                employee_type = "part_time",
+                employee_role = "cashier",
+                preferred_days = ["Friday", "Saturday", "Sunday"],
+                preferred_start = "16:00",
+                preferred_end = "22:00",
+                max_hours_per_week = 20,
+                current_hours_assigned = 14,
+        ),
             EmployeeAssignment(
-                name="Michael Rivera",
-                employee_type="full_time",
-                employee_role="shift_supervisor",
-                preferred_days=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                preferred_start="09:00",
-                preferred_end="18:00",
-                max_hours_per_week=40,
+                name = "Michael Rivera",
+                employee_type = "full_time",
+                employee_role = "shift_supervisor",
+            preferred_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                preferred_start = "09:00",
+                preferred_end = "18:00",
+                max_hours_per_week = 40,
+                current_hours_assigned = 36,
             ),
         ],
     )
