@@ -1,5 +1,26 @@
 from sage.tools.employee_shift_view import build_employee_shift_view, get_sample_employees
 
+from sage.tools.employee_shift_view import build_employee_shift_view, get_sample_employees
+
+
+def test_cluster_b_shift_view():
+    employees = get_sample_employees("B")
+
+    priya = next(e for e in employees if e["name"] == "Priya Nair")
+    result = build_employee_shift_view(priya, "B")
+
+    assert result[0]["shift_id"] == "mon_support_block_01"
+    assert result[0]["role_match"] is False
+
+    assert result[1]["shift_id"] == "wed_review_block_01"
+    assert result[1]["role_match"] is False
+
+    assert result[2]["shift_id"] == "fri_dev_block_01"
+    assert result[2]["role_match"] is True
+    assert result[2]["preference_match"] is True
+    assert result[2]["within_hour_cap"] is True
+    assert result[2]["can_select_shift"] is True
+
 
 def test_employee_shift_view_structure():
     employee = get_sample_employees()[0]
