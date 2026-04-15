@@ -1,0 +1,5 @@
+Employee Report: Alex (Head Chef)
+Score: 90/100
+Flags: ['Overtime pattern — extra cost $742/mo']
+Actions: ['Review scheduling to reduce overtime']
+Praise: []
