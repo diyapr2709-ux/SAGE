@@ -13,6 +13,7 @@ def test_crew_stub_keys():
     assert "adjustment" in result
     assert "financial_impact" in result
     assert "employees" in result
+    assert "preference_summary" in result
 
 
 def test_crew_stub_types():
@@ -26,6 +27,7 @@ def test_crew_stub_types():
     assert isinstance(result["adjustment"], str)
     assert isinstance(result["financial_impact"], float)
     assert isinstance(result["employees"], list)
+    assert isinstance(result["preference_summary"], str)
 
 
 def test_crew_employee_structure():
@@ -33,13 +35,24 @@ def test_crew_employee_structure():
     assert len(result["employees"]) > 0
 
     first_employee = result["employees"][0]
+
     assert "name" in first_employee
     assert "employee_type" in first_employee
     assert "employee_role" in first_employee
+    assert "preferred_days" in first_employee
+    assert "preferred_start" in first_employee
+    assert "preferred_end" in first_employee
+    assert "max_hours_per_week" in first_employee
+    assert "preference_match" in first_employee
 
     assert isinstance(first_employee["name"], str)
     assert isinstance(first_employee["employee_type"], str)
     assert isinstance(first_employee["employee_role"], str)
+    assert isinstance(first_employee["preferred_days"], list)
+    assert isinstance(first_employee["preferred_start"], str)
+    assert isinstance(first_employee["preferred_end"], str)
+    assert isinstance(first_employee["max_hours_per_week"], int)
+    assert isinstance(first_employee["preference_match"], bool)
 
 
 def test_crew_scenarios():
@@ -54,6 +67,32 @@ def test_crew_scenarios():
     assert len(under["employees"]) == 2
     assert len(over["employees"]) == 2
     assert len(balanced["employees"]) == 3
+
+
+def test_crew_preference_matches():
+    under = run_crew_stub("understaffed_evening")
+    over = run_crew_stub("overstaffed_morning")
+    balanced = run_crew_stub("balanced_afternoon")
+
+    assert under["employees"][0]["preference_match"] is True
+    assert under["employees"][1]["preference_match"] is False
+
+    assert over["employees"][0]["preference_match"] is False
+    assert over["employees"][1]["preference_match"] is True
+
+    assert balanced["employees"][0]["preference_match"] is True
+    assert balanced["employees"][1]["preference_match"] is True
+    assert balanced["employees"][2]["preference_match"] is True
+
+
+def test_crew_preference_summary():
+    under = run_crew_stub("understaffed_evening")
+    over = run_crew_stub("overstaffed_morning")
+    balanced = run_crew_stub("balanced_afternoon")
+
+    assert under["preference_summary"] == "1 of 2 employees match their preferred hours"
+    assert over["preference_summary"] == "1 of 2 employees match their preferred hours"
+    assert balanced["preference_summary"] == "3 of 3 employees match their preferred hours"
 
 
 def test_crew_invalid_scenario():
