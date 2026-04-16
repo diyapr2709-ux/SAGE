@@ -20,10 +20,12 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const formData = new FormData();
-    formData.append('username', email);
-    formData.append('password', password);
-    const res = await api.post('/auth/login', formData);
+    const params = new URLSearchParams();
+    params.append('username', email);
+    params.append('password', password);
+    const res = await api.post('/auth/login', params, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
     localStorage.setItem('token', res.data.access_token);
     const me = await api.get('/auth/me');
     setUser(me.data);
@@ -31,6 +33,8 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     await api.post('/auth/register', userData);
+    // Auto-login after registration
+    await login(userData.email, userData.password);
   };
 
   const logout = () => {

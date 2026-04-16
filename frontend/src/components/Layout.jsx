@@ -1,31 +1,20 @@
 import { motion } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
 import Sidebar from './Sidebar';
 
 export default function Layout({ children }) {
-  const { user, logout } = useAuth();
-
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-slate-950 overflow-hidden">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="bg-white shadow-sm p-4 flex justify-between items-center">
-          <h1 className="text-xl font-semibold text-gray-800">SAGE Dashboard</h1>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">{user?.full_name} ({user?.role})</span>
-            <button
-              onClick={logout}
-              className="text-sm bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 transition"
-            >
-              Logout
-            </button>
-          </div>
-        </header>
-        <main className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 flex flex-col min-w-0 bg-[#090e1d]"
+        style={{
+          backgroundImage: 'radial-gradient(ellipse at 20% 0%, rgba(99,102,241,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 100%, rgba(139,92,246,0.05) 0%, transparent 60%)',
+        }}
+      >
+        <main className="flex-1 overflow-y-auto px-6 py-6">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             {children}
           </motion.div>

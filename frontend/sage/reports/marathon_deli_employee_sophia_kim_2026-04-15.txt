@@ -1,0 +1,5 @@
+Employee Report: Sophia Kim (Cashier)
+Score: 100/100
+Flags: []
+Actions: []
+Praise: []

@@ -1,48 +1,65 @@
-import { motion } from 'framer-motion';
+import { Target } from 'lucide-react';
 
-export default function GoalsCard({ goals = {} }) {
-  const daily = goals.daily || {};
-  const weekly = goals.weekly || {};
+function GoalBar({ label, data = {} }) {
+  const pct = data.target > 0 ? Math.min((data.actual_so_far / data.target) * 100, 100) : 0;
+  const projPct = data.target > 0 ? Math.min(((data.projected || 0) / data.target) * 100, 100) : 0;
+  const onPace = data.on_pace;
 
   return (
-    <motion.div
-      className="bg-white p-5 rounded-xl shadow-sm border border-gray-100"
-      whileHover={{ y: -2 }}
-      transition={{ type: 'spring', stiffness: 300 }}
-    >
-      <h2 className="text-lg font-semibold mb-4">🎯 Goals Tracking</h2>
-      <div className="space-y-4">
-        <div>
-          <div className="flex justify-between text-sm mb-1">
-            <span>Daily Target</span>
-            <span className="font-medium">${daily.target || 0}</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className={`h-2 rounded-full ${daily.on_pace ? 'bg-green-500' : 'bg-amber-500'}`}
-              style={{ width: `${Math.min((daily.actual_so_far / daily.target) * 100, 100)}%` }}
-            />
-          </div>
-          <p className="text-xs text-gray-500 mt-1">
-            Actual: ${daily.actual_so_far || 0} | Projected: ${daily.projected || 0}
-          </p>
-        </div>
-        <div>
-          <div className="flex justify-between text-sm mb-1">
-            <span>Weekly Target</span>
-            <span className="font-medium">${weekly.target || 0}</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className={`h-2 rounded-full ${weekly.on_pace ? 'bg-green-500' : 'bg-amber-500'}`}
-              style={{ width: `${Math.min((weekly.actual_so_far / weekly.target) * 100, 100)}%` }}
-            />
-          </div>
-          <p className="text-xs text-gray-500 mt-1">
-            Actual: ${weekly.actual_so_far || 0} | Projected: ${weekly.projected || 0}
-          </p>
+    <div>
+      <div className="flex justify-between items-end mb-2">
+        <span className="text-sm font-semibold text-slate-300">{label}</span>
+        <div className="text-right">
+          <span className="text-lg font-bold text-white">
+            ${(data.actual_so_far || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+          </span>
+          <span className="text-slate-500 text-xs ml-1">/ ${(data.target || 0).toLocaleString()}</span>
         </div>
       </div>
-    </motion.div>
+
+      {/* Track */}
+      <div className="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden relative">
+        <div
+          className={`h-full rounded-full transition-all duration-700 ${
+            onPace ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-gradient-to-r from-amber-500 to-orange-400'
+          }`}
+          style={{ width: `${pct}%` }}
+        />
+        {projPct > pct && projPct <= 100 && (
+          <div
+            className="absolute top-0 h-full w-0.5 bg-white/30"
+            style={{ left: `${projPct}%` }}
+          />
+        )}
+      </div>
+
+      <div className="flex justify-between text-xs mt-1.5">
+        <span className="text-slate-600">{pct.toFixed(0)}% · proj. ${(data.projected || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+        {onPace
+          ? <span className="text-emerald-400 font-semibold">On pace ✓</span>
+          : <span className="text-amber-400 font-semibold">Behind ${Math.abs(data.gap || 0).toFixed(0)}</span>
+        }
+      </div>
+    </div>
+  );
+}
+
+export default function GoalsCard({ goals = {} }) {
+  return (
+    <div className="card-solid overflow-hidden">
+      <div className="px-5 py-4 border-b border-white/[0.06] flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+          <Target size={15} className="text-emerald-400" />
+        </div>
+        <div>
+          <p className="font-semibold text-white text-sm">Revenue Goals</p>
+          <p className="text-xs text-slate-500">PULSE · Daily & weekly tracking</p>
+        </div>
+      </div>
+      <div className="px-5 py-5 space-y-6">
+        <GoalBar label="Today" data={goals.daily} />
+        <GoalBar label="This Week" data={goals.weekly} />
+      </div>
+    </div>
   );
 }
