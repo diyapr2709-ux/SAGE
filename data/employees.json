@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Aarav Patel",
+    "employee_type": "part_time",
+    "employee_role": "cashier",
+    "preferred_days": ["Friday", "Saturday", "Sunday"],
+    "preferred_start": "16:00",
+    "preferred_end": "22:00",
+    "max_hours_per_week": 20,
+    "current_hours_assigned": 14
+  }
+]
