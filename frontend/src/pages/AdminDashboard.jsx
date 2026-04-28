@@ -1,50 +1,31 @@
-import { useEffect, useState } from 'react';
-import api from '../services/api';
-import Layout from '../components/Layout';
-import BriefingCard from '../components/BriefingCard';
-import RevenueChart from '../components/RevenueChart';
-import GoalsCard from '../components/GoalsCard';
-import ReviewList from '../components/ReviewList';
-import StaffingAlert from '../components/StaffingAlert';
-import MarginFlags from '../components/MarginFlags';
+import { motion } from 'framer-motion'
+import { Shield } from 'lucide-react'
+import ManagerDashboard from './ManagerDashboard'
 
+// Admin view extends Manager view — add user management panel here when ready
 export default function AdminDashboard() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    api.get('/dashboard/admin')
-      .then(res => setData(res.data))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <Layout><div className="flex justify-center items-center h-full">Loading...</div></Layout>;
-
   return (
-    <Layout>
-      <div className="space-y-6">
-        <BriefingCard briefing={data.briefing_text} />
+    <div>
+      {/* Admin badge */}
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 7,
+          padding: '6px 14px',
+          background: 'linear-gradient(135deg, #1D4ED8, #3B82F6)',
+          borderRadius: 99, marginBottom: 20,
+          boxShadow: '0 4px 12px rgba(37,99,235,0.35)',
+        }}
+      >
+        <Shield size={13} color="white" />
+        <span style={{ color: 'white', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em' }}>
+          ADMIN VIEW
+        </span>
+      </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <RevenueChart forecast={data.forecast_72hr} />
-          <GoalsCard goals={data.goals} />
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <ReviewList reviews={data.reviews} />
-          </div>
-          <StaffingAlert staffing={data.staffing} />
-        </div>
-
-        {data.shelf_flags && <MarginFlags flags={data.shelf_flags} />}
-
-        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-          <h2 className="text-lg font-semibold mb-3">🛠️ System Health</h2>
-          <p className="text-sm text-gray-600">All agents operational</p>
-          <p className="text-sm text-gray-600">FRANK orchestrator: last run {new Date().toLocaleString()}</p>
-        </div>
-      </div>
-    </Layout>
-  );
+      {/* Full manager view */}
+      <ManagerDashboard />
+    </div>
+  )
 }

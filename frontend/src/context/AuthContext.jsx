@@ -1,52 +1,61 @@
-﻿import { createContext, useState, useContext, useEffect } from 'react';
-import api from '../services/api';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
-const AuthContext = createContext();
+const AuthContext = createContext(null)
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+function decodeToken(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    const now = Math.floor(Date.now() / 1000)
+    if (payload.exp && payload.exp < now) return null
+    return { email: payload.sub, role: payload.role }
+  } catch {
+    return null
+  }
+}
+
+export function AuthProvider({ children }) {
+  const [token, setToken] = useState(() => localStorage.getItem('sage_token'))
+  const [user, setUser]   = useState(() => {
+    const t = localStorage.getItem('sage_token')
+    return t ? decodeToken(t) : null
+  })
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     if (token) {
-      api.get('/auth/me')
-        .then(res => setUser(res.data))
-        .catch(() => localStorage.removeItem('token'))
-        .finally(() => setLoading(false));
+      const decoded = decodeToken(token)
+      if (decoded) {
+        setUser(decoded)
+      } else {
+        // Token invalid/expired
+        localStorage.removeItem('sage_token')
+        setToken(null)
+        setUser(null)
+      }
     } else {
-      setLoading(false);
+      setUser(null)
     }
-  }, []);
+  }, [token])
 
-  const login = async (email, password) => {
-    const params = new URLSearchParams();
-    params.append('username', email);
-    params.append('password', password);
-    const res = await api.post('/auth/login', params, {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    });
-    localStorage.setItem('token', res.data.access_token);
-    const me = await api.get('/auth/me');
-    setUser(me.data);
-  };
+  const login = useCallback((accessToken) => {
+    localStorage.setItem('sage_token', accessToken)
+    setToken(accessToken)
+  }, [])
 
-  const register = async (userData) => {
-    await api.post('/auth/register', userData);
-    // Auto-login after registration
-    await login(userData.email, userData.password);
-  };
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-  };
+  const logout = useCallback(() => {
+    localStorage.removeItem('sage_token')
+    setToken(null)
+    setUser(null)
+  }, [])
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ token, user, login, logout, isAuthenticated: !!token }}>
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider')
+  return ctx
+}
