@@ -1,0 +1,2152 @@
+{
+  "briefing_text": "SAGE Morning Briefing \u2014 Tuesday, Apr 28 2026\nBusiness: Marathon Deli\n\nHealth Score: 72/100\n6 recommendations | $20,869 total impact\n\nTop actions:\n  [VOICE] Respond to 2\u2605 review from Alex T. ($150)\n  [PULSE] Revenue Anomaly Detected ($16,369)\n  [VOICE] Counter Rival Deli 20% promo \u2014 run 15% off Gyro Platter this weekend ($3,200)",
+  "recommendations": [
+    {
+      "id": "voice_reply_r1",
+      "agent": "VOICE",
+      "category": "reputation",
+      "title": "Respond to 2\u2605 review from Alex T.",
+      "description": "Hi Alex, we sincerely apologize \u2014 this is not our standard. We are reviewing Friday late-night coverage and retraining f",
+      "impact": 150.0,
+      "urgency": "critical",
+      "requires_approval": true,
+      "owner": "Manager",
+      "deadline": "",
+      "merged_from": [],
+      "approval_score": 0.5697
+    },
+    {
+      "id": "pulse_alert",
+      "agent": "PULSE",
+      "category": "revenue",
+      "title": "Revenue Anomaly Detected",
+      "description": "Deviation: 63.5% from forecast.",
+      "impact": 16368.8,
+      "urgency": "high",
+      "requires_approval": true,
+      "owner": "Owner",
+      "deadline": "",
+      "merged_from": [],
+      "approval_score": 0.675
+    },
+    {
+      "id": "voice_pricing_pa1",
+      "agent": "VOICE",
+      "category": "cost",
+      "title": "Counter Rival Deli 20% promo \u2014 run 15% off Gyro Platter this weekend",
+      "description": "Rival Deli launched 20% off gyros on DoorDash. Matching with 15% off protects $3,200 weekend revenue.",
+      "impact": 3200,
+      "urgency": "high",
+      "requires_approval": true,
+      "owner": "Owner",
+      "deadline": "This Friday",
+      "merged_from": [],
+      "approval_score": 0.675
+    },
+    {
+      "id": "shelf_cost_Chicken_Shawarma",
+      "agent": "SHELF",
+      "category": "cost",
+      "title": "Renegotiate with supplier or switch to thigh cut \u2014 saves $680/mo",
+      "description": "Chicken Shawarma \u2014 Chicken breast cost up 14% from supplier since Jan",
+      "impact": 680,
+      "urgency": "high",
+      "requires_approval": true,
+      "owner": "Owner",
+      "deadline": "",
+      "merged_from": [],
+      "approval_score": 0.6729
+    },
+    {
+      "id": "voice_reply_r3",
+      "agent": "VOICE",
+      "category": "reputation",
+      "title": "Respond to 3\u2605 review from Marcus B.",
+      "description": "Marcus, late delivery is unacceptable \u2014 we are addressing the DoorDash dispatch window. Here is a $5 credit for your nex",
+      "impact": 50.0,
+      "urgency": "high",
+      "requires_approval": true,
+      "owner": "Manager",
+      "deadline": "",
+      "merged_from": [],
+      "approval_score": 0.4712
+    },
+    {
+      "id": "shelf_cost_Loaded_Fries",
+      "agent": "SHELF",
+      "category": "cost",
+      "title": "Feature Loaded Fries as add-on upsell \u2014 projected $420/mo revenue lift",
+      "description": "Loaded Fries \u2014 High margin item under-promoted on DoorDash",
+      "impact": 420,
+      "urgency": "medium",
+      "requires_approval": true,
+      "owner": "Owner",
+      "deadline": "",
+      "merged_from": [],
+      "approval_score": 0.5996
+    }
+  ],
+  "conflicts": [],
+  "forecast_72hr": [
+    353.0419451181477,
+    349.7625030141095,
+    351.7599730227634,
+    -116.07562206645008,
+    -115.86293691456666,
+    -115.58930201205109,
+    -115.26965255076465,
+    -114.91099387868593,
+    -114.5164820788207,
+    -114.0870896281028,
+    -113.62742314719227,
+    42.26513854392999,
+    37.67691331722172,
+    38.36443155185322,
+    44.96144762494414,
+    32.142890971893124,
+    40.71677517887138,
+    39.7661390092358,
+    46.90490134569127,
+    48.529684955672444,
+    38.25997541360903,
+    150.17278929473412,
+    359.10000787871235,
+    362.169119715949,
+    353.0419451181477,
+    349.7625030141095,
+    351.7599730227634,
+    -116.07562206645008,
+    -115.86293691456666,
+    -115.58930201205109,
+    -115.26965255076465,
+    -114.91099387868593,
+    -114.5164820788207,
+    -114.0870896281028,
+    -113.62742314719227,
+    42.26513854392999,
+    37.67691331722172,
+    38.36443155185322,
+    44.96144762494414,
+    32.142890971893124,
+    40.71677517887138,
+    39.7661390092358,
+    46.90490134569127,
+    48.529684955672444,
+    38.25997541360903,
+    150.17278929473412,
+    359.10000787871235,
+    362.169119715949,
+    353.0419451181477,
+    349.7625030141095,
+    351.7599730227634,
+    -116.07562206645008,
+    -115.86293691456666,
+    -115.58930201205109,
+    -115.26965255076465,
+    -114.91099387868593,
+    -114.5164820788207,
+    -114.0870896281028,
+    -113.62742314719227,
+    42.26513854392999,
+    37.67691331722172,
+    38.36443155185322,
+    44.96144762494414,
+    32.142890971893124,
+    40.71677517887138,
+    39.7661390092358,
+    46.90490134569127,
+    48.529684955672444,
+    38.25997541360903,
+    150.17278929473412,
+    359.10000787871235,
+    362.169119715949
+  ],
+  "deviation_pct": 0.6352,
+  "alert": true,
+  "goals": {
+    "daily": {
+      "target": 3000.0,
+      "actual_so_far": 2988.36,
+      "projected": 2988.36,
+      "gap": 11.64,
+      "on_pace": false
+    },
+    "weekly": {
+      "target": 18000.0,
+      "actual_so_far": 6014.55,
+      "projected": 10261.52,
+      "gap": 7738.48,
+      "on_pace": false
+    }
+  },
+  "rush_hours": [
+    {
+      "window": "Wed Apr 29 10:00 PM - 12:00 AM",
+      "expected_revenue": 721.27,
+      "urgency": "high"
+    },
+    {
+      "window": "Thu Apr 30 10:00 PM - 12:00 AM",
+      "expected_revenue": 721.27,
+      "urgency": "high"
+    },
+    {
+      "window": "Fri May 01 10:00 PM - 12:00 AM",
+      "expected_revenue": 721.27,
+      "urgency": "high"
+    }
+  ],
+  "pulse_summary": "PULSE BRIEFING \u2014 Tuesday Apr 28, 11:16 PM\n\n\u26a0\ufe0f TODAY: $2988.36 earned, $2988.36 projected vs $3000.0 target\n   Behind by $11.64 \u2014 push a promo or prep for late night surge\n\u26a0\ufe0f THIS WEEK: $6014.55 earned, $10261.52 projected vs $18000.0 target\n\n\ud83d\udea8 ANOMALY: Revenue is 63.5% off expected pattern \u2014 investigate immediately\n\n\u23f0 PREDICTED RUSH WINDOWS (next 72hrs):\n   Wed Apr 29 10:00 PM - 12:00 AM \u2014 $721.27 expected [HIGH]\n   Thu Apr 30 10:00 PM - 12:00 AM \u2014 $721.27 expected [HIGH]\n   Fri May 01 10:00 PM - 12:00 AM \u2014 $721.27 expected [HIGH]",
+  "reviews": [
+    {
+      "review_id": "r1",
+      "author": "Alex T.",
+      "rating": 2,
+      "priority": "critical",
+      "original_review": "Waited 40 min for a gyro at 11pm, cashier was rude, food was cold.",
+      "draft_reply": "Hi Alex, we sincerely apologize \u2014 this is not our standard. We are reviewing Friday late-night coverage and retraining front-of-house staff immediately. Please DM us for a full refund."
+    },
+    {
+      "review_id": "r2",
+      "author": "Sara K.",
+      "rating": 5,
+      "priority": "low",
+      "original_review": "Fatima made the best shawarma I have ever had. I drive 20 min just for this.",
+      "draft_reply": "Thank you Sara! Fatima is truly one of a kind \u2014 we will pass along your kind words directly."
+    },
+    {
+      "review_id": "r3",
+      "author": "Marcus B.",
+      "rating": 3,
+      "priority": "high",
+      "original_review": "DoorDash order arrived 25 minutes late and fries were soggy.",
+      "draft_reply": "Marcus, late delivery is unacceptable \u2014 we are addressing the DoorDash dispatch window. Here is a $5 credit for your next order."
+    }
+  ],
+  "pricing_alerts": [
+    {
+      "alert_id": "pa1",
+      "item": "Gyro Platter",
+      "recommended_action": "Counter Rival Deli 20% promo \u2014 run 15% off Gyro Platter this weekend",
+      "detail": "Rival Deli launched 20% off gyros on DoorDash. Matching with 15% off protects $3,200 weekend revenue.",
+      "financial_impact": 3200,
+      "urgency": "high",
+      "deadline": "This Friday"
+    }
+  ],
+  "temporal_alerts": [
+    {
+      "alert_id": "ta1",
+      "recommended_action": "Staff +2 on Friday 10PM\u20131AM \u2014 projected 1.6x demand spike",
+      "insight": "Friday late-night shows 1.6x normal order volume. Current schedule insufficient.",
+      "financial_impact": 1400,
+      "window": "Fri 10PM\u20131AM"
+    }
+  ],
+  "shelf_flags": {
+    "flag": true,
+    "cluster": "A",
+    "financial_impact": 4100,
+    "executive_summary": {
+      "business_health_score": 72,
+      "top_risk": "Labor overtime cost eroding margin",
+      "top_opportunity": "Fatima Hassan upsell potential on weekend peak"
+    },
+    "cost_intelligence": {
+      "weekly_labor_cost": 9200,
+      "overtime_cost_this_week": 330,
+      "labor_pct_of_revenue": 33.9,
+      "flagged_items": [
+        {
+          "item": "Chicken Shawarma",
+          "current_margin_pct": 18.2,
+          "root_cause": "Chicken breast cost up 14% from supplier since Jan",
+          "recommended_action": "Renegotiate with supplier or switch to thigh cut \u2014 saves $680/mo",
+          "financial_impact": 680,
+          "urgency": "high"
+        },
+        {
+          "item": "Loaded Fries",
+          "current_margin_pct": 62.0,
+          "root_cause": "High margin item under-promoted on DoorDash",
+          "recommended_action": "Feature Loaded Fries as add-on upsell \u2014 projected $420/mo revenue lift",
+          "financial_impact": 420,
+          "urgency": "medium"
+        }
+      ],
+      "cost_creep_alerts": [
+        {
+          "item": "Pita Bread",
+          "supplier": "Bestway Foods",
+          "increase_3mo_pct": 11.4,
+          "action": "Negotiate bulk rate or trial alternate supplier"
+        }
+      ]
+    },
+    "employee_intelligence": {
+      "employee_of_the_week": {
+        "name": "Fatima Hassan",
+        "role": "Cook",
+        "score": 97
+      },
+      "employees": [
+        {
+          "name": "Priya Sharma",
+          "role": "Cashier",
+          "monthly_cost": 1200,
+          "performance_score": 95,
+          "flags": []
+        },
+        {
+          "name": "Aarav Patel",
+          "role": "Cashier",
+          "monthly_cost": 1008,
+          "performance_score": 88,
+          "flags": []
+        },
+        {
+          "name": "Michael Rivera",
+          "role": "Shift Supervisor",
+          "monthly_cost": 3960,
+          "performance_score": 80,
+          "flags": [
+            "Overtime: 5hr this week \u2014 $110 extra cost"
+          ],
+          "urgency": "high"
+        },
+        {
+          "name": "Sophia Kim",
+          "role": "Cashier",
+          "monthly_cost": 672,
+          "performance_score": 82,
+          "flags": []
+        },
+        {
+          "name": "Daniel Brooks",
+          "role": "Cook",
+          "monthly_cost": 1600,
+          "performance_score": 60,
+          "flags": [
+            "Health-code near-miss \u2014 mandatory retraining required"
+          ],
+          "urgency": "high"
+        },
+        {
+          "name": "Emily Chen",
+          "role": "Front Desk",
+          "monthly_cost": 520,
+          "performance_score": 78,
+          "flags": []
+        },
+        {
+          "name": "Jordan Lee",
+          "role": "Delivery Driver",
+          "monthly_cost": 1680,
+          "performance_score": 74,
+          "flags": [
+            "Late arrivals on Friday \u2014 DoorDash SLA at risk"
+          ],
+          "urgency": "medium"
+        },
+        {
+          "name": "Fatima Hassan",
+          "role": "Cook",
+          "monthly_cost": 2040,
+          "performance_score": 97,
+          "flags": []
+        }
+      ]
+    },
+    "employee_feedback": {
+      "frank_briefing_line": "Fatima Hassan is this week star \u2014 customers drive 20min for her shawarma. Daniel Brooks needs retraining before next health inspection.",
+      "warnings": [
+        {
+          "employee": "Michael Rivera",
+          "role": "Shift Supervisor",
+          "urgency": "high",
+          "message": "Working overtime this week \u2014 review hours with manager.",
+          "message_to_employee": "Hey Michael \u2014 you are at 45hrs this week. Let us adjust next week schedule to keep you at 40.",
+          "action": "Cap next week hours at 40",
+          "financial_impact": 110
+        },
+        {
+          "employee": "Daniel Brooks",
+          "role": "Cook",
+          "urgency": "high",
+          "message": "Health-code concern on record \u2014 retraining required.",
+          "message_to_employee": "Daniel \u2014 mandatory food safety retraining is scheduled for this Thursday 2PM. Attendance required before your next shift.",
+          "action": "Schedule retraining Thursday 2PM",
+          "financial_impact": 500
+        },
+        {
+          "employee": "Jordan Lee",
+          "role": "Delivery Driver",
+          "urgency": "medium",
+          "message": "Punctuality flagged \u2014 please check Friday schedule.",
+          "message_to_employee": "Jordan \u2014 you have had 3 late Friday arrivals this month. DoorDash on-time rate matters for our rating. Can we adjust your Friday start time?",
+          "action": "Adjust Friday start time",
+          "financial_impact": 200
+        }
+      ],
+      "recognitions": [
+        {
+          "employee": "Fatima Hassan",
+          "role": "Cook",
+          "urgency": "low",
+          "message": "Exceptional food quality \u2014 customers specifically request her dishes.",
+          "message_to_employee": "Fatima \u2014 a customer wrote they drive 20 minutes just for your shawarma. Thank you for representing Marathon Deli so well.",
+          "action": "Consider for employee of the month"
+        },
+        {
+          "employee": "Priya Sharma",
+          "role": "Cashier",
+          "urgency": "low",
+          "message": "100/100 customer satisfaction score this week.",
+          "message_to_employee": "Priya \u2014 you scored 100/100 in customer satisfaction this week. Incredible consistency.",
+          "action": "Highlight at next team meeting"
+        }
+      ]
+    }
+  },
+  "cost_intelligence": {
+    "weekly_labor_cost": 9200,
+    "overtime_cost_this_week": 330,
+    "labor_pct_of_revenue": 33.9,
+    "flagged_items": [
+      {
+        "item": "Chicken Shawarma",
+        "current_margin_pct": 18.2,
+        "root_cause": "Chicken breast cost up 14% from supplier since Jan",
+        "recommended_action": "Renegotiate with supplier or switch to thigh cut \u2014 saves $680/mo",
+        "financial_impact": 680,
+        "urgency": "high"
+      },
+      {
+        "item": "Loaded Fries",
+        "current_margin_pct": 62.0,
+        "root_cause": "High margin item under-promoted on DoorDash",
+        "recommended_action": "Feature Loaded Fries as add-on upsell \u2014 projected $420/mo revenue lift",
+        "financial_impact": 420,
+        "urgency": "medium"
+      }
+    ],
+    "cost_creep_alerts": [
+      {
+        "item": "Pita Bread",
+        "supplier": "Bestway Foods",
+        "increase_3mo_pct": 11.4,
+        "action": "Negotiate bulk rate or trial alternate supplier"
+      }
+    ],
+    "monthly_revenue": 112000,
+    "top_items": [
+      "Gyro Platter",
+      "Falafel Wrap",
+      "Chicken Shawarma",
+      "Loaded Fries"
+    ]
+  },
+  "employee_intelligence": {
+    "employee_of_the_week": {
+      "name": "Fatima Hassan",
+      "role": "Cook",
+      "score": 97
+    },
+    "employees": [
+      {
+        "name": "Priya Sharma",
+        "role": "Cashier",
+        "monthly_cost": 1200,
+        "performance_score": 95,
+        "flags": [],
+        "hourly_rate": 15,
+        "hours_per_week": 20
+      },
+      {
+        "name": "Aarav Patel",
+        "role": "Cashier",
+        "monthly_cost": 1008,
+        "performance_score": 88,
+        "flags": [],
+        "hourly_rate": 14,
+        "hours_per_week": 18
+      },
+      {
+        "name": "Michael Rivera",
+        "role": "Shift Supervisor",
+        "monthly_cost": 3960,
+        "performance_score": 80,
+        "flags": [
+          "Overtime: 5hr this week \u2014 $110 extra cost"
+        ],
+        "urgency": "high",
+        "hourly_rate": 22,
+        "hours_per_week": 45
+      },
+      {
+        "name": "Sophia Kim",
+        "role": "Cashier",
+        "monthly_cost": 672,
+        "performance_score": 82,
+        "flags": [],
+        "hourly_rate": 14,
+        "hours_per_week": 12
+      },
+      {
+        "name": "Daniel Brooks",
+        "role": "Cook",
+        "monthly_cost": 1600,
+        "performance_score": 60,
+        "flags": [
+          "Health-code near-miss \u2014 mandatory retraining required"
+        ],
+        "urgency": "high",
+        "hourly_rate": 16,
+        "hours_per_week": 25
+      },
+      {
+        "name": "Emily Chen",
+        "role": "Front Desk",
+        "monthly_cost": 520,
+        "performance_score": 78,
+        "flags": [],
+        "hourly_rate": 13,
+        "hours_per_week": 10
+      },
+      {
+        "name": "Jordan Lee",
+        "role": "Delivery Driver",
+        "monthly_cost": 1680,
+        "performance_score": 74,
+        "flags": [
+          "Late arrivals on Friday \u2014 DoorDash SLA at risk"
+        ],
+        "urgency": "medium",
+        "hourly_rate": 15,
+        "hours_per_week": 28
+      },
+      {
+        "name": "Fatima Hassan",
+        "role": "Cook",
+        "monthly_cost": 2040,
+        "performance_score": 97,
+        "flags": [],
+        "hourly_rate": 17,
+        "hours_per_week": 30
+      }
+    ]
+  },
+  "employee_feedback": {
+    "frank_briefing_line": "Fatima Hassan is this week star \u2014 customers drive 20min for her shawarma. Daniel Brooks needs retraining before next health inspection.",
+    "warnings": [
+      {
+        "employee": "Michael Rivera",
+        "role": "Shift Supervisor",
+        "urgency": "high",
+        "message": "Working overtime this week \u2014 review hours with manager.",
+        "message_to_employee": "Hey Michael \u2014 you are at 45hrs this week. Let us adjust next week schedule to keep you at 40.",
+        "action": "Cap next week hours at 40",
+        "financial_impact": 110
+      },
+      {
+        "employee": "Daniel Brooks",
+        "role": "Cook",
+        "urgency": "high",
+        "message": "Health-code concern on record \u2014 retraining required.",
+        "message_to_employee": "Daniel \u2014 mandatory food safety retraining is scheduled for this Thursday 2PM. Attendance required before your next shift.",
+        "action": "Schedule retraining Thursday 2PM",
+        "financial_impact": 500
+      },
+      {
+        "employee": "Jordan Lee",
+        "role": "Delivery Driver",
+        "urgency": "medium",
+        "message": "Punctuality flagged \u2014 please check Friday schedule.",
+        "message_to_employee": "Jordan \u2014 you have had 3 late Friday arrivals this month. DoorDash on-time rate matters for our rating. Can we adjust your Friday start time?",
+        "action": "Adjust Friday start time",
+        "financial_impact": 200
+      }
+    ],
+    "recognitions": [
+      {
+        "employee": "Fatima Hassan",
+        "role": "Cook",
+        "urgency": "low",
+        "message": "Exceptional food quality \u2014 customers specifically request her dishes.",
+        "message_to_employee": "Fatima \u2014 a customer wrote they drive 20 minutes just for your shawarma. Thank you for representing Marathon Deli so well.",
+        "action": "Consider for employee of the month"
+      },
+      {
+        "employee": "Priya Sharma",
+        "role": "Cashier",
+        "urgency": "low",
+        "message": "100/100 customer satisfaction score this week.",
+        "message_to_employee": "Priya \u2014 you scored 100/100 in customer satisfaction this week. Incredible consistency.",
+        "action": "Highlight at next team meeting"
+      }
+    ]
+  },
+  "employee_of_the_week": {
+    "name": "Fatima Hassan",
+    "role": "Cook",
+    "score": 97
+  },
+  "health_score": 72,
+  "staffing": {
+    "shifts": [
+      {
+        "shift_id": "mon_morning_01",
+        "shift_date": "2026-04-27",
+        "shift_start": "09:00",
+        "shift_end": "13:00",
+        "staffing_status": "balanced",
+        "adjustment": "No change needed",
+        "financial_impact": 0.0,
+        "employees": [
+          {
+            "name": "Priya Sharma",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 20,
+            "current_hours_assigned": 14,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 18.0,
+            "over_cap": false,
+            "hours_remaining": 6,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Aarav Patel",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 18,
+            "current_hours_assigned": 13,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 17.0,
+            "over_cap": false,
+            "hours_remaining": 5,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Michael Rivera",
+            "employee_type": "full_time",
+            "employee_role": "shift_supervisor",
+            "preferred_days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "preferred_start": "09:00",
+            "preferred_end": "18:00",
+            "max_hours_per_week": 45,
+            "current_hours_assigned": 31,
+            "day_match": true,
+            "time_match": true,
+            "preference_score": 2,
+            "preference_label": "preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 35.0,
+            "over_cap": false,
+            "hours_remaining": 14,
+            "hour_cap_label": "available",
+            "selection_status": "recommended",
+            "selection_reason": "Preferred shift, hours available"
+          },
+          {
+            "name": "Sophia Kim",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 12,
+            "current_hours_assigned": 8,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 12.0,
+            "over_cap": false,
+            "hours_remaining": 4,
+            "hour_cap_label": "near_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Daniel Brooks",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 25,
+            "current_hours_assigned": 18,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 22.0,
+            "over_cap": false,
+            "hours_remaining": 7,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Emily Chen",
+            "employee_type": "student_worker",
+            "employee_role": "front_desk",
+            "preferred_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "preferred_start": "10:00",
+            "preferred_end": "16:00",
+            "max_hours_per_week": 10,
+            "current_hours_assigned": 7,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 11.0,
+            "over_cap": true,
+            "hours_remaining": 3,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Jordan Lee",
+            "employee_type": "part_time",
+            "employee_role": "delivery_driver",
+            "preferred_days": [
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "preferred_start": "20:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 28,
+            "current_hours_assigned": 20,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 24.0,
+            "over_cap": false,
+            "hours_remaining": 8,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Fatima Hassan",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 30,
+            "current_hours_assigned": 21,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 25.0,
+            "over_cap": false,
+            "hours_remaining": 9,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          }
+        ],
+        "preference_summary": "Recommended: Michael Rivera | Not recommended: Priya Sharma, Aarav Patel, Sophia Kim, Daniel Brooks, Emily Chen, Jordan Lee, Fatima Hassan"
+      },
+      {
+        "shift_id": "tue_lunch_01",
+        "shift_date": "2026-04-28",
+        "shift_start": "11:00",
+        "shift_end": "15:00",
+        "staffing_status": "balanced",
+        "adjustment": "No change needed",
+        "financial_impact": 0.0,
+        "employees": [
+          {
+            "name": "Priya Sharma",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 20,
+            "current_hours_assigned": 14,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 18.0,
+            "over_cap": false,
+            "hours_remaining": 6,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Aarav Patel",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 18,
+            "current_hours_assigned": 13,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 17.0,
+            "over_cap": false,
+            "hours_remaining": 5,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Michael Rivera",
+            "employee_type": "full_time",
+            "employee_role": "shift_supervisor",
+            "preferred_days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "preferred_start": "09:00",
+            "preferred_end": "18:00",
+            "max_hours_per_week": 45,
+            "current_hours_assigned": 31,
+            "day_match": true,
+            "time_match": true,
+            "preference_score": 2,
+            "preference_label": "preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 35.0,
+            "over_cap": false,
+            "hours_remaining": 14,
+            "hour_cap_label": "available",
+            "selection_status": "recommended",
+            "selection_reason": "Preferred shift, hours available"
+          },
+          {
+            "name": "Sophia Kim",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 12,
+            "current_hours_assigned": 8,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 12.0,
+            "over_cap": false,
+            "hours_remaining": 4,
+            "hour_cap_label": "near_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Daniel Brooks",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 25,
+            "current_hours_assigned": 18,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 22.0,
+            "over_cap": false,
+            "hours_remaining": 7,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Emily Chen",
+            "employee_type": "student_worker",
+            "employee_role": "front_desk",
+            "preferred_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "preferred_start": "10:00",
+            "preferred_end": "16:00",
+            "max_hours_per_week": 10,
+            "current_hours_assigned": 7,
+            "day_match": false,
+            "time_match": true,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 11.0,
+            "over_cap": true,
+            "hours_remaining": 3,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Jordan Lee",
+            "employee_type": "part_time",
+            "employee_role": "delivery_driver",
+            "preferred_days": [
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "preferred_start": "20:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 28,
+            "current_hours_assigned": 20,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 24.0,
+            "over_cap": false,
+            "hours_remaining": 8,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Fatima Hassan",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 30,
+            "current_hours_assigned": 21,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 25.0,
+            "over_cap": false,
+            "hours_remaining": 9,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          }
+        ],
+        "preference_summary": "Recommended: Michael Rivera | Not recommended: Priya Sharma, Aarav Patel, Sophia Kim, Daniel Brooks, Emily Chen, Jordan Lee, Fatima Hassan"
+      },
+      {
+        "shift_id": "wed_afternoon_01",
+        "shift_date": "2026-04-29",
+        "shift_start": "13:00",
+        "shift_end": "17:00",
+        "staffing_status": "balanced",
+        "adjustment": "No change needed",
+        "financial_impact": 0.0,
+        "employees": [
+          {
+            "name": "Priya Sharma",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 20,
+            "current_hours_assigned": 14,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 18.0,
+            "over_cap": false,
+            "hours_remaining": 6,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Aarav Patel",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 18,
+            "current_hours_assigned": 13,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 17.0,
+            "over_cap": false,
+            "hours_remaining": 5,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Michael Rivera",
+            "employee_type": "full_time",
+            "employee_role": "shift_supervisor",
+            "preferred_days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "preferred_start": "09:00",
+            "preferred_end": "18:00",
+            "max_hours_per_week": 45,
+            "current_hours_assigned": 31,
+            "day_match": true,
+            "time_match": true,
+            "preference_score": 2,
+            "preference_label": "preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 35.0,
+            "over_cap": false,
+            "hours_remaining": 14,
+            "hour_cap_label": "available",
+            "selection_status": "recommended",
+            "selection_reason": "Preferred shift, hours available"
+          },
+          {
+            "name": "Sophia Kim",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 12,
+            "current_hours_assigned": 8,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 12.0,
+            "over_cap": false,
+            "hours_remaining": 4,
+            "hour_cap_label": "near_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Daniel Brooks",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 25,
+            "current_hours_assigned": 18,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 22.0,
+            "over_cap": false,
+            "hours_remaining": 7,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Emily Chen",
+            "employee_type": "student_worker",
+            "employee_role": "front_desk",
+            "preferred_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "preferred_start": "10:00",
+            "preferred_end": "16:00",
+            "max_hours_per_week": 10,
+            "current_hours_assigned": 7,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 11.0,
+            "over_cap": true,
+            "hours_remaining": 3,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Jordan Lee",
+            "employee_type": "part_time",
+            "employee_role": "delivery_driver",
+            "preferred_days": [
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "preferred_start": "20:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 28,
+            "current_hours_assigned": 20,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 24.0,
+            "over_cap": false,
+            "hours_remaining": 8,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Fatima Hassan",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 30,
+            "current_hours_assigned": 21,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 4.0,
+            "projected_hours": 25.0,
+            "over_cap": false,
+            "hours_remaining": 9,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          }
+        ],
+        "preference_summary": "Recommended: Michael Rivera | Acceptable: Jordan Lee | Not recommended: Priya Sharma, Aarav Patel, Sophia Kim, Daniel Brooks, Emily Chen, Fatima Hassan"
+      },
+      {
+        "shift_id": "thu_late_01",
+        "shift_date": "2026-04-30",
+        "shift_start": "18:00",
+        "shift_end": "23:00",
+        "staffing_status": "understaffed",
+        "adjustment": "Add 1 cashier for late rush",
+        "financial_impact": 180.0,
+        "employees": [
+          {
+            "name": "Priya Sharma",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 20,
+            "current_hours_assigned": 14,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 19.0,
+            "over_cap": false,
+            "hours_remaining": 6,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Aarav Patel",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 18,
+            "current_hours_assigned": 13,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 18.0,
+            "over_cap": false,
+            "hours_remaining": 5,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Michael Rivera",
+            "employee_type": "full_time",
+            "employee_role": "shift_supervisor",
+            "preferred_days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "preferred_start": "09:00",
+            "preferred_end": "18:00",
+            "max_hours_per_week": 45,
+            "current_hours_assigned": 31,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 36.0,
+            "over_cap": false,
+            "hours_remaining": 14,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Sophia Kim",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 12,
+            "current_hours_assigned": 8,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 13.0,
+            "over_cap": true,
+            "hours_remaining": 4,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Daniel Brooks",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 25,
+            "current_hours_assigned": 18,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 23.0,
+            "over_cap": false,
+            "hours_remaining": 7,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Emily Chen",
+            "employee_type": "student_worker",
+            "employee_role": "front_desk",
+            "preferred_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "preferred_start": "10:00",
+            "preferred_end": "16:00",
+            "max_hours_per_week": 10,
+            "current_hours_assigned": 7,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 12.0,
+            "over_cap": true,
+            "hours_remaining": 3,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Jordan Lee",
+            "employee_type": "part_time",
+            "employee_role": "delivery_driver",
+            "preferred_days": [
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "preferred_start": "20:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 28,
+            "current_hours_assigned": 20,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 25.0,
+            "over_cap": false,
+            "hours_remaining": 8,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Fatima Hassan",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 30,
+            "current_hours_assigned": 21,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 26.0,
+            "over_cap": false,
+            "hours_remaining": 9,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          }
+        ],
+        "preference_summary": "Acceptable: Michael Rivera, Daniel Brooks, Jordan Lee, Fatima Hassan | Not recommended: Priya Sharma, Aarav Patel, Sophia Kim, Emily Chen"
+      },
+      {
+        "shift_id": "fri_evening_01",
+        "shift_date": "2026-05-01",
+        "shift_start": "17:00",
+        "shift_end": "22:00",
+        "staffing_status": "understaffed",
+        "adjustment": "Add 1 cashier + 1 cook",
+        "financial_impact": 260.0,
+        "employees": [
+          {
+            "name": "Priya Sharma",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 20,
+            "current_hours_assigned": 14,
+            "day_match": true,
+            "time_match": true,
+            "preference_score": 2,
+            "preference_label": "preferred",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 19.0,
+            "over_cap": false,
+            "hours_remaining": 6,
+            "hour_cap_label": "available",
+            "selection_status": "recommended",
+            "selection_reason": "Preferred shift, hours available"
+          },
+          {
+            "name": "Aarav Patel",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 18,
+            "current_hours_assigned": 13,
+            "day_match": true,
+            "time_match": true,
+            "preference_score": 2,
+            "preference_label": "preferred",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 18.0,
+            "over_cap": false,
+            "hours_remaining": 5,
+            "hour_cap_label": "available",
+            "selection_status": "recommended",
+            "selection_reason": "Preferred shift, hours available"
+          },
+          {
+            "name": "Michael Rivera",
+            "employee_type": "full_time",
+            "employee_role": "shift_supervisor",
+            "preferred_days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "preferred_start": "09:00",
+            "preferred_end": "18:00",
+            "max_hours_per_week": 45,
+            "current_hours_assigned": 31,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 36.0,
+            "over_cap": false,
+            "hours_remaining": 14,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Sophia Kim",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 12,
+            "current_hours_assigned": 8,
+            "day_match": true,
+            "time_match": true,
+            "preference_score": 2,
+            "preference_label": "preferred",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 13.0,
+            "over_cap": true,
+            "hours_remaining": 4,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Daniel Brooks",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 25,
+            "current_hours_assigned": 18,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 23.0,
+            "over_cap": false,
+            "hours_remaining": 7,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Emily Chen",
+            "employee_type": "student_worker",
+            "employee_role": "front_desk",
+            "preferred_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "preferred_start": "10:00",
+            "preferred_end": "16:00",
+            "max_hours_per_week": 10,
+            "current_hours_assigned": 7,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 12.0,
+            "over_cap": true,
+            "hours_remaining": 3,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Jordan Lee",
+            "employee_type": "part_time",
+            "employee_role": "delivery_driver",
+            "preferred_days": [
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "preferred_start": "20:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 28,
+            "current_hours_assigned": 20,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 25.0,
+            "over_cap": false,
+            "hours_remaining": 8,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Fatima Hassan",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 30,
+            "current_hours_assigned": 21,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 26.0,
+            "over_cap": false,
+            "hours_remaining": 9,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          }
+        ],
+        "preference_summary": "Recommended: Priya Sharma, Aarav Patel | Acceptable: Michael Rivera, Daniel Brooks, Jordan Lee, Fatima Hassan | Not recommended: Sophia Kim, Emily Chen"
+      },
+      {
+        "shift_id": "sat_peak_01",
+        "shift_date": "2026-05-02",
+        "shift_start": "12:00",
+        "shift_end": "20:00",
+        "staffing_status": "balanced",
+        "adjustment": "Full roster \u2014 monitor for surge",
+        "financial_impact": 0.0,
+        "employees": [
+          {
+            "name": "Priya Sharma",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 20,
+            "current_hours_assigned": 14,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 8.0,
+            "projected_hours": 22.0,
+            "over_cap": true,
+            "hours_remaining": 6,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Aarav Patel",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 18,
+            "current_hours_assigned": 13,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 8.0,
+            "projected_hours": 21.0,
+            "over_cap": true,
+            "hours_remaining": 5,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Michael Rivera",
+            "employee_type": "full_time",
+            "employee_role": "shift_supervisor",
+            "preferred_days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "preferred_start": "09:00",
+            "preferred_end": "18:00",
+            "max_hours_per_week": 45,
+            "current_hours_assigned": 31,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 8.0,
+            "projected_hours": 39.0,
+            "over_cap": false,
+            "hours_remaining": 14,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Sophia Kim",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 12,
+            "current_hours_assigned": 8,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 8.0,
+            "projected_hours": 16.0,
+            "over_cap": true,
+            "hours_remaining": 4,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Daniel Brooks",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 25,
+            "current_hours_assigned": 18,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 8.0,
+            "projected_hours": 26.0,
+            "over_cap": true,
+            "hours_remaining": 7,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Emily Chen",
+            "employee_type": "student_worker",
+            "employee_role": "front_desk",
+            "preferred_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "preferred_start": "10:00",
+            "preferred_end": "16:00",
+            "max_hours_per_week": 10,
+            "current_hours_assigned": 7,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 8.0,
+            "projected_hours": 15.0,
+            "over_cap": true,
+            "hours_remaining": 3,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Jordan Lee",
+            "employee_type": "part_time",
+            "employee_role": "delivery_driver",
+            "preferred_days": [
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "preferred_start": "20:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 28,
+            "current_hours_assigned": 20,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 8.0,
+            "projected_hours": 28.0,
+            "over_cap": false,
+            "hours_remaining": 8,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Fatima Hassan",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 30,
+            "current_hours_assigned": 21,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 8.0,
+            "projected_hours": 29.0,
+            "over_cap": false,
+            "hours_remaining": 9,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          }
+        ],
+        "preference_summary": "Acceptable: Jordan Lee, Fatima Hassan | Not recommended: Priya Sharma, Aarav Patel, Michael Rivera, Sophia Kim, Daniel Brooks, Emily Chen"
+      },
+      {
+        "shift_id": "sun_brunch_01",
+        "shift_date": "2026-05-03",
+        "shift_start": "10:00",
+        "shift_end": "15:00",
+        "staffing_status": "overstaffed",
+        "adjustment": "Reduce 1 staff member",
+        "financial_impact": 55.0,
+        "employees": [
+          {
+            "name": "Priya Sharma",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 20,
+            "current_hours_assigned": 14,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 19.0,
+            "over_cap": false,
+            "hours_remaining": 6,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Aarav Patel",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 18,
+            "current_hours_assigned": 13,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 18.0,
+            "over_cap": false,
+            "hours_remaining": 5,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Michael Rivera",
+            "employee_type": "full_time",
+            "employee_role": "shift_supervisor",
+            "preferred_days": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "preferred_start": "09:00",
+            "preferred_end": "18:00",
+            "max_hours_per_week": 45,
+            "current_hours_assigned": 31,
+            "day_match": false,
+            "time_match": true,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 36.0,
+            "over_cap": false,
+            "hours_remaining": 14,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Sophia Kim",
+            "employee_type": "part_time",
+            "employee_role": "cashier",
+            "preferred_days": [
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "16:00",
+            "preferred_end": "22:00",
+            "max_hours_per_week": 12,
+            "current_hours_assigned": 8,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 13.0,
+            "over_cap": true,
+            "hours_remaining": 4,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Daniel Brooks",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 25,
+            "current_hours_assigned": 18,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 23.0,
+            "over_cap": false,
+            "hours_remaining": 7,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          },
+          {
+            "name": "Emily Chen",
+            "employee_type": "student_worker",
+            "employee_role": "front_desk",
+            "preferred_days": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "preferred_start": "10:00",
+            "preferred_end": "16:00",
+            "max_hours_per_week": 10,
+            "current_hours_assigned": 7,
+            "day_match": false,
+            "time_match": true,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 12.0,
+            "over_cap": true,
+            "hours_remaining": 3,
+            "hour_cap_label": "over_cap",
+            "selection_status": "not_recommended",
+            "selection_reason": "Exceeds weekly hour cap"
+          },
+          {
+            "name": "Jordan Lee",
+            "employee_type": "part_time",
+            "employee_role": "delivery_driver",
+            "preferred_days": [
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "preferred_start": "20:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 28,
+            "current_hours_assigned": 20,
+            "day_match": false,
+            "time_match": false,
+            "preference_score": 0,
+            "preference_label": "not_preferred",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 25.0,
+            "over_cap": false,
+            "hours_remaining": 8,
+            "hour_cap_label": "available",
+            "selection_status": "not_recommended",
+            "selection_reason": "Outside preferred schedule"
+          },
+          {
+            "name": "Fatima Hassan",
+            "employee_type": "full_time",
+            "employee_role": "cook",
+            "preferred_days": [
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "preferred_start": "18:00",
+            "preferred_end": "03:00",
+            "max_hours_per_week": 30,
+            "current_hours_assigned": 21,
+            "day_match": true,
+            "time_match": false,
+            "preference_score": 1,
+            "preference_label": "acceptable",
+            "shift_duration_hrs": 5.0,
+            "projected_hours": 26.0,
+            "over_cap": false,
+            "hours_remaining": 9,
+            "hour_cap_label": "available",
+            "selection_status": "acceptable",
+            "selection_reason": "Partial preference match"
+          }
+        ],
+        "preference_summary": "Acceptable: Priya Sharma, Aarav Patel, Michael Rivera, Daniel Brooks, Fatima Hassan | Not recommended: Sophia Kim, Emily Chen, Jordan Lee"
+      }
+    ]
+  },
+  "employee_alerts": [
+    {
+      "employee": "Michael Rivera",
+      "role": "Shift Supervisor",
+      "urgency": "high",
+      "message": "Working overtime this week \u2014 review hours with manager.",
+      "message_to_employee": "Hey Michael \u2014 you are at 45hrs this week. Let us adjust next week schedule to keep you at 40.",
+      "action": "Cap next week hours at 40",
+      "financial_impact": 110
+    },
+    {
+      "employee": "Daniel Brooks",
+      "role": "Cook",
+      "urgency": "high",
+      "message": "Health-code concern on record \u2014 retraining required.",
+      "message_to_employee": "Daniel \u2014 mandatory food safety retraining is scheduled for this Thursday 2PM. Attendance required before your next shift.",
+      "action": "Schedule retraining Thursday 2PM",
+      "financial_impact": 500
+    },
+    {
+      "employee": "Jordan Lee",
+      "role": "Delivery Driver",
+      "urgency": "medium",
+      "message": "Punctuality flagged \u2014 please check Friday schedule.",
+      "message_to_employee": "Jordan \u2014 you have had 3 late Friday arrivals this month. DoorDash on-time rate matters for our rating. Can we adjust your Friday start time?",
+      "action": "Adjust Friday start time",
+      "financial_impact": 200
+    }
+  ],
+  "dataset": {
+    "business_id": "Marathon Deli",
+    "location": "College Park MD",
+    "monthly_revenue": 112000
+  }
+}

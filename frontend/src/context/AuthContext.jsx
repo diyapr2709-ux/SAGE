@@ -7,7 +7,7 @@ function decodeToken(token) {
     const payload = JSON.parse(atob(token.split('.')[1]))
     const now = Math.floor(Date.now() / 1000)
     if (payload.exp && payload.exp < now) return null
-    return { email: payload.sub, role: payload.role }
+    return { email: payload.sub, role: payload.role, full_name: payload.name || payload.sub }
   } catch {
     return null
   }

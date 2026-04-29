@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Star, AlertTriangle, CheckCircle, Users, DollarSign, Clock } from 'lucide-react'
-import { apiDashboardEmployee } from '../api/client'
+import { apiDashboardManager, apiGetLastOutput } from '../api/client'
 
 const fadeUp = (i = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -35,18 +35,18 @@ export default function TeamPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    apiDashboardEmployee()
+    apiDashboardManager()
       .then(res => setData(res.data))
-      .catch(() => setData(null))
+      .catch(() => apiGetLastOutput().then(r => setData(r.data)).catch(() => setData(null)))
       .finally(() => setLoading(false))
   }, [])
 
   const d = data || MOCK
 
-  const employees  = d.employees || d.employee_intelligence?.employees || MOCK.employees
-  const eotw       = d.employee_of_the_week || {}
-  const warnings   = d.warnings || []
-  const recognitions = d.recognitions || []
+  const employees    = d.employee_intelligence?.employees || d.employees || MOCK.employees
+  const eotw         = d.employee_of_the_week || d.employee_intelligence?.employee_of_the_week || {}
+  const warnings     = d.employee_feedback?.warnings || d.warnings || []
+  const recognitions = d.employee_feedback?.recognitions || d.recognitions || []
 
   const totalWeeklyHours = employees.reduce((s, e) => s + (e.hours_per_week || 0), 0)
   const totalWeeklyCost  = employees.reduce((s, e) => s + ((e.hourly_rate || 0) * (e.hours_per_week || 0)), 0)
@@ -123,7 +123,9 @@ export default function TeamPage() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {warnings.map((w, i) => (
-                  <div key={i} style={{ padding: '10px 14px', background: '#FFFBEB', border: '1px solid var(--yellow-200)', borderRadius: 10, fontSize: '0.82rem', color: '#92400E', lineHeight: 1.5 }}>{w}</div>
+                  <div key={i} style={{ padding: '10px 14px', background: '#FFFBEB', border: '1px solid var(--yellow-200)', borderRadius: 10, fontSize: '0.82rem', color: '#92400E', lineHeight: 1.5 }}>
+                    {typeof w === 'string' ? w : `${w.employee || ''}: ${w.message || ''}`}
+                  </div>
                 ))}
               </div>
             </motion.div>
@@ -136,7 +138,9 @@ export default function TeamPage() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {recognitions.map((r, i) => (
-                  <div key={i} style={{ padding: '10px 14px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 10, fontSize: '0.82rem', color: '#166534', lineHeight: 1.5 }}>{r}</div>
+                  <div key={i} style={{ padding: '10px 14px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 10, fontSize: '0.82rem', color: '#166534', lineHeight: 1.5 }}>
+                    {typeof r === 'string' ? r : `${r.employee || ''}: ${r.message || ''}`}
+                  </div>
                 ))}
               </div>
             </motion.div>
@@ -205,9 +209,19 @@ export default function TeamPage() {
                   </div>
                 </div>
 
-                {/* Performance notes */}
-                <div style={{ padding: '10px 14px', background: 'var(--surface)', borderRadius: 10, fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.55 }}>
-                  {emp.performance_notes || 'No notes available'}
+                {/* Performance */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {emp.performance_score != null && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ flex: 1, height: 5, background: 'var(--surface)', borderRadius: 99, overflow: 'hidden' }}>
+                        <div style={{ width: `${emp.performance_score}%`, height: '100%', background: emp.performance_score >= 80 ? '#22C55E' : emp.performance_score >= 60 ? '#FBBF24' : '#EF4444', borderRadius: 99 }} />
+                      </div>
+                      <span style={{ fontSize: '0.72rem', fontWeight: 700, color: emp.performance_score >= 80 ? '#16A34A' : emp.performance_score >= 60 ? '#92400E' : '#DC2626', minWidth: 28 }}>{emp.performance_score}</span>
+                    </div>
+                  )}
+                  <div style={{ padding: '8px 12px', background: 'var(--surface)', borderRadius: 8, fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                    {emp.performance_notes || emp.notes || 'No notes available'}
+                  </div>
                 </div>
               </motion.div>
             )

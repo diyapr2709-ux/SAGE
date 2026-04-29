@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   TrendingUp, TrendingDown, Users, AlertTriangle, Star,
   DollarSign, Heart, Zap, ChevronRight, CheckCircle,
   Clock, MessageSquare, Calendar, Activity, ThumbsUp,
-  ThumbsDown, Flame, BarChart2, RefreshCw,
+  ThumbsDown, Flame, BarChart2, RefreshCw, Brain, XCircle,
 } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts'
-import { apiDashboardManager } from '../api/client'
+import { apiDashboardManager, apiRecordFeedback, apiGetPreferences, apiGetLastOutput } from '../api/client'
 
 const fadeUp = (i = 0) => ({
   initial: { opacity: 0, y: 22 },
@@ -148,22 +148,36 @@ function PulseChart({ forecast, deviation, alert: isAlert, summary, rushHours, g
           </ResponsiveContainer>
           {goals && Object.keys(goals).length > 0 && (
             <div style={{ display: 'flex', gap: 16, marginTop: 14, paddingTop: 14, borderTop: '1px solid var(--border-soft)' }}>
-              {Object.entries(goals).slice(0, 3).map(([key, val]) => (
-                <div key={key} style={{ flex: 1, textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'capitalize', marginBottom: 3 }}>{key.replace(/_/g, ' ')}</div>
-                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>{typeof val === 'number' ? `$${val.toLocaleString()}` : val}</div>
-                </div>
-              ))}
+              {Object.entries(goals).slice(0, 3).map(([key, val]) => {
+                const target = typeof val === 'number' ? val : (val?.target ?? val?.monthly_target ?? val?.weekly_target ?? val?.daily_target ?? 0)
+                const actual = typeof val === 'object' && val !== null ? val.actual_so_far : null
+                return (
+                  <div key={key} style={{ flex: 1, textAlign: 'center' }}>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'capitalize', marginBottom: 3 }}>{key.replace(/_/g, ' ')} target</div>
+                    <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>${Number(target).toLocaleString()}</div>
+                    {actual != null && <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 1 }}>${Number(actual).toLocaleString()} so far</div>}
+                  </div>
+                )
+              })}
             </div>
           )}
           {rushHours?.length > 0 && (
-            <div style={{ display: 'flex', gap: 6, marginTop: 12, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', alignSelf: 'center' }}>Rush windows:</span>
-              {rushHours.map((h, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '3px 10px', background: 'var(--yellow-50)', border: '1px solid var(--yellow-200)', borderRadius: 99, fontSize: '0.72rem', fontWeight: 600, color: '#92400E' }}>
-                  <Flame size={10} />{h}
-                </div>
-              ))}
+            <div style={{ marginTop: 12 }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 5 }}>
+                <Flame size={11} color="#F59E0B" />Rush windows
+              </div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {rushHours.map((h, i) => {
+                  const label = typeof h === 'string' ? h : h?.window || JSON.stringify(h)
+                  const rev   = typeof h === 'object' && h?.expected_revenue ? `$${Math.round(h.expected_revenue).toLocaleString()}` : null
+                  const urg   = typeof h === 'object' ? h?.urgency : null
+                  return (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', background: urg === 'high' ? '#FFF5F5' : 'var(--yellow-50)', border: `1px solid ${urg === 'high' ? '#FECACA' : 'var(--yellow-200)'}`, borderRadius: 8, fontSize: '0.7rem', fontWeight: 600, color: urg === 'high' ? '#DC2626' : '#92400E' }}>
+                      <Flame size={9} />{label}{rev && <span style={{ fontWeight: 400, marginLeft: 4 }}>{rev}</span>}
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           )}
         </>
@@ -174,18 +188,83 @@ function PulseChart({ forecast, deviation, alert: isAlert, summary, rushHours, g
   )
 }
 
+const URGENCY_COLOR = { critical: '#DC2626', high: '#EF4444', medium: '#FBBF24', low: '#22C55E' }
+const URGENCY_ORDER = { critical: 0, high: 1, medium: 2, low: 3 }
+
+function ApprovalScoreBar({ score }) {
+  if (score == null) return null
+  const pct  = Math.round(score * 100)
+  const col  = pct >= 70 ? '#22C55E' : pct >= 45 ? '#FBBF24' : '#EF4444'
+  return (
+    <div title={`Predicted approval probability: ${pct}%`} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+      <div style={{ width: 50, height: 4, background: 'var(--border)', borderRadius: 99, overflow: 'hidden' }}>
+        <div style={{ width: `${pct}%`, height: '100%', background: col, borderRadius: 99 }} />
+      </div>
+      <span style={{ fontSize: '0.62rem', fontWeight: 700, color: col }}>{pct}%</span>
+    </div>
+  )
+}
+
 function RecommendationsFeed({ recs, conflicts }) {
-  const [filter, setFilter] = useState('all')
-  const urgencyOrder = { high: 0, medium: 1, low: 2 }
-  const urgencyColor = { high: '#EF4444', medium: '#FBBF24', low: '#22C55E' }
-  const filtered = (recs || []).filter(r => filter === 'all' || r.urgency === filter).sort((a, b) => (urgencyOrder[a.urgency] ?? 3) - (urgencyOrder[b.urgency] ?? 3))
+  const [filter, setFilter]   = useState('all')
+  const [decided, setDecided] = useState({})   // id → 'approved' | 'rejected'
+  const [acting, setActing]   = useState(null)
+  const [prefs, setPrefs]     = useState(null)
+
+  // Load preference model summary
+  useEffect(() => {
+    apiGetPreferences().then(r => setPrefs(r.data)).catch(() => {})
+  }, [decided])
+
+  const filtered = (recs || [])
+    .filter(r => filter === 'all' || r.urgency === filter)
+    .filter(r => !decided[r.id] || decided[r.id] === 'show')  // hide acted-on after a beat
+
+  const handleDecide = useCallback(async (rec, action) => {
+    setActing(rec.id + action)
+    try {
+      await apiRecordFeedback({
+        recommendation_id: rec.id,
+        category:          rec.category || 'composite',
+        agent:             rec.agent    || 'FRANK',
+        financial_impact:  rec.impact   || 0,
+        urgency:           rec.urgency  || 'medium',
+        action,
+      })
+      setDecided(d => ({ ...d, [rec.id]: action }))
+      // Refresh preferences after each decision
+      apiGetPreferences().then(r => setPrefs(r.data)).catch(() => {})
+    } catch (e) {
+      console.error('Feedback failed', e)
+    } finally { setActing(null) }
+  }, [])
+
+  const drift = prefs?.drift_detected
+  const approvalRate = prefs?.approval_rate_30d
+  const threshold    = prefs?.action_threshold
+  const insights     = prefs?.insights || []
 
   return (
     <motion.div {...fadeUp(6)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 16, padding: '22px 24px', boxShadow: 'var(--shadow-sm)' }}>
-      <SectionHeader agent="FRANK" title="Agent Recommendations" sub={`${(recs || []).length} active recommendations`}
+
+      {/* Drift warning */}
+      {drift && (
+        <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '10px 14px', background: '#FFF5F5', border: '1px solid #FECACA', borderRadius: 10, marginBottom: 14 }}>
+          <AlertTriangle size={14} color="#EF4444" style={{ flexShrink: 0, marginTop: 1 }} />
+          <div>
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#DC2626' }}>Preference drift detected — </span>
+            <span style={{ fontSize: '0.75rem', color: '#B91C1C' }}>
+              your approval rate has dropped significantly over the last 30 days. Confidence bounds are widened; FRANK is recalibrating.
+            </span>
+          </div>
+        </div>
+      )}
+
+      <SectionHeader agent="FRANK" title="Agent Recommendations"
+        sub={`${(recs || []).length} recommendations${prefs?.total_decisions > 0 ? ` · ${prefs.total_decisions} decisions logged` : ''}`}
         action={
           <div style={{ display: 'flex', gap: 4 }}>
-            {['all', 'high', 'medium', 'low'].map(f => (
+            {['all', 'critical', 'high', 'medium', 'low'].map(f => (
               <button key={f} onClick={() => setFilter(f)} style={{ padding: '4px 10px', borderRadius: 99, border: 'none', cursor: 'pointer', fontSize: '0.7rem', fontWeight: 600, textTransform: 'capitalize', background: filter === f ? 'var(--blue-600)' : 'var(--surface)', color: filter === f ? 'white' : 'var(--text-muted)', transition: 'all 0.15s ease' }}>
                 {f}
               </button>
@@ -193,38 +272,131 @@ function RecommendationsFeed({ recs, conflicts }) {
           </div>
         }
       />
+
       {filtered.length > 0 ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <AnimatePresence>
-            {filtered.map((rec, i) => (
-              <motion.div key={rec.id || i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ delay: i * 0.04, duration: 0.25 }}
-                style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '14px 16px', background: 'var(--off-white)', border: '1px solid var(--border-soft)', borderRadius: 12, cursor: 'pointer' }}
-                whileHover={{ background: 'var(--blue-50)', borderColor: 'var(--blue-100)' }}>
-                <div style={{ paddingTop: 3, flexShrink: 0 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: urgencyColor[rec.urgency] || '#94A3B8', boxShadow: `0 0 6px ${urgencyColor[rec.urgency] || '#94A3B8'}88` }} />
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5, flexWrap: 'wrap' }}>
-                    <AgentChip name={rec.agent} />
-                    {rec.category && <span style={{ fontSize: '0.68rem', fontWeight: 600, color: 'var(--text-muted)', background: 'var(--surface)', border: '1px solid var(--border)', padding: '2px 8px', borderRadius: 99 }}>{rec.category}</span>}
-                    {rec.requires_approval && <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#92400E', background: 'var(--yellow-50)', border: '1px solid var(--yellow-200)', padding: '2px 8px', borderRadius: 99 }}>Needs Approval</span>}
+            {filtered.map((rec, i) => {
+              const isDecided = decided[rec.id]
+              const isActing  = acting?.startsWith(rec.id)
+              const uc = URGENCY_COLOR[rec.urgency] || '#94A3B8'
+
+              return (
+                <motion.div
+                  key={rec.id || i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: isDecided ? 0.55 : 1, x: 0 }}
+                  exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                  transition={{ delay: i * 0.04, duration: 0.25 }}
+                  style={{
+                    display: 'flex', gap: 12, alignItems: 'flex-start',
+                    padding: '14px 16px',
+                    background: isDecided === 'approved' ? '#F0FDF4' : isDecided === 'rejected' ? '#FFF5F5' : 'var(--off-white)',
+                    border: `1px solid ${isDecided === 'approved' ? '#BBF7D0' : isDecided === 'rejected' ? '#FECACA' : 'var(--border-soft)'}`,
+                    borderRadius: 12,
+                  }}
+                >
+                  <div style={{ paddingTop: 3, flexShrink: 0 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: uc, boxShadow: `0 0 6px ${uc}88` }} />
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-primary)', marginBottom: 4 }}>{rec.title}</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.55 }}>{rec.description}</div>
-                  <div style={{ display: 'flex', gap: 12, marginTop: 8, flexWrap: 'wrap' }}>
-                    {rec.impact && <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}><DollarSign size={11} color="#3B82F6" /><span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#1D4ED8' }}>{typeof rec.impact === 'number' ? `$${rec.impact.toLocaleString()} impact` : rec.impact}</span></div>}
-                    {rec.owner && <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Owner: <strong>{rec.owner}</strong></div>}
-                    {rec.deadline && <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: '0.72rem', color: 'var(--text-muted)' }}><Clock size={10} /> {rec.deadline}</div>}
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5, flexWrap: 'wrap' }}>
+                      <AgentChip name={rec.agent} />
+                      {rec.category && <span style={{ fontSize: '0.68rem', fontWeight: 600, color: 'var(--text-muted)', background: 'var(--surface)', border: '1px solid var(--border)', padding: '2px 8px', borderRadius: 99 }}>{rec.category}</span>}
+                      {rec.requires_approval && !isDecided && <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#92400E', background: '#FFFBEB', border: '1px solid #FDE68A', padding: '2px 8px', borderRadius: 99 }}>Needs Approval</span>}
+                      {isDecided && <span style={{ fontSize: '0.68rem', fontWeight: 700, color: isDecided === 'approved' ? '#16A34A' : '#DC2626', background: isDecided === 'approved' ? '#F0FDF4' : '#FFF5F5', border: `1px solid ${isDecided === 'approved' ? '#BBF7D0' : '#FECACA'}`, padding: '2px 8px', borderRadius: 99 }}>{isDecided}</span>}
+                    </div>
+
+                    <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-primary)', marginBottom: 4 }}>{rec.title}</div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.55 }}>{rec.description}</div>
+
+                    <div style={{ display: 'flex', gap: 12, marginTop: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                      {rec.impact > 0 && <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}><DollarSign size={11} color="#3B82F6" /><span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#1D4ED8' }}>${Number(rec.impact).toLocaleString()} impact</span></div>}
+                      {rec.owner && <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Owner: <strong>{rec.owner}</strong></div>}
+                      {rec.deadline && <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: '0.72rem', color: 'var(--text-muted)' }}><Clock size={10} /> {rec.deadline}</div>}
+                      <ApprovalScoreBar score={rec.approval_score} />
+                    </div>
                   </div>
-                </div>
-                <ChevronRight size={14} color="var(--text-muted)" style={{ flexShrink: 0, marginTop: 2 }} />
-              </motion.div>
-            ))}
+
+                  {/* Approve / Reject */}
+                  {!isDecided ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 5, flexShrink: 0 }}>
+                      <motion.button
+                        onClick={() => handleDecide(rec, 'approved')}
+                        disabled={!!acting}
+                        whileTap={{ scale: 0.93 }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 11px', borderRadius: 7, border: 'none', background: '#22C55E', color: 'white', fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', opacity: isActing ? 0.7 : 1 }}
+                      >
+                        {isActing && acting === rec.id + 'approved'
+                          ? <RefreshCw size={10} style={{ animation: 'spin 1s linear infinite' }} />
+                          : <ThumbsUp size={11} />} Approve
+                      </motion.button>
+                      <motion.button
+                        onClick={() => handleDecide(rec, 'rejected')}
+                        disabled={!!acting}
+                        whileTap={{ scale: 0.93 }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 11px', borderRadius: 7, border: '1px solid #FECACA', background: 'white', color: '#DC2626', fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer' }}
+                      >
+                        {isActing && acting === rec.id + 'rejected'
+                          ? <RefreshCw size={10} style={{ animation: 'spin 1s linear infinite' }} />
+                          : <XCircle size={11} />} Reject
+                      </motion.button>
+                    </div>
+                  ) : (
+                    <div style={{ flexShrink: 0 }}>
+                      {isDecided === 'approved'
+                        ? <CheckCircle size={16} color="#22C55E" />
+                        : <XCircle size={16} color="#EF4444" />}
+                    </div>
+                  )}
+                </motion.div>
+              )
+            })}
           </AnimatePresence>
         </div>
       ) : (
         <EmptyState icon={CheckCircle} label={recs?.length > 0 ? `No ${filter} urgency recommendations` : 'Recommendations will appear after FRANK runs'} />
       )}
+
+      {/* Preference insights */}
+      {prefs && prefs.total_decisions > 0 && (
+        <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--border-soft)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+            <Brain size={13} color="#6366F1" />
+            <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4338CA' }}>
+              Learned Preferences · {prefs.total_decisions} decisions
+            </p>
+            {approvalRate != null && (
+              <span style={{ marginLeft: 'auto', fontSize: '0.68rem', fontWeight: 600, color: approvalRate >= 0.6 ? '#16A34A' : '#DC2626' }}>
+                30d approval: {Math.round(approvalRate * 100)}%
+              </span>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {threshold != null && (
+              <div style={{ padding: '5px 10px', background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: 8, fontSize: '0.72rem', color: '#1D4ED8', fontWeight: 600 }}>
+                Action threshold: ${Math.round(threshold)}+
+              </div>
+            )}
+            {insights.map((ins, i) => (
+              <div key={i} style={{ padding: '5px 10px', background: '#F5F3FF', border: '1px solid #DDD6FE', borderRadius: 8, fontSize: '0.72rem', color: '#7C3AED' }}>
+                {ins}
+              </div>
+            ))}
+            {Object.entries(prefs.category_weights || {}).filter(([,v]) => v !== 0.5).slice(0, 4).map(([cat, w]) => (
+              <div key={cat} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 10px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8 }}>
+                <span style={{ fontSize: '0.68rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'capitalize' }}>{cat}</span>
+                <div style={{ width: 30, height: 3, background: 'var(--border)', borderRadius: 99 }}>
+                  <div style={{ width: `${Math.round(w * 100)}%`, height: '100%', background: w >= 0.6 ? '#22C55E' : '#EF4444', borderRadius: 99 }} />
+                </div>
+                <span style={{ fontSize: '0.65rem', color: w >= 0.6 ? '#16A34A' : '#DC2626', fontWeight: 700 }}>{Math.round(w * 100)}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {conflicts?.length > 0 && (
         <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--border-soft)' }}>
           <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 10 }}>Resolved Conflicts ({conflicts.length})</p>
@@ -241,6 +413,7 @@ function RecommendationsFeed({ recs, conflicts }) {
           </div>
         </div>
       )}
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </motion.div>
   )
 }
@@ -257,11 +430,14 @@ function ShelfPanel({ employees, eotw, costIntel, healthScore }) {
       />
       {costIntel && Object.keys(costIntel).length > 0 && (
         <div style={{ display: 'flex', gap: 8, marginBottom: 16, padding: '12px 14px', background: 'var(--surface)', borderRadius: 10, border: '1px solid var(--border-soft)', flexWrap: 'wrap' }}>
-          {Object.entries(costIntel).slice(0, 4).map(([key, val]) => (
-            <div key={key} style={{ flex: 1, minWidth: 80, textAlign: 'center' }}>
-              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'capitalize', marginBottom: 2 }}>{key.replace(/_/g, ' ')}</div>
-              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>{typeof val === 'number' ? (val > 100 ? `$${val.toLocaleString()}` : `${val}%`) : String(val)}</div>
-            </div>
+          {Object.entries(costIntel)
+            .filter(([, val]) => typeof val === 'number')
+            .slice(0, 4)
+            .map(([key, val]) => (
+              <div key={key} style={{ flex: 1, minWidth: 80, textAlign: 'center' }}>
+                <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'capitalize', marginBottom: 2 }}>{key.replace(/_/g, ' ')}</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>{val > 100 ? `$${val.toLocaleString()}` : `${val}%`}</div>
+              </div>
           ))}
         </div>
       )}
@@ -286,8 +462,17 @@ function ShelfPanel({ employees, eotw, costIntel, healthScore }) {
                 <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{emp.role}</div>
               </div>
               <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                <div style={{ fontWeight: 700, fontSize: '0.83rem', color: 'var(--text-primary)' }}>${emp.hourly_rate}/hr</div>
-                <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>{emp.hours_per_week}h/wk</div>
+                {emp.hourly_rate != null && (
+                  <div style={{ fontWeight: 700, fontSize: '0.83rem', color: 'var(--text-primary)' }}>${emp.hourly_rate}/hr{emp.hours_per_week ? ` · ${emp.hours_per_week}h` : ''}</div>
+                )}
+                {emp.performance_score != null && (
+                  <div style={{ fontSize: '0.68rem', color: emp.performance_score >= 80 ? '#16A34A' : emp.performance_score >= 60 ? '#92400E' : '#DC2626', fontWeight: 600, marginTop: 2 }}>
+                    Score {emp.performance_score}
+                  </div>
+                )}
+                {emp.monthly_cost != null && !emp.hourly_rate && (
+                  <div style={{ fontWeight: 700, fontSize: '0.83rem', color: 'var(--text-primary)' }}>${emp.monthly_cost}/mo</div>
+                )}
               </div>
             </motion.div>
           ))}
@@ -310,7 +495,10 @@ function VoicePanel({ reviews, pricingAlerts, temporalAlerts }) {
           {allAlerts.slice(0, 2).map((alert, i) => (
             <div key={i} style={{ padding: '10px 14px', borderRadius: 10, background: '#FFF5F5', border: '1px solid #FECACA', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
               <AlertTriangle size={13} color="#EF4444" style={{ marginTop: 2, flexShrink: 0 }} />
-              <div style={{ fontSize: '0.78rem', color: '#B91C1C', lineHeight: 1.5 }}>{typeof alert === 'string' ? alert : JSON.stringify(alert)}</div>
+              <div style={{ fontSize: '0.78rem', color: '#B91C1C', lineHeight: 1.5 }}>
+                {typeof alert === 'string' ? alert : (alert.recommended_action || alert.insight || alert.detail || alert.title || '')}
+                {alert.financial_impact > 0 && <span style={{ fontWeight: 700, marginLeft: 6 }}>${alert.financial_impact?.toLocaleString()} impact</span>}
+              </div>
             </div>
           ))}
           {(reviews || []).slice(0, 3).map((r, i) => {
@@ -336,9 +524,20 @@ function VoicePanel({ reviews, pricingAlerts, temporalAlerts }) {
 }
 
 function CrewPanel({ staffing }) {
-  const shifts = staffing && Object.keys(staffing).length > 0
-    ? Object.entries(staffing).slice(0, 5).map(([name, info]) => ({ name, ...info }))
-    : []
+  // staffing may be {shifts:[...]} from API or {name:{start,end}} from mock
+  const rawShifts = Array.isArray(staffing?.shifts) ? staffing.shifts : null
+  const shifts = rawShifts
+    ? rawShifts.slice(0, 5).map(s => ({
+        name: s.shift_id || s.shift_date || 'Shift',
+        start: s.shift_start, end: s.shift_end,
+        hours: null,
+        status: s.staffing_status,
+        adjustment: s.adjustment,
+        employeeCount: s.employees?.length || 0,
+      }))
+    : staffing && Object.keys(staffing).length > 0
+      ? Object.entries(staffing).slice(0, 5).map(([name, info]) => ({ name, ...info }))
+      : []
   return (
     <motion.div {...fadeUp(6)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 16, padding: '22px 24px', boxShadow: 'var(--shadow-sm)' }}>
       <SectionHeader agent="CREW" title="Shift Scheduling" sub="Optimized workforce plan"
@@ -347,12 +546,13 @@ function CrewPanel({ staffing }) {
       {shifts.length > 0 ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {shifts.map((shift, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'var(--surface)', border: '1px solid var(--border-soft)', borderRadius: 10 }}>
-              <div style={{ width: 30, height: 30, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, #FB923C, #F97316)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.75rem' }}>{shift.name?.[0] || '?'}</div>
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'var(--surface)', border: `1px solid ${shift.status === 'understaffed' ? '#FECACA' : 'var(--border-soft)'}`, borderRadius: 10 }}>
+              <div style={{ width: 30, height: 30, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, #FB923C, #F97316)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.75rem' }}>{(shift.name?.[0] || '?').toUpperCase()}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontWeight: 600, fontSize: '0.82rem', color: 'var(--text-primary)' }}>{shift.name}</div>
-                {shift.start && shift.end && <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}><Clock size={9} /> {shift.start} – {shift.end}</div>}
+                <div style={{ fontWeight: 600, fontSize: '0.82rem', color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shift.start && shift.end ? `${shift.start} – ${shift.end}` : shift.name}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{shift.adjustment || (shift.employeeCount ? `${shift.employeeCount} staff` : '')}</div>
               </div>
+              {shift.status && <div style={{ fontSize: '0.68rem', fontWeight: 700, color: shift.status === 'understaffed' ? '#DC2626' : shift.status === 'overstaffed' ? '#92400E' : '#166534', background: shift.status === 'understaffed' ? '#FFF5F5' : shift.status === 'overstaffed' ? '#FFFBEB' : '#F0FDF4', padding: '2px 8px', borderRadius: 99, flexShrink: 0 }}>{shift.status}</div>}
               {shift.hours && <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-secondary)' }}>{shift.hours}h</div>}
             </div>
           ))}
@@ -442,7 +642,12 @@ export default function ManagerDashboard() {
   useEffect(() => {
     apiDashboardManager()
       .then(res => setData(res.data))
-      .catch(() => setData(null))
+      .catch(() =>
+        // Fall back to last persisted FRANK output if no dataset is loaded
+        apiGetLastOutput()
+          .then(r => setData(r.data))
+          .catch(() => setData(null))
+      )
       .finally(() => setLoading(false))
   }, [])
 
@@ -478,12 +683,22 @@ export default function ManagerDashboard() {
 
       <AlertsBanner alerts={alerts} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
-        <StatCard icon={Heart}      label="Health Score"       value={d?.health_score}                                                                                   sub="Business vitality" accent="#22C55E" index={0} trend={2} />
-        <StatCard icon={DollarSign} label="Monthly Revenue"    value={`$${(85000).toLocaleString()}`}                                                                    sub="Marathon Deli"     accent="#3B82F6" index={1} trend={4} />
-        <StatCard icon={TrendingUp} label="Forecast Deviation" value={d?.deviation_pct != null ? `${d.deviation_pct > 0 ? '+' : ''}${d.deviation_pct}%` : null}         sub="vs baseline"       accent="#22C55E" index={2} />
-        <StatCard icon={Users}      label="Active Employees"   value={employees.length || 5}                                                                             sub="On roster"         accent="#FBBF24" index={3} />
-      </div>
+      {/* ── Stat row ─── */}
+      {(() => {
+        const ci = d?.cost_intelligence || {}
+        const monthlyRev = ci.monthly_revenue || d?.dataset?.monthly_revenue
+        const laborPct   = ci.labor_pct_of_revenue ?? ci.labor_cost_pct
+        const weekLabor  = ci.weekly_labor_cost
+        const devPct     = d?.deviation_pct
+        return (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
+            <StatCard icon={Heart}      label="Health Score"       value={d?.health_score != null ? `${d.health_score}/100` : null}  sub="Business vitality"  accent="#22C55E" index={0} />
+            <StatCard icon={DollarSign} label="Monthly Revenue"    value={monthlyRev ? `$${Number(monthlyRev).toLocaleString()}` : null} sub={d?.dataset?.business_id ? d.dataset.business_id.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()) : 'Business'} accent="#3B82F6" index={1} trend={devPct != null ? Math.round(devPct) : null} />
+            <StatCard icon={TrendingUp} label="Weekly Labor Cost"  value={weekLabor ? `$${Number(weekLabor).toLocaleString()}` : null} sub={laborPct != null ? `${Number(laborPct).toFixed(1)}% of revenue` : 'vs revenue'} accent={laborPct > 35 ? '#EF4444' : '#FBBF24'} index={2} />
+            <StatCard icon={Users}      label="Active Employees"   value={employees.length || null}                                  sub="On roster"          accent="#8B5CF6" index={3} />
+          </div>
+        )
+      })()}
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 380px', gap: 16 }}>
 

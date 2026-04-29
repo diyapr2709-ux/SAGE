@@ -10,10 +10,15 @@ import SchedulingPage from './pages/SchedulingPage'
 import ReviewsPage from './pages/ReviewsPage'
 import CostIntelPage from './pages/CostIntelPage'
 import TeamPage from './pages/TeamPage'
+import DataInputPage from './pages/DataInputPage'
+import ReportsPage from './pages/ReportsPage'
 import './index.css'
 
 function ProtectedRoute({ children, allowedRoles }) {
-  const { isAuthenticated, user } = useAuth()
+  const { token, user } = useAuth()
+  // Check localStorage too: setToken() is async, but localStorage.setItem is synchronous,
+  // so the token is always there immediately after login() even before React commits state.
+  const isAuthenticated = !!token || !!localStorage.getItem('sage_token')
   if (!isAuthenticated) return <Navigate to="/login" replace />
   if (allowedRoles && user && !allowedRoles.includes(user.role)) return <RoleRedirect />
   return children
@@ -21,10 +26,17 @@ function ProtectedRoute({ children, allowedRoles }) {
 
 function RoleRedirect() {
   const { user } = useAuth()
-  if (!user) return <Navigate to="/login" replace />
-  if (user.role === 'admin')   return <Navigate to="/dashboard/overview" replace />
-  if (user.role === 'manager') return <Navigate to="/dashboard/overview" replace />
-  return                              <Navigate to="/dashboard/employee"  replace />
+  // Fallback: decode token from localStorage if user state not yet committed
+  const role = user?.role || (() => {
+    try {
+      const t = localStorage.getItem('sage_token')
+      if (!t) return null
+      return JSON.parse(atob(t.split('.')[1]))?.role
+    } catch { return null }
+  })()
+  if (!role) return <Navigate to="/login" replace />
+  if (role === 'admin' || role === 'manager') return <Navigate to="/dashboard/overview" replace />
+  return <Navigate to="/dashboard/employee" replace />
 }
 
 export default function App() {
@@ -43,6 +55,8 @@ export default function App() {
             <Route path="reviews"    element={<ProtectedRoute allowedRoles={['manager','admin']}><ReviewsPage /></ProtectedRoute>} />
             <Route path="costintel"  element={<ProtectedRoute allowedRoles={['manager','admin']}><CostIntelPage /></ProtectedRoute>} />
             <Route path="team"       element={<ProtectedRoute allowedRoles={['manager','admin']}><TeamPage /></ProtectedRoute>} />
+            <Route path="data"       element={<ProtectedRoute allowedRoles={['manager','admin','employee']}><DataInputPage /></ProtectedRoute>} />
+            <Route path="reports"    element={<ProtectedRoute allowedRoles={['manager','admin']}><ReportsPage /></ProtectedRoute>} />
           </Route>
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

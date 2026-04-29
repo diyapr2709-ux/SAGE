@@ -1,0 +1,34 @@
+[
+  {
+    "shift_id": "fri_evening_01",
+    "email": "employee@marathon.com",
+    "name": "Marathon Employee",
+    "request_type": "swap",
+    "note": "Have a conflict Friday evening",
+    "status": "pending"
+  },
+  {
+    "shift_id": "thu_late_night_01",
+    "email": "employee@marathon.com",
+    "name": "Marathon Employee",
+    "request_type": "available",
+    "note": "Available for this shift",
+    "status": "pending"
+  },
+  {
+    "shift_id": "mon_morning_01",
+    "email": "employee@marathon.com",
+    "name": "Marathon Employee",
+    "request_type": "swap",
+    "note": "",
+    "status": "pending"
+  },
+  {
+    "shift_id": "sat_peak_01",
+    "email": "employee@marathon.com",
+    "name": "Marathon Employee",
+    "request_type": "unavailable",
+    "note": "",
+    "status": "pending"
+  }
+]

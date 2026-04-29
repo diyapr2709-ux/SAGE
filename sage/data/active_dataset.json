@@ -1,0 +1,85 @@
+{
+  "business_id": "Marathon Deli",
+  "business_type": "restaurant",
+  "location": "College Park MD",
+  "cluster": "A",
+  "employees": [
+    {
+      "name": "Priya Sharma",
+      "role": "Cashier",
+      "hourly_rate": 15,
+      "hours_per_week": 20,
+      "performance_notes": "consistently praised by customers, outstanding overall performance, 100/100 score"
+    },
+    {
+      "name": "Aarav Patel",
+      "role": "Cashier",
+      "hourly_rate": 14,
+      "hours_per_week": 18,
+      "performance_notes": "excellent customer feedback, consistent, fast checkout"
+    },
+    {
+      "name": "Michael Rivera",
+      "role": "Shift Supervisor",
+      "hourly_rate": 22,
+      "hours_per_week": 45,
+      "performance_notes": "strong leader, managing weekend rush, 5 hours overtime this week \u2014 needs review"
+    },
+    {
+      "name": "Sophia Kim",
+      "role": "Cashier",
+      "hourly_rate": 14,
+      "hours_per_week": 12,
+      "performance_notes": "reliable, prefers afternoon shifts, good upsell rate"
+    },
+    {
+      "name": "Daniel Brooks",
+      "role": "Cook",
+      "hourly_rate": 16,
+      "hours_per_week": 25,
+      "performance_notes": "fast prep times, one health-code near-miss last month, needs retraining"
+    },
+    {
+      "name": "Emily Chen",
+      "role": "Front Desk",
+      "hourly_rate": 13,
+      "hours_per_week": 10,
+      "performance_notes": "student worker, limited availability, very friendly"
+    },
+    {
+      "name": "Jordan Lee",
+      "role": "Delivery Driver",
+      "hourly_rate": 15,
+      "hours_per_week": 28,
+      "performance_notes": "fast delivery times, high DoorDash ratings, some late arrivals on Friday"
+    },
+    {
+      "name": "Fatima Hassan",
+      "role": "Cook",
+      "hourly_rate": 17,
+      "hours_per_week": 30,
+      "performance_notes": "exceptional food quality, customers specifically request her dishes, rising star"
+    }
+  ],
+  "dataset": {
+    "monthly_revenue": 112000,
+    "weekly_labor_cost": 9200,
+    "avg_ticket_size": 18.5,
+    "delivery_fees": {
+      "doordash_pct": 35,
+      "ubereats_pct": 20,
+      "grubhub_pct": 10
+    },
+    "top_items": [
+      "Gyro Platter",
+      "Falafel Wrap",
+      "Chicken Shawarma",
+      "Loaded Fries"
+    ],
+    "competitor_promo": "Rival Deli launched 20% off gyros this week on DoorDash",
+    "open_issues": [
+      "walk-in cooler temperature fluctuation",
+      "POS terminal 2 slow"
+    ]
+  }
+}

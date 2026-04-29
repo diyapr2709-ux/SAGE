@@ -5,7 +5,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ReferenceLine, BarChart, Bar, Cell,
 } from 'recharts'
-import { apiDashboardManager } from '../api/client'
+import { apiDashboardManager, apiGetLastOutput } from '../api/client'
 
 const fadeUp = (i = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -64,7 +64,7 @@ export default function RevenuePage() {
   useEffect(() => {
     apiDashboardManager()
       .then(res => setData(res.data))
-      .catch(() => setData(null))
+      .catch(() => apiGetLastOutput().then(r => setData(r.data)).catch(() => setData(null)))
       .finally(() => setLoading(false))
   }, [])
 
@@ -114,7 +114,7 @@ export default function RevenuePage() {
       {/* Stat cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
         <StatBox icon={Target}     label="Monthly Target"    value={`$${(d.goals?.monthly_target || 0).toLocaleString()}`} accent="#3B82F6" index={0} />
-        <StatBox icon={TrendingUp} label="Forecast Deviation" value={`${d.deviation_pct > 0 ? '+' : ''}${d.deviation_pct}%`} accent={d.deviation_pct >= 0 ? '#22C55E' : '#EF4444'} trend={d.deviation_pct} index={1} />
+        <StatBox icon={TrendingUp} label="Forecast Deviation" value={`${d.deviation_pct > 0 ? '+' : ''}${Number(d.deviation_pct).toFixed(1)}%`} accent={d.deviation_pct >= 0 ? '#22C55E' : '#EF4444'} trend={Number(d.deviation_pct).toFixed(1)} index={1} />
         <StatBox icon={BarChart2}  label="Peak Forecast"     value={`$${maxRevenue.toLocaleString()}`} accent="#8B5CF6" index={2} />
         <StatBox icon={Clock}      label="Rush Windows"      value={d.rush_hours?.length || 0} accent="#FBBF24" index={3} />
       </div>
@@ -175,12 +175,15 @@ export default function RevenuePage() {
             <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>Revenue Goals</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {Object.entries(d.goals).map(([key, val]) => {
-                const pct = Math.min(100, Math.round((avgRevenue * (key.includes('daily') ? 1 : key.includes('weekly') ? 7 : 30) / val) * 100))
+                const target = typeof val === 'number' ? val : (val?.target ?? val?.monthly_target ?? val?.weekly_target ?? val?.daily_target ?? 0)
+                const actual = typeof val === 'object' && val !== null ? val.actual_so_far : null
+                const multiplier = key.includes('daily') ? 1 : key.includes('weekly') ? 7 : 30
+                const pct = target > 0 ? Math.min(100, Math.round(((actual ?? avgRevenue * multiplier) / target) * 100)) : 0
                 return (
                   <div key={key}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                       <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>{key.replace(/_/g, ' ')}</span>
-                      <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)' }}>${val.toLocaleString()}</span>
+                      <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)' }}>${Number(target).toLocaleString()}</span>
                     </div>
                     <div style={{ height: 6, background: 'var(--surface)', borderRadius: 99, overflow: 'hidden' }}>
                       <motion.div
@@ -210,8 +213,10 @@ export default function RevenuePage() {
                     <Flame size={16} color="#F59E0B" />
                   </div>
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '1rem', color: '#92400E' }}>{h}</div>
-                    <div style={{ fontSize: '0.72rem', color: '#B45309' }}>High demand window — ensure full coverage</div>
+                    <div style={{ fontWeight: 700, fontSize: '1rem', color: '#92400E' }}>{typeof h === 'string' ? h : h?.window || ''}</div>
+                    <div style={{ fontSize: '0.72rem', color: '#B45309' }}>
+                      {typeof h === 'object' && h?.expected_revenue ? `$${Math.round(h.expected_revenue).toLocaleString()} expected — ensure full coverage` : 'High demand window — ensure full coverage'}
+                    </div>
                   </div>
                 </motion.div>
               ))}

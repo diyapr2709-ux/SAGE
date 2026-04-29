@@ -4,13 +4,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, Users, TrendingUp, Calendar,
   MessageSquare, ShoppingCart, Settings, LogOut,
-  ChevronLeft, ChevronRight, Zap, Bell,
+  ChevronLeft, ChevronRight, Database, FileBarChart,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
 const NAV_ITEMS = {
   employee: [
     { icon: LayoutDashboard, label: 'My Dashboard', to: '/dashboard/employee' },
+    { icon: Database,        label: 'My Requests',  to: '/dashboard/data'     },
   ],
   manager: [
     { icon: LayoutDashboard, label: 'Overview',    to: '/dashboard/overview'   },
@@ -19,6 +20,8 @@ const NAV_ITEMS = {
     { icon: Calendar,        label: 'Scheduling',   to: '/dashboard/scheduling' },
     { icon: MessageSquare,   label: 'Reviews',      to: '/dashboard/reviews'    },
     { icon: ShoppingCart,    label: 'Cost Intel',   to: '/dashboard/costintel'  },
+    { icon: FileBarChart,    label: 'Reports',      to: '/dashboard/reports'    },
+    { icon: Database,        label: 'Data Input',   to: '/dashboard/data'       },
   ],
   admin: [
     { icon: LayoutDashboard, label: 'Overview',    to: '/dashboard/overview'   },
@@ -27,6 +30,8 @@ const NAV_ITEMS = {
     { icon: Calendar,        label: 'Scheduling',   to: '/dashboard/scheduling' },
     { icon: MessageSquare,   label: 'Reviews',      to: '/dashboard/reviews'    },
     { icon: ShoppingCart,    label: 'Cost Intel',   to: '/dashboard/costintel'  },
+    { icon: FileBarChart,    label: 'Reports',      to: '/dashboard/reports'    },
+    { icon: Database,        label: 'Data Input',   to: '/dashboard/data'       },
     { icon: Settings,        label: 'Admin',        to: '/dashboard/admin'      },
   ],
 }
@@ -129,25 +134,6 @@ export default function Sidebar({ collapsed, onToggle }) {
         ))}
 
         <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '12px 6px' }} />
-
-        {/* Alerts */}
-        <motion.button className="sidebar-nav-item" style={{ justifyContent: collapsed ? 'center' : 'flex-start', padding: collapsed ? '11px 0' : '11px 16px' }} whileTap={{ scale: 0.97 }} title={collapsed ? 'Alerts' : undefined}>
-          <div style={{ position: 'relative', flexShrink: 0 }}>
-            <Bell size={18} />
-            <div style={{ position: 'absolute', top: -3, right: -3, width: 7, height: 7, borderRadius: '50%', background: '#FBBF24', boxShadow: '0 0 6px rgba(251,191,36,0.6)' }} />
-          </div>
-          <AnimatePresence>
-            {!collapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>Alerts</motion.span>}
-          </AnimatePresence>
-        </motion.button>
-
-        {/* Run FRANK */}
-        <motion.button className="sidebar-nav-item" style={{ justifyContent: collapsed ? 'center' : 'flex-start', padding: collapsed ? '11px 0' : '11px 16px' }} whileTap={{ scale: 0.97 }} title={collapsed ? 'Run FRANK' : undefined}>
-          <Zap size={18} style={{ color: '#FBBF24', flexShrink: 0 }} />
-          <AnimatePresence>
-            {!collapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ color: '#FBBF24' }}>Run FRANK</motion.span>}
-          </AnimatePresence>
-        </motion.button>
       </nav>
 
       {/* User footer */}
@@ -157,10 +143,10 @@ export default function Sidebar({ collapsed, onToggle }) {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ marginBottom: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'rgba(255,255,255,0.04)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.06)' }}>
                 <div style={{ width: 32, height: 32, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, var(--blue-500), var(--blue-400))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.82rem', fontWeight: 700, color: 'white' }}>
-                  {user?.email?.[0]?.toUpperCase() || 'U'}
+                  {(user?.full_name || user?.email || 'U')[0].toUpperCase()}
                 </div>
                 <div style={{ overflow: 'hidden' }}>
-                  <div style={{ color: 'rgba(220,235,255,0.9)', fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.email}</div>
+                  <div style={{ color: 'rgba(220,235,255,0.9)', fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.full_name || user?.email}</div>
                   <div style={{ color: 'rgba(120,160,220,0.6)', fontSize: '0.7rem', textTransform: 'capitalize' }}>{user?.role}</div>
                 </div>
               </div>

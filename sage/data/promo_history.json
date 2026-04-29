@@ -1,47 +1,92 @@
 [
   {
-    "date": "2026-04-14 17:06",
-    "business": "Marathon Deli",
-    "recommendations": [
-      "Consider matching with a first-time customer discount code (10% off) to retain delivery platform parity",
-      "Launch counter-promo: 'Gyro Wednesday' - $2 off any gyro value meal tomorrow only. Announce on social media tonight.",
-      "Create 'Gyro Duo Deal' - 2 Gyro Value Meals for $28.99 (saves $3) to capture group orders on delivery platforms"
-    ]
-  },
-  {
-    "date": "2026-04-14 17:34",
-    "business": "Marathon Deli",
-    "recommendations": [
-      "Launch counter-promo: 'Gyro Wednesday' - $2 off any gyro value meal tomorrow only. Announce on social media tonight. Consider partnering with Postmates for a featured restaurant promotion or offering free Marathon Sauce with delivery orders over $20.",
-      "Create 'Gyro Duo Deal' - 2 Gyro Value Meals for $28.99 (saves $3) to capture group orders on delivery platforms. Target late-night Thursday-Saturday orders.",
-      "Consider matching with a first-time customer discount code (10% off) to retain delivery platform parity and capture new UMD students."
-    ]
-  },
-  {
-    "date": "2026-04-15 20:08",
-    "business": "Marathon Deli",
-    "recommendations": [
-      "Reduce to $10.49 or add visible value (extra meat portion, side included) to justify premium. College students are price-sensitive.",
-      "Reduce to $6.75 or bundle as free add-on with orders over $25 to drive check size while managing perception.",
-      "Given 30+ year 'Best Gyro' reputation, premium is defensible BUT review shows price perception issue. Create $9.99 'Classic Gyro' option to capture price-sensitive segment while keeping premium version."
-    ]
-  },
-  {
-    "date": "2026-04-15 23:42",
-    "business": "Marathon Deli",
-    "recommendations": [
-      "Audit MenuWeb listing immediately. Either update MenuWeb price to $11.50 for consistency, or investigate if MenuWeb is scraping old pricing. If intentionally lower on MenuWeb, consider matching YourMenu to $10.49 to stay competitive while maintaining margin.",
-      "Contact MenuWeb to verify and correct listing. Marathon Sauce is a signature differentiator \u2014 deep discounting devalues the brand. Consider instead a 'Free Marathon Sauce with orders over $25' promo you control.",
-      "For next Wednesday: Announce 'Gyro Wednesday' ($2 off any gyro value meal) on Instagram/TikTok by Tuesday 6 PM to build anticipation. Track redemptions to measure ROI vs previous recommendation."
-    ]
-  },
-  {
     "date": "2026-04-15 23:46",
     "business": "Marathon Deli",
     "recommendations": [
       "Reduce to $10.49 or create a 'Classic Gyro Sub' at $9.99 to capture price-sensitive college students while maintaining premium option. Alternatively, add visible value (extra meat, side of fries) to justify premium.",
       "Launch 'Late Night Fuel Deal' \u2014 any Value Meal + Drink + Side for $14.99 (saves ~$4) targeting Thu-Sat 10PM-3AM crowd. Announce tonight for tomorrow's peak hours.",
       "Contact MenuWeb immediately to verify/correct listing. Marathon Sauce is a brand differentiator \u2014 consider 'Free Marathon Sauce with orders $25+' promo you control instead of third-party deep discounts."
+    ]
+  },
+  {
+    "date": "2026-04-28 20:22",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Launch 'Tuesday Night Value Deal' \u2014 any Value Meal + Drink for $16.99 (add drink value ~$2.50 for $1). Promotes tonight/tomorrow for Wednesday lunch carryover.",
+      "Add banner/description update on Uber Eats: 'FREE DELIVERY + Late Night til 3AM'. Pair with 'Order $25+ get free Marathon Sauce' to beat McDonald's threshold psychology.",
+      "Reduce to $15.99 to align with other value meals, or discontinue and promote standalone milkshakes ($5.99) as add-ons to existing high-performing combos."
+    ]
+  },
+  {
+    "date": "2026-04-28 20:29",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Launch 'Tuesday Night Fuel Up' \u2014 any Value Meal + Gyro Fries ($9.50) for $22.99 (saves $2.50). Beats McDonald's $20 threshold while driving higher ticket.",
+      "Add 'FREE Marathon Sauce with orders $18+' to incentivize add-on purchases without deep discounting. Signature item adds perceived value.",
+      "Reduce to $15.99 to align with other value meals, or rebrand as 'UMD Shake Combo' at $12.99 (meal) + $5.99 (shake separate). Previous recommendation to discontinue still valid."
+    ]
+  },
+  {
+    "date": "2026-04-28 20:34",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Launch 'Tuesday Night Combo' \u2014 any Value Meal ($15.99) + Gyro Fries ($9.50) for $22.49 (saves $3). Beats McDonald's $20 threshold while driving $6+ higher ticket.",
+      "Add 'FREE Marathon Sauce with orders $18+' to all delivery platforms tonight. Low cost add-on (~$0.50) drives perceived value without margin erosion.",
+      "Reduce to $15.99 to align with other value meals OR split into UMD Meal ($12.99) + Shake Add-On ($4.99). Third option: discontinue and promote individual shakes as add-ons."
+    ]
+  },
+  {
+    "date": "2026-04-28 21:09",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Promote 'Tuesday Night Combo' \u2014 Value Meal ($15.99) + Gyro Fries ($9.50) for $22.49 tonight. Beats McDonald's threshold while driving $6+ higher ticket. Add prominent banner on Uber Eats.",
+      "Implement 'FREE Marathon Sauce with orders $18+' across Uber Eats and Postmates immediately. Low cost (~$0.50) drives perceived value and increases AOV.",
+      "Reduce to $15.99 to align with value meal suite OR rebrand as 'UMD Meal ($12.99) + Shake Add-On ($4.99)' for perceived flexibility. Third option: discontinue and cross-promote individual shakes."
+    ]
+  },
+  {
+    "date": "2026-04-28 21:11",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Launch 'Tuesday Night Combo' \u2014 Value Meal ($15.99) + Gyro Fries ($9.50) for $22.49 tonight. Exceeds McDonald's $20 threshold while driving $6+ higher ticket. Feature prominently on Uber Eats landing.",
+      "Implement 'FREE Marathon Sauce with orders $18+' across Uber Eats and Postmates tonight. Creates perceived premium value while driving basket size above $18.",
+      "Reduce to $15.99 to align with value meal suite OR unbundle: 'UMD Meal' at $12.99 + 'Shake Add-On' at $4.99. If neither viable, discontinue and cross-promote shakes as individual add-ons."
+    ]
+  },
+  {
+    "date": "2026-04-28 21:47",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Launch 'Tuesday Night Combo' \u2014 Value Meal ($15.99) + Gyro Fries ($9.50) for $22.49 (saves $3). Exceeds McDonald's $20 threshold while driving $6+ higher ticket and providing better perceived value.",
+      "Reduce to $15.99 to align with value meal suite OR unbundle as 'UMD Meal' ($12.99) + 'Shake Add-On' ($4.99). Third option: discontinue and cross-promote individual shakes as add-ons.",
+      "Implement 'FREE Marathon Sauce with orders $18+' across all delivery platforms. Low cost (~$0.50) drives perceived premium value and pushes AOV above $18."
+    ]
+  },
+  {
+    "date": "2026-04-28 21:49",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Launch 'Tuesday Night Combo' \u2014 Value Meal ($15.99) + Gyro Fries ($9.50) for $22.49 (saves $3). Exceeds $20 threshold with superior food quality positioning. Promote as 'Beat the Fast Food Deal' messaging.",
+      "Reduce to $15.99 to align with value meal suite OR unbundle as 'UMD Meal' ($12.99) + 'Shake Add-On' ($4.99) for perceived flexibility. If neither viable, discontinue and cross-promote individual shakes.",
+      "Implement 'FREE Marathon Sauce with orders $18+' across all delivery platforms. Low cost (~$0.50/order) drives perceived premium value and pushes AOV above $18."
+    ]
+  },
+  {
+    "date": "2026-04-28 22:09",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Counter with 'Tuesday Night Combo' - Value Meal + Gyro Fries for $22.49 (saves $3). Better food quality positioning vs coffee shop at similar price point.",
+      "Reduce to $15.99 to align with value meal suite OR unbundle as 'UMD Meal' ($12.99) + 'Shake Add-On' ($4.99). Third option: discontinue entirely.",
+      "Implement 'FREE Marathon Sauce with orders $18+' across all platforms. Cost ~$0.50/order but drives AOV above $18 and reinforces brand identity."
+    ]
+  },
+  {
+    "date": "2026-04-28 22:34",
+    "business": "Marathon Deli",
+    "recommendations": [
+      "Launch 'Tuesday Night Combo' - Value Meal ($15.99) + Gyro Fries ($9.50) for $22.49 (saves $3). Exceeds $20 with superior quality positioning. Use messaging: 'Real Food > Fast Food Deal'",
+      "Reduce to $15.99 for consistency OR unbundle as 'UMD Meal' ($12.99) + 'Shake Add-On' ($4.99) for perceived flexibility and upsell opportunity.",
+      "Implement 'FREE Marathon Sauce with orders $18+' across all delivery platforms. Cost ~$0.50/order but drives AOV above $18 and reinforces brand identity while reducing complaints."
     ]
   }
 ]

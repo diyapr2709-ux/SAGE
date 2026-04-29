@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ThumbsUp, ThumbsDown, Star, AlertTriangle, MessageSquare, TrendingUp } from 'lucide-react'
-import { apiDashboardManager } from '../api/client'
+import { apiDashboardManager, apiGetLastOutput } from '../api/client'
 
 const fadeUp = (i = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -39,7 +39,7 @@ export default function ReviewsPage() {
   useEffect(() => {
     apiDashboardManager()
       .then(res => setData(res.data))
-      .catch(() => setData(null))
+      .catch(() => apiGetLastOutput().then(r => setData(r.data)).catch(() => setData(null)))
       .finally(() => setLoading(false))
   }, [])
 
@@ -93,7 +93,10 @@ export default function ReviewsPage() {
             {allAlerts.map((alert, i) => (
               <div key={i} style={{ display: 'flex', gap: 10, padding: '14px 18px', background: '#FFF5F5', border: '1px solid #FECACA', borderRadius: 12 }}>
                 <AlertTriangle size={15} color="#EF4444" style={{ flexShrink: 0, marginTop: 1 }} />
-                <div style={{ fontSize: '0.85rem', color: '#B91C1C', fontWeight: 500 }}>{typeof alert === 'string' ? alert : JSON.stringify(alert)}</div>
+                <div style={{ fontSize: '0.85rem', color: '#B91C1C', fontWeight: 500 }}>
+                  {typeof alert === 'string' ? alert : (alert.recommended_action || alert.insight || alert.detail || JSON.stringify(alert))}
+                  {alert.financial_impact ? <span style={{ marginLeft: 8, fontWeight: 700 }}>(${alert.financial_impact?.toLocaleString()} impact)</span> : null}
+                </div>
               </div>
             ))}
           </div>
@@ -168,7 +171,7 @@ export default function ReviewsPage() {
                         {isPositive ? <ThumbsUp size={15} color="#22C55E" /> : isNegative ? <ThumbsDown size={15} color="#EF4444" /> : <MessageSquare size={15} color="var(--text-muted)" />}
                       </div>
                       <div>
-                        {r.platform && <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)' }}>{r.platform}</div>}
+                        {(r.author || r.platform) && <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)' }}>{r.author || r.platform}</div>}
                         {r.rating && <StarRating rating={r.rating} />}
                       </div>
                     </div>
@@ -183,6 +186,12 @@ export default function ReviewsPage() {
                     </div>
                   </div>
                   <p style={{ fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.65, margin: 0 }}>{text}</p>
+                  {r.draft_reply && (
+                    <div style={{ marginTop: 10, padding: '10px 14px', background: 'var(--blue-50)', border: '1px solid var(--blue-100)', borderRadius: 8 }}>
+                      <span style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--blue-600)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>AI Draft Reply — </span>
+                      <span style={{ fontSize: '0.82rem', color: 'var(--blue-800)' }}>{r.draft_reply}</span>
+                    </div>
+                  )}
                 </motion.div>
               )
             })}

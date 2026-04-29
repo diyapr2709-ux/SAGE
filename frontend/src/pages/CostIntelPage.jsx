@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Heart, DollarSign, TrendingDown, AlertTriangle, ShoppingCart, BarChart2 } from 'lucide-react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from 'recharts'
-import { apiDashboardManager } from '../api/client'
+import { apiDashboardManager, apiGetLastOutput } from '../api/client'
 
 const fadeUp = (i = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -46,25 +46,35 @@ export default function CostIntelPage() {
   useEffect(() => {
     apiDashboardManager()
       .then(res => setData(res.data))
-      .catch(() => setData(null))
+      .catch(() => apiGetLastOutput().then(r => setData(r.data)).catch(() => setData(null)))
       .finally(() => setLoading(false))
   }, [])
 
   const d = data || MOCK
-  const costIntel   = d.cost_intelligence || {}
-  const healthScore = d.health_score
-  const shelfFlags  = d.shelf_flags
-  const shelfRecs   = (d.recommendations || []).filter(r => r.agent === 'SHELF')
+  const costIntel    = d.cost_intelligence || {}
+  const healthScore  = d.health_score
+  const shelfRecs    = (d.recommendations || []).filter(r => r.agent === 'SHELF')
+  const flaggedItems = costIntel.flagged_items || []
+  const creepAlerts  = costIntel.cost_creep_alerts || []
 
-  const chartData = Object.entries(costIntel).map(([key, val], i) => ({
-    name: key.replace(/_pct|_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).trim(),
-    value: typeof val === 'number' ? val : 0,
-    color: BAR_COLORS[i % BAR_COLORS.length],
-  }))
+  // Only chart true percentage/ratio values
+  const PCT_KEYS = ['labor_cost_pct', 'food_cost_pct', 'delivery_fee_pct', 'net_margin_pct', 'labor_pct_of_revenue']
+  const chartData = Object.entries(costIntel)
+    .filter(([k, v]) => (PCT_KEYS.includes(k) || k.endsWith('_pct')) && typeof v === 'number')
+    .map(([k, v], i) => ({
+      name: k.replace(/_pct$|_pct_of_/g, ' ').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).trim(),
+      value: Math.round(v * 10) / 10,
+      color: BAR_COLORS[i % BAR_COLORS.length],
+    }))
+
+  // Dollar stat cards
+  const dollarStats = [
+    costIntel.weekly_labor_cost       && { label: 'Weekly Labor Cost',   value: `$${(costIntel.weekly_labor_cost).toLocaleString()}` },
+    costIntel.overtime_cost_this_week && { label: 'Overtime Cost',        value: `$${costIntel.overtime_cost_this_week}` },
+    costIntel.labor_pct_of_revenue    && { label: 'Labor % of Revenue',   value: `${costIntel.labor_pct_of_revenue}%` },
+  ].filter(Boolean)
 
   const hasCostData = chartData.length > 0
-
-  // Health score color
   const hsColor = healthScore >= 80 ? '#22C55E' : healthScore >= 60 ? '#FBBF24' : '#EF4444'
 
   return (
@@ -88,11 +98,37 @@ export default function CostIntelPage() {
         )}
       </motion.div>
 
-      {/* Shelf flags */}
-      {shelfFlags && (
-        <motion.div {...fadeUp(1)} style={{ padding: '16px 20px', background: '#FFF5F5', border: '1px solid #FECACA', borderRadius: 12, display: 'flex', gap: 10 }}>
-          <AlertTriangle size={16} color="#EF4444" style={{ flexShrink: 0, marginTop: 1 }} />
-          <div style={{ fontSize: '0.85rem', color: '#B91C1C' }}>{JSON.stringify(shelfFlags)}</div>
+      {/* Dollar stat cards */}
+      {dollarStats.length > 0 && (
+        <motion.div {...fadeUp(1)} style={{ display: 'flex', gap: 12 }}>
+          {dollarStats.map((s, i) => (
+            <div key={i} style={{ flex: 1, background: 'white', border: '1px solid var(--border)', borderRadius: 14, padding: '16px 20px', boxShadow: 'var(--shadow-xs)' }}>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, marginBottom: 6 }}>{s.label}</div>
+              <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.8rem', color: 'var(--text-primary)', lineHeight: 1 }}>{s.value}</div>
+            </div>
+          ))}
+        </motion.div>
+      )}
+
+      {/* Flagged items */}
+      {flaggedItems.length > 0 && (
+        <motion.div {...fadeUp(2)}>
+          <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 10 }}>Flagged Items</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {flaggedItems.map((item, i) => (
+              <div key={i} style={{ background: 'white', border: `1px solid ${item.urgency === 'high' ? '#FECACA' : '#FDE68A'}`, borderRadius: 14, padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', boxShadow: 'var(--shadow-xs)' }}>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-primary)', marginBottom: 4 }}>{item.item}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{item.recommended_action}</div>
+                  {item.root_cause && <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>{item.root_cause}</div>}
+                </div>
+                <div style={{ textAlign: 'right', flexShrink: 0, marginLeft: 16 }}>
+                  <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.3rem', color: '#22C55E', lineHeight: 1 }}>${item.financial_impact?.toLocaleString()}</div>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 2 }}>impact/mo</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </motion.div>
       )}
 
@@ -101,7 +137,7 @@ export default function CostIntelPage() {
 
         {/* Bar chart */}
         {hasCostData && (
-          <motion.div {...fadeUp(2)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 16, padding: '24px', boxShadow: 'var(--shadow-sm)' }}>
+          <motion.div {...fadeUp(4)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 16, padding: '24px', boxShadow: 'var(--shadow-sm)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
               <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#A78BFA', boxShadow: '0 0 4px #A78BFA' }} />
               <span style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.06em', color: '#7E22CE', textTransform: 'uppercase' }}>SHELF</span>
@@ -122,7 +158,7 @@ export default function CostIntelPage() {
         )}
 
         {/* Metric cards */}
-        <motion.div {...fadeUp(3)} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <motion.div {...fadeUp(5)} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {chartData.map((item, i) => {
             const isHigh = item.name.toLowerCase().includes('delivery') || item.name.toLowerCase().includes('food')
             const isMarg = item.name.toLowerCase().includes('margin')

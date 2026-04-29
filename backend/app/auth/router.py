@@ -28,7 +28,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     if not user or not pwd_context.verify(form_data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
     access_token = dependencies.create_access_token(
-        data={"sub": user.email, "role": user.role.value}
+        data={"sub": user.email, "role": user.role.value, "name": user.full_name}
     )
     return {"access_token": access_token, "token_type": "bearer"}
 

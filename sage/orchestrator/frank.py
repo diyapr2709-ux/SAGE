@@ -18,6 +18,16 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
+try:
+    from sage.preferences.owner_model import (
+        load_model as _load_pref_model,
+        score_recommendation as _score_rec,
+        personalize_conflict_urgency as _personalize_urgency,
+    )
+    _PREFS_AVAILABLE = True
+except Exception:
+    _PREFS_AVAILABLE = False
+
 from langgraph.graph import StateGraph, END
 from typing_extensions import TypedDict
 
@@ -130,8 +140,9 @@ def run_shelf(state: FrankState) -> FrankState:
 
 def run_crew(state: FrankState) -> FrankState:
     logger.info("Running CREW...")
+    employees = state["business_config"].get("employees") or []
     try:
-        output = run_crew_stub("understaffed_evening")
+        output = run_crew_stub("understaffed_evening", employees)
         state["crew_output"] = output
         state["trace_log"].append(f"CREW: status={output.get('staffing_status')}, impact=${output.get('financial_impact',0)}")
     except Exception as e:
@@ -426,15 +437,25 @@ def resolve_conflicts(state: FrankState) -> FrankState:
     crew_understaff = next((r for r in raw if r.agent == "CREW" and "understaffed" in r.raw_data.get("staffing_status","")), None)
     used_ids = set()
 
+    # Load preference model once for all personalization calls
+    _pref = None
+    if _PREFS_AVAILABLE:
+        try:
+            _pref = _load_pref_model()
+        except Exception:
+            pass
+
     # Rule 1: PULSE + CREW merge
     if pulse_alert and crew_understaff:
+        base_urgency = "critical"
+        urgency = _personalize_urgency("revenue_staffing_mismatch", base_urgency, _pref) if _pref else base_urgency
         merged = Recommendation(
             id="merged_pulse_crew", agent="FRANK", category="composite",
             title="Revenue Shortfall + Understaffing",
             description=f"Revenue off {pulse_alert.raw_data.get('deviation_pct',0)*100:.1f}% AND shift understaffed. Add staff to recover both.",
             financial_impact=pulse_alert.financial_impact + crew_understaff.financial_impact,
             approval_status=ApprovalStatus.REQUIRES_APPROVAL,
-            urgency="critical",
+            urgency=urgency,
             merged_from=[pulse_alert.id, crew_understaff.id]
         )
         final.append(merged)
@@ -448,6 +469,8 @@ def resolve_conflicts(state: FrankState) -> FrankState:
     for item, vr in voice_pricing.items():
         if item in shelf_creep:
             sr = shelf_creep[item]
+            base_urgency = "high"
+            urgency = _personalize_urgency("pricing_cost_overlap", base_urgency, _pref) if _pref else base_urgency
             merged = Recommendation(
                 id=f"merged_pricing_{item.replace(' ','_')}",
                 agent="FRANK", category="composite",
@@ -455,7 +478,7 @@ def resolve_conflicts(state: FrankState) -> FrankState:
                 description=f"VOICE: {vr.description[:80]} | SHELF: {sr.description[:80]}",
                 financial_impact=vr.financial_impact + sr.financial_impact,
                 approval_status=ApprovalStatus.REQUIRES_APPROVAL,
-                urgency="high",
+                urgency=urgency,
                 merged_from=[vr.id, sr.id]
             )
             final.append(merged)
@@ -470,6 +493,8 @@ def resolve_conflicts(state: FrankState) -> FrankState:
         for vr in voice_reviews:
             review_text = vr.raw_data.get("original_review","").lower()
             if name.lower() in review_text or any(role_kw in review_text for role_kw in ["cook","driver","cashier"]):
+                base_urgency = "high"
+                urgency = _personalize_urgency("employee_review_overlap", base_urgency, _pref) if _pref else base_urgency
                 merged = Recommendation(
                     id=f"merged_employee_{name.replace(' ','_')}",
                     agent="FRANK", category="composite",
@@ -477,7 +502,7 @@ def resolve_conflicts(state: FrankState) -> FrankState:
                     description=f"SHELF flags: {er.description[:80]} | VOICE review: {vr.description[:80]}",
                     financial_impact=er.financial_impact + vr.financial_impact,
                     approval_status=ApprovalStatus.REQUIRES_APPROVAL,
-                    urgency="high",
+                    urgency=urgency,
                     owner=name,
                     merged_from=[er.id, vr.id]
                 )
@@ -499,20 +524,60 @@ def resolve_conflicts(state: FrankState) -> FrankState:
 # ── APPROVAL + RANKING ────────────────────────────────────────────────────────
 
 def apply_approval_threshold(state: FrankState) -> FrankState:
+    # Use owner's learned action threshold if available; fall back to $200 hard-code
+    threshold = 200.0
+    if _PREFS_AVAILABLE:
+        try:
+            pref_model = _load_pref_model()
+            threshold = pref_model.action_threshold
+        except Exception:
+            pass
+
     for rec in state["resolved_recommendations"]:
-        if rec.financial_impact > 200:
+        if rec.financial_impact > threshold:
             rec.approval_status = ApprovalStatus.REQUIRES_APPROVAL
-            state["trace_log"].append(f"'{rec.title}' impact ${rec.financial_impact:.0f} > $200 → approval required")
+            state["trace_log"].append(
+                f"'{rec.title}' impact ${rec.financial_impact:.0f} > learned threshold ${threshold:.0f} → approval required"
+            )
         elif rec.financial_impact == 0:
             rec.approval_status = ApprovalStatus.AUTO_APPROVED
     return state
 
+
 def rank_recommendations(state: FrankState) -> FrankState:
+    """
+    Rank by predicted owner approval probability when preference model is available;
+    otherwise fall back to urgency-then-impact ordering.
+    """
+    if _PREFS_AVAILABLE:
+        try:
+            pref_model = _load_pref_model()
+            if pref_model.total_decisions >= 3:
+                # Enough history — reorder by predicted approval probability
+                for rec in state["resolved_recommendations"]:
+                    rec._approval_score = _score_rec(
+                        {"category": rec.category, "agent": rec.agent,
+                         "financial_impact": rec.financial_impact, "urgency": rec.urgency},
+                        pref_model
+                    )
+                state["resolved_recommendations"].sort(
+                    key=lambda r: -getattr(r, "_approval_score", 0)
+                )
+                state["trace_log"].append(
+                    f"Ranked by owner preference model (threshold=${pref_model.action_threshold:.0f}, "
+                    f"30d approval rate={pref_model.approval_rate_30d:.0%}, "
+                    f"drift={'YES' if pref_model.drift_detected else 'no'})"
+                )
+                return state
+        except Exception:
+            pass
+
+    # Fallback: urgency → financial impact
     urgency_order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
     state["resolved_recommendations"].sort(
         key=lambda r: (urgency_order.get(r.urgency, 2), -r.financial_impact)
     )
-    state["trace_log"].append("Ranked by urgency then financial impact")
+    state["trace_log"].append("Ranked by urgency then financial impact (no preference model yet)")
     return state
 
 # ── EMPLOYEE ALERT ROUTING ────────────────────────────────────────────────────
