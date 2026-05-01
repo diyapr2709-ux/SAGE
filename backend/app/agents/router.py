@@ -161,7 +161,7 @@ async def get_data_status(current_user: User = Depends(get_current_user)):
             "count": count,
         }
 
-    base = Path("sage/data")
+    base = Path(__file__).resolve().parent.parent.parent.parent / "sage/data"
     from app.agents.dataset_pipe import dataset_is_loaded, get_input_dataset, llm_dataset_is_loaded
     dataset_meta = {}
     if dataset_is_loaded():
@@ -185,6 +185,37 @@ async def get_data_status(current_user: User = Depends(get_current_user)):
             "owner_feedback":    _file_meta(base / "owner_feedback.json"),
             "preference_model":  _file_meta(base / "owner_preference_model.json"),
         }
+    }
+
+
+@router.post("/refresh")
+async def manual_refresh(current_user: User = Depends(get_current_user)):
+    """Manually trigger an external data refresh + FRANK run (normally happens auto every 30 min)."""
+    try:
+        from app.agents.data_refresher import run_refresh_cycle
+        summary = run_refresh_cycle()
+        return {"ok": True, "summary": summary}
+    except Exception as e:
+        raise HTTPException(500, f"Refresh failed: {e}")
+
+
+@router.get("/refresh/preview")
+async def preview_fresh_data(current_user: User = Depends(get_current_user)):
+    """Preview the next auto-generated dataset without committing it."""
+    from app.agents.data_refresher import generate_fresh_dataset
+    from datetime import datetime
+    ds = generate_fresh_dataset(seed=int(datetime.now().timestamp()))
+    voice = ds["llm_outputs"]["voice"]
+    shelf = ds["llm_outputs"]["shelf"]
+    return {
+        "generated_at": voice["generated_at"],
+        "reviews_sampled": len(voice["replies"]),
+        "avg_rating": voice["avg_rating"],
+        "competitor_signals": [c["signal"] for c in shelf["competitor_landscape"]],
+        "flagged_costs": [f["item"] for f in shelf["cost_intelligence"]["flagged_items"]],
+        "employee_of_week": shelf.get("employee_intelligence", {}).get("employee_of_the_week") or shelf.get("employee_of_the_week"),
+        "staffing_pressure": shelf["staffing_pressure"],
+        "market_events": voice["market_events"][:2],
     }
 
 

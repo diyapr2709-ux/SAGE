@@ -35,7 +35,7 @@ from typing_extensions import TypedDict
 from sage.agents.pulse import pulse_tool
 from sage.agents.voice import run as voice_run
 from sage.agents.shelf import run_shelf as shelf_run
-from sage.agents.crew_stub import run_crew_stub
+from sage.agents.crew_stub import run_crew_stub, get_all_shifts
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -142,9 +142,13 @@ def run_crew(state: FrankState) -> FrankState:
     logger.info("Running CREW...")
     employees = state["business_config"].get("employees") or []
     try:
-        output = run_crew_stub("understaffed_evening", employees)
+        all_shifts = get_all_shifts(employees)
+        shifts = all_shifts.get("shifts", [])
+        # Pick the highest-impact non-balanced shift; fall back to first shift
+        non_balanced = [s for s in shifts if s.get("staffing_status") != "balanced" and "error" not in s]
+        output = max(non_balanced, key=lambda s: s.get("financial_impact", 0)) if non_balanced else (shifts[0] if shifts else {})
         state["crew_output"] = output
-        state["trace_log"].append(f"CREW: status={output.get('staffing_status')}, impact=${output.get('financial_impact',0)}")
+        state["trace_log"].append(f"CREW: {len(shifts)} shifts analyzed, status={output.get('staffing_status')}, impact=${output.get('financial_impact',0)}")
     except Exception as e:
         logger.warning(f"CREW failed: {e}")
         state["crew_output"] = {"staffing_status": "balanced", "financial_impact": 0, "shift_id": "stub", "adjustment": "none"}

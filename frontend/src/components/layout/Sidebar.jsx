@@ -8,31 +8,27 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
+const CEO_NAV = [
+  { icon: LayoutDashboard, label: 'Overview',    to: '/dashboard/overview'   },
+  { icon: Users,           label: 'Team',         to: '/dashboard/team'       },
+  { icon: TrendingUp,      label: 'Revenue',      to: '/dashboard/revenue'    },
+  { icon: Calendar,        label: 'Scheduling',   to: '/dashboard/scheduling' },
+  { icon: MessageSquare,   label: 'Reviews',      to: '/dashboard/reviews'    },
+  { icon: ShoppingCart,    label: 'Cost Intel',   to: '/dashboard/costintel'  },
+  { icon: FileBarChart,    label: 'Reports',      to: '/dashboard/reports'    },
+  { icon: Database,        label: 'Data Input',   to: '/dashboard/data'       },
+]
+
 const NAV_ITEMS = {
   employee: [
     { icon: LayoutDashboard, label: 'My Dashboard', to: '/dashboard/employee' },
     { icon: Database,        label: 'My Requests',  to: '/dashboard/data'     },
   ],
-  manager: [
-    { icon: LayoutDashboard, label: 'Overview',    to: '/dashboard/overview'   },
-    { icon: Users,           label: 'Team',         to: '/dashboard/team'       },
-    { icon: TrendingUp,      label: 'Revenue',      to: '/dashboard/revenue'    },
-    { icon: Calendar,        label: 'Scheduling',   to: '/dashboard/scheduling' },
-    { icon: MessageSquare,   label: 'Reviews',      to: '/dashboard/reviews'    },
-    { icon: ShoppingCart,    label: 'Cost Intel',   to: '/dashboard/costintel'  },
-    { icon: FileBarChart,    label: 'Reports',      to: '/dashboard/reports'    },
-    { icon: Database,        label: 'Data Input',   to: '/dashboard/data'       },
-  ],
+  ceo:     CEO_NAV,
+  manager: CEO_NAV,
   admin: [
-    { icon: LayoutDashboard, label: 'Overview',    to: '/dashboard/overview'   },
-    { icon: Users,           label: 'Team',         to: '/dashboard/team'       },
-    { icon: TrendingUp,      label: 'Revenue',      to: '/dashboard/revenue'    },
-    { icon: Calendar,        label: 'Scheduling',   to: '/dashboard/scheduling' },
-    { icon: MessageSquare,   label: 'Reviews',      to: '/dashboard/reviews'    },
-    { icon: ShoppingCart,    label: 'Cost Intel',   to: '/dashboard/costintel'  },
-    { icon: FileBarChart,    label: 'Reports',      to: '/dashboard/reports'    },
-    { icon: Database,        label: 'Data Input',   to: '/dashboard/data'       },
-    { icon: Settings,        label: 'Admin',        to: '/dashboard/admin'      },
+    ...CEO_NAV,
+    { icon: Settings, label: 'Admin', to: '/dashboard/admin' },
   ],
 }
 

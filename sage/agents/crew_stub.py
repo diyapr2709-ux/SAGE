@@ -346,5 +346,5 @@ if __name__ == "__main__":
         {"name": "Bob Jones",    "role": "Cook",             "hourly_rate": 16, "hours_per_week": 30},
         {"name": "Carol White",  "role": "Shift Supervisor", "hourly_rate": 22, "hours_per_week": 40},
     ]
-    print(json.dumps(run_crew_stub("understaffed_evening", sample_employees), indent=2))
+    print(json.dumps(run_crew_stub("fri_evening", sample_employees), indent=2))
     print(json.dumps(get_all_shifts(sample_employees), indent=2))

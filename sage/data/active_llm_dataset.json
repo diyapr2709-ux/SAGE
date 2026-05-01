@@ -1,302 +1,305 @@
 {
   "business_id": "Marathon Deli",
-  "business_type": "restaurant",
-  "location": "College Park MD",
+  "business_type": "deli",
+  "location": "College Park, MD",
+  "address": "7412 Baltimore Ave, College Park, MD 20740",
+  "phone": "(301) 474-0060",
+  "established": 1972,
   "cluster": "A",
+  "monthly_revenue": 112000,
+  "avg_ticket_size": 14.5,
+  "google_rating": 4.5,
+  "review_count": 847,
+  "hours": "Mon-Sun 10AM-3AM",
+  "specialties": [
+    "gyros",
+    "cheese steaks",
+    "baklava",
+    "shawarma",
+    "falafel"
+  ],
+  "peak_hours": [
+    "11AM-2PM",
+    "10PM-2AM"
+  ],
+  "primary_audience": "UMD students, late-night crowd, local regulars",
   "employees": [
     {
       "name": "Priya Sharma",
       "role": "Cashier",
       "hourly_rate": 15,
       "hours_per_week": 20,
-      "performance_notes": "consistently praised by customers, outstanding overall performance, 100/100 score"
+      "performance_notes": "consistently praised, 100/100 this quarter"
     },
     {
       "name": "Aarav Patel",
       "role": "Cashier",
       "hourly_rate": 14,
       "hours_per_week": 18,
-      "performance_notes": "excellent customer feedback, consistent, fast checkout"
+      "performance_notes": "excellent customer feedback, fast checkout"
     },
     {
       "name": "Michael Rivera",
       "role": "Shift Supervisor",
       "hourly_rate": 22,
-      "hours_per_week": 45,
-      "performance_notes": "strong leader, managing weekend rush, 5 hours overtime \u2014 needs review"
+      "hours_per_week": 46,
+      "performance_notes": "strong leader, 7h overtime this week \u2014 needs review"
     },
     {
       "name": "Sophia Kim",
       "role": "Cashier",
       "hourly_rate": 14,
       "hours_per_week": 12,
-      "performance_notes": "reliable, prefers afternoon shifts, good upsell rate"
+      "performance_notes": "reliable, high upsell rate on baklava"
     },
     {
       "name": "Daniel Brooks",
       "role": "Cook",
       "hourly_rate": 16,
       "hours_per_week": 25,
-      "performance_notes": "fast prep times, one health-code near-miss last month, needs retraining"
+      "performance_notes": "fast prep, one health-code near-miss \u2014 needs retraining"
     },
     {
       "name": "Emily Chen",
       "role": "Front Desk",
       "hourly_rate": 13,
       "hours_per_week": 10,
-      "performance_notes": "student worker, limited availability, very friendly"
+      "performance_notes": "UMD student, limited Mon-Wed, excellent online orders"
     },
     {
       "name": "Jordan Lee",
       "role": "Delivery Driver",
       "hourly_rate": 15,
       "hours_per_week": 28,
-      "performance_notes": "fast delivery times, high DoorDash ratings, some late arrivals on Friday"
+      "performance_notes": "fastest delivery on campus, 4.9 DoorDash stars"
     },
     {
       "name": "Fatima Hassan",
       "role": "Cook",
       "hourly_rate": 17,
       "hours_per_week": 30,
-      "performance_notes": "exceptional food quality, customers specifically request her dishes, rising star"
+      "performance_notes": "exceptional shawarma, customers request her dishes"
     }
   ],
-  "dataset": {
-    "monthly_revenue": 112000,
-    "weekly_labor_cost": 9200,
-    "avg_ticket_size": 18.5,
-    "top_items": [
-      "Gyro Platter",
-      "Falafel Wrap",
-      "Chicken Shawarma",
-      "Loaded Fries"
-    ],
-    "delivery_fees": {
-      "doordash_pct": 35,
-      "ubereats_pct": 20,
-      "grubhub_pct": 10
-    },
-    "competitor_promo": "Rival Deli launched 20% off gyros this week on DoorDash",
-    "open_issues": [
-      "walk-in cooler temperature fluctuation",
-      "POS terminal 2 slow"
-    ]
-  },
   "llm_outputs": {
     "voice": {
-      "flag": true,
-      "cluster": "A",
-      "financial_impact": 2800,
-      "replies": [
-        {
-          "review_id": "r1",
-          "author": "Alex T.",
-          "rating": 2,
-          "priority": "critical",
-          "original_review": "Waited 40 min for a gyro at 11pm, cashier was rude, food was cold.",
-          "draft_reply": "Hi Alex, we sincerely apologize \u2014 this is not our standard. We are reviewing Friday late-night coverage and retraining front-of-house staff immediately. Please DM us for a full refund."
-        },
-        {
-          "review_id": "r2",
-          "author": "Sara K.",
-          "rating": 5,
-          "priority": "low",
-          "original_review": "Fatima made the best shawarma I have ever had. I drive 20 min just for this.",
-          "draft_reply": "Thank you Sara! Fatima is truly one of a kind \u2014 we will pass along your kind words directly."
-        },
-        {
-          "review_id": "r3",
-          "author": "Marcus B.",
-          "rating": 3,
-          "priority": "high",
-          "original_review": "DoorDash order arrived 25 minutes late and fries were soggy.",
-          "draft_reply": "Marcus, late delivery is unacceptable \u2014 we are addressing the DoorDash dispatch window. Here is a $5 credit for your next order."
-        }
-      ],
+      "generated_at": "2026-05-01T13:55:13.881396",
+      "source": "external_paradigm_refresh",
+      "avg_rating": 4.8,
+      "positive_reviews": 3,
+      "negative_reviews": 0,
+      "umd_context": {
+        "event": "Spring break",
+        "impact": "low",
+        "note": "Campus empties \u2014 reduce staffing 40%, monitor costs"
+      },
       "pricing_alerts": [
         {
-          "alert_id": "pa1",
-          "item": "Gyro Platter",
-          "recommended_action": "Counter Rival Deli 20% promo \u2014 run 15% off Gyro Platter this weekend",
-          "detail": "Rival Deli launched 20% off gyros on DoorDash. Matching with 15% off protects $3,200 weekend revenue.",
-          "financial_impact": 3200,
-          "urgency": "high",
-          "deadline": "This Friday"
+          "alert_id": "market_351",
+          "type": "market_signal",
+          "competitor": "Subway (Route 1, 0.2mi)",
+          "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
+          "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
+          "financial_note": "Subway targets different segment, low overlap risk",
+          "urgency": "medium"
+        },
+        {
+          "alert_id": "price_842",
+          "type": "competitor_pricing",
+          "competitor": "Chipotle (Route 1, 0.3mi)",
+          "signal": "burrito bowl dropped to $10.95 \u2014 $2.55 below Marathon gyro wrap",
+          "recommended_action": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
+          "financial_note": "Matching would cost ~$3,400/mo in revenue",
+          "urgency": "high"
         }
       ],
       "temporal_alerts": [
         {
-          "alert_id": "ta1",
-          "recommended_action": "Staff +2 on Friday 10PM\u20131AM \u2014 projected 1.6x demand spike",
-          "insight": "Friday late-night shows 1.6x normal order volume. Current schedule insufficient.",
-          "financial_impact": 1400,
-          "window": "Fri 10PM\u20131AM"
+          "alert_id": "shift_260",
+          "type": "staffing_pressure",
+          "window": "Lunch rush window \u2014 monitor queue depth",
+          "recommended_action": "Add one cook to Thursday 10PM-2AM shift",
+          "financial_impact": 720,
+          "urgency": "medium"
+        }
+      ],
+      "compliance_alerts": [],
+      "market_events": [
+        "Sysco delivery driver shortage in MD \u2014 pita lead time up 2 days",
+        "Cooking oil futures up 4% this week on crop report",
+        "Maryland minimum wage increase to $15.50 effective July 1"
+      ],
+      "replies": [
+        {
+          "id": "g_001",
+          "platform": "Google",
+          "author": "TerpFan2024",
+          "rating": 5,
+          "text": "Best late-night spot near UMD. The gyro is massive and the staff is super fast after midnight.",
+          "sentiment": "positive",
+          "tags": [
+            "gyro",
+            "late_night",
+            "speed"
+          ],
+          "cross_ref": null
+        },
+        {
+          "id": "y_003",
+          "platform": "Yelp",
+          "author": "UMD_Alumni_Fan",
+          "rating": 5,
+          "text": "Been going here since 2019. Aarav is still there and still the fastest checkout on campus.",
+          "sentiment": "positive",
+          "tags": [
+            "aarav",
+            "cashier",
+            "loyalty"
+          ],
+          "cross_ref": null
+        },
+        {
+          "id": "y_005",
+          "platform": "Yelp",
+          "author": "LateNightRegular",
+          "rating": 5,
+          "text": "Open until 3 AM and quality stays consistent. Michael keeps the night crew sharp.",
+          "sentiment": "positive",
+          "tags": [
+            "michael",
+            "late_night",
+            "consistency"
+          ],
+          "cross_ref": null
+        },
+        {
+          "id": "g_002",
+          "platform": "Google",
+          "author": "CollegeParkLocal",
+          "rating": 4,
+          "text": "Love this place but Thursday nights around 11 PM there's always a huge wait. Need more staff then.",
+          "sentiment": "mixed",
+          "tags": [
+            "staffing",
+            "thursday_late",
+            "wait_time"
+          ],
+          "cross_ref": "thu_understaffing"
         }
       ]
     },
     "shelf": {
+      "generated_at": "2026-05-01T13:55:13.881396",
+      "source": "external_paradigm_refresh",
       "flag": true,
-      "cluster": "A",
-      "financial_impact": 4100,
+      "staffing_pressure": "medium",
+      "staffing_note": "Lunch rush window \u2014 monitor queue depth",
       "executive_summary": {
         "business_health_score": 72,
-        "top_risk": "Labor overtime cost eroding margin",
-        "top_opportunity": "Fatima Hassan upsell potential on weekend peak"
-      },
-      "cost_intelligence": {
-        "weekly_labor_cost": 9200,
-        "overtime_cost_this_week": 330,
-        "labor_pct_of_revenue": 33.9,
-        "flagged_items": [
-          {
-            "item": "Chicken Shawarma",
-            "current_margin_pct": 18.2,
-            "root_cause": "Chicken breast cost up 14% from supplier since Jan",
-            "recommended_action": "Renegotiate with supplier or switch to thigh cut \u2014 saves $680/mo",
-            "financial_impact": 680,
-            "urgency": "high"
-          },
-          {
-            "item": "Loaded Fries",
-            "current_margin_pct": 62.0,
-            "root_cause": "High margin item under-promoted on DoorDash",
-            "recommended_action": "Feature Loaded Fries as add-on upsell \u2014 projected $420/mo revenue lift",
-            "financial_impact": 420,
-            "urgency": "medium"
-          }
-        ],
-        "cost_creep_alerts": [
-          {
-            "item": "Pita Bread",
-            "supplier": "Bestway Foods",
-            "increase_3mo_pct": 11.4,
-            "action": "Negotiate bulk rate or trial alternate supplier"
-          }
-        ]
+        "staffing_pressure": "medium"
       },
       "employee_intelligence": {
         "employee_of_the_week": {
-          "name": "Fatima Hassan",
-          "role": "Cook",
-          "score": 97
+          "name": "Priya Sharma",
+          "score": 98,
+          "reason": "100/100 performance score, outstanding customer praise"
         },
-        "employees": [
-          {
-            "name": "Priya Sharma",
-            "role": "Cashier",
-            "monthly_cost": 1200,
-            "performance_score": 95,
-            "flags": []
-          },
-          {
-            "name": "Aarav Patel",
-            "role": "Cashier",
-            "monthly_cost": 1008,
-            "performance_score": 88,
-            "flags": []
-          },
-          {
-            "name": "Michael Rivera",
-            "role": "Shift Supervisor",
-            "monthly_cost": 3960,
-            "performance_score": 80,
-            "flags": [
-              "Overtime: 5hr this week \u2014 $110 extra cost"
-            ],
-            "urgency": "high"
-          },
-          {
-            "name": "Sophia Kim",
-            "role": "Cashier",
-            "monthly_cost": 672,
-            "performance_score": 82,
-            "flags": []
-          },
-          {
-            "name": "Daniel Brooks",
-            "role": "Cook",
-            "monthly_cost": 1600,
-            "performance_score": 60,
-            "flags": [
-              "Health-code near-miss \u2014 mandatory retraining required"
-            ],
-            "urgency": "high"
-          },
-          {
-            "name": "Emily Chen",
-            "role": "Front Desk",
-            "monthly_cost": 520,
-            "performance_score": 78,
-            "flags": []
-          },
-          {
-            "name": "Jordan Lee",
-            "role": "Delivery Driver",
-            "monthly_cost": 1680,
-            "performance_score": 74,
-            "flags": [
-              "Late arrivals on Friday \u2014 DoorDash SLA at risk"
-            ],
-            "urgency": "medium"
-          },
-          {
-            "name": "Fatima Hassan",
-            "role": "Cook",
-            "monthly_cost": 2040,
-            "performance_score": 97,
-            "flags": []
-          }
-        ]
+        "employees": []
       },
       "employee_feedback": {
-        "frank_briefing_line": "Fatima Hassan is this week star \u2014 customers drive 20min for her shawarma. Daniel Brooks needs retraining before next health inspection.",
-        "warnings": [
+        "warnings": []
+      },
+      "competitor_landscape": [
+        {
+          "competitor": "Subway (Route 1, 0.2mi)",
+          "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
+          "impact": "lunch_traffic_risk",
+          "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
+          "financial_note": "Subway targets different segment, low overlap risk"
+        },
+        {
+          "competitor": "Chipotle (Route 1, 0.3mi)",
+          "signal": "burrito bowl dropped to $10.95 \u2014 $2.55 below Marathon gyro wrap",
+          "impact": "price_pressure",
+          "recommended_action": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
+          "financial_note": "Matching would cost ~$3,400/mo in revenue"
+        }
+      ],
+      "cost_intelligence": {
+        "flagged_items": [
           {
-            "employee": "Michael Rivera",
-            "role": "Shift Supervisor",
-            "urgency": "high",
-            "message": "Working overtime this week \u2014 review hours with manager.",
-            "message_to_employee": "Hey Michael \u2014 you are at 45hrs this week. Let us adjust next week schedule to keep you at 40.",
-            "action": "Cap next week hours at 40",
-            "financial_impact": 110
+            "item": "Lamb Shoulder (gyro/shawarma base)",
+            "financial_impact": 1680,
+            "monthly_impact": 1680,
+            "root_cause": "Price -7.5% vs baseline \u2014 primary protein cost driver",
+            "recommended_action": "Current pricing favorable \u2014 maintain",
+            "urgency": "low",
+            "flag": "stable"
           },
           {
-            "employee": "Daniel Brooks",
-            "role": "Cook",
+            "item": "DoorDash Marketplace Commission",
+            "financial_impact": 4368,
+            "monthly_impact": 4368,
+            "root_cause": "30% commission on delivery revenue (~13% of total)",
+            "recommended_action": "Negotiate direct delivery for orders >$25 or push Marathon app",
             "urgency": "high",
-            "message": "Health-code concern on record \u2014 retraining required.",
-            "message_to_employee": "Daniel \u2014 mandatory food safety retraining is scheduled for this Thursday 2PM. Attendance required before your next shift.",
-            "action": "Schedule retraining Thursday 2PM",
-            "financial_impact": 500
+            "flag": "cost_spike"
           },
           {
-            "employee": "Jordan Lee",
-            "role": "Delivery Driver",
-            "urgency": "medium",
-            "message": "Punctuality flagged \u2014 please check Friday schedule.",
-            "message_to_employee": "Jordan \u2014 you have had 3 late Friday arrivals this month. DoorDash on-time rate matters for our rating. Can we adjust your Friday start time?",
-            "action": "Adjust Friday start time",
-            "financial_impact": 200
+            "item": "Overtime Labor \u2014 Michael Rivera (7h OT this week)",
+            "financial_impact": 924,
+            "monthly_impact": 924,
+            "root_cause": "Supervisor working 47h this week (7h above threshold)",
+            "recommended_action": "Hire part-time evening cashier to absorb 4-6h/week OT",
+            "urgency": "high",
+            "flag": "cost_spike"
           }
         ],
-        "recognitions": [
-          {
-            "employee": "Fatima Hassan",
-            "role": "Cook",
-            "urgency": "low",
-            "message": "Exceptional food quality \u2014 customers specifically request her dishes.",
-            "message_to_employee": "Fatima \u2014 a customer wrote they drive 20 minutes just for your shawarma. Thank you for representing Marathon Deli so well.",
-            "action": "Consider for employee of the month"
+        "cogs_snapshot": {
+          "lamb_shoulder": {
+            "unit": "lb",
+            "current_price": 7.77,
+            "vs_baseline": "-7.5%",
+            "flagged": true
           },
-          {
-            "employee": "Priya Sharma",
-            "role": "Cashier",
-            "urgency": "low",
-            "message": "100/100 customer satisfaction score this week.",
-            "message_to_employee": "Priya \u2014 you scored 100/100 in customer satisfaction this week. Incredible consistency.",
-            "action": "Highlight at next team meeting"
+          "feta_cheese": {
+            "unit": "lb",
+            "current_price": 5.98,
+            "vs_baseline": "-3.6%",
+            "flagged": false
+          },
+          "pita_bread": {
+            "unit": "case_48",
+            "current_price": 21.78,
+            "vs_baseline": "-3.2%",
+            "flagged": false
+          },
+          "cooking_oil": {
+            "unit": "gal",
+            "current_price": 14.45,
+            "vs_baseline": "-2.4%",
+            "flagged": false
+          },
+          "shawarma_spice": {
+            "unit": "lb",
+            "current_price": 11.85,
+            "vs_baseline": "-1.2%",
+            "flagged": false
+          },
+          "chicken": {
+            "unit": "lb",
+            "current_price": 3.38,
+            "vs_baseline": "+5.6%",
+            "flagged": true
           }
-        ]
+        },
+        "monthly_revenue": 112000,
+        "cost_creep": {
+          "feta_cheese": "+3.6%",
+          "pita_bread": "+3.2%"
+        },
+        "total_monthly_flagged": 6972,
+        "as_pct_revenue": 6.2
       }
     }
   }

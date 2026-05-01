@@ -1,27 +1,27 @@
 {
-  "briefing_text": "SAGE Morning Briefing \u2014 Tuesday, Apr 28 2026\nBusiness: Marathon Deli\n\nHealth Score: 72/100\n6 recommendations | $20,869 total impact\n\nTop actions:\n  [VOICE] Respond to 2\u2605 review from Alex T. ($150)\n  [PULSE] Revenue Anomaly Detected ($16,369)\n  [VOICE] Counter Rival Deli 20% promo \u2014 run 15% off Gyro Platter this weekend ($3,200)",
+  "briefing_text": "SAGE Morning Briefing \u2014 Friday, May 01 2026\nBusiness: Marathon Deli\n\nHealth Score: 72/100\n6 recommendations | $10,981 total impact\n\nTop actions:\n  [SHELF] Negotiate direct delivery for orders >$25 or push Marathon app ($4,368)\n  [PULSE] Revenue Anomaly Detected ($4,009)\n  [SHELF] Hire part-time evening cashier to absorb 4-6h/week OT ($924)",
   "recommendations": [
     {
-      "id": "voice_reply_r1",
-      "agent": "VOICE",
-      "category": "reputation",
-      "title": "Respond to 2\u2605 review from Alex T.",
-      "description": "Hi Alex, we sincerely apologize \u2014 this is not our standard. We are reviewing Friday late-night coverage and retraining f",
-      "impact": 150.0,
-      "urgency": "critical",
+      "id": "shelf_cost_DoorDash_Marketplace_Commission",
+      "agent": "SHELF",
+      "category": "cost",
+      "title": "Negotiate direct delivery for orders >$25 or push Marathon app",
+      "description": "DoorDash Marketplace Commission \u2014 30% commission on delivery revenue (~13% of total)",
+      "impact": 4368,
+      "urgency": "high",
       "requires_approval": true,
-      "owner": "Manager",
+      "owner": "Owner",
       "deadline": "",
       "merged_from": [],
-      "approval_score": 0.5697
+      "approval_score": 0.675
     },
     {
       "id": "pulse_alert",
       "agent": "PULSE",
       "category": "revenue",
       "title": "Revenue Anomaly Detected",
-      "description": "Deviation: 63.5% from forecast.",
-      "impact": 16368.8,
+      "description": "Deviation: 45.9% from forecast.",
+      "impact": 4009.27,
       "urgency": "high",
       "requires_approval": true,
       "owner": "Owner",
@@ -30,566 +30,466 @@
       "approval_score": 0.675
     },
     {
-      "id": "voice_pricing_pa1",
-      "agent": "VOICE",
-      "category": "cost",
-      "title": "Counter Rival Deli 20% promo \u2014 run 15% off Gyro Platter this weekend",
-      "description": "Rival Deli launched 20% off gyros on DoorDash. Matching with 15% off protects $3,200 weekend revenue.",
-      "impact": 3200,
-      "urgency": "high",
-      "requires_approval": true,
-      "owner": "Owner",
-      "deadline": "This Friday",
-      "merged_from": [],
-      "approval_score": 0.675
-    },
-    {
-      "id": "shelf_cost_Chicken_Shawarma",
+      "id": "shelf_cost_Overtime_Labor_\u2014_Michael_Rivera_(7h_OT_this_week)",
       "agent": "SHELF",
       "category": "cost",
-      "title": "Renegotiate with supplier or switch to thigh cut \u2014 saves $680/mo",
-      "description": "Chicken Shawarma \u2014 Chicken breast cost up 14% from supplier since Jan",
-      "impact": 680,
+      "title": "Hire part-time evening cashier to absorb 4-6h/week OT",
+      "description": "Overtime Labor \u2014 Michael Rivera (7h OT this week) \u2014 Supervisor working 47h this week (7h above threshold)",
+      "impact": 924,
       "urgency": "high",
       "requires_approval": true,
       "owner": "Owner",
       "deadline": "",
       "merged_from": [],
-      "approval_score": 0.6729
+      "approval_score": 0.6748
     },
     {
-      "id": "voice_reply_r3",
+      "id": "voice_pricing_price_842",
       "agent": "VOICE",
-      "category": "reputation",
-      "title": "Respond to 3\u2605 review from Marcus B.",
-      "description": "Marcus, late delivery is unacceptable \u2014 we are addressing the DoorDash dispatch window. Here is a $5 credit for your nex",
-      "impact": 50.0,
+      "category": "cost",
+      "title": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
+      "description": "",
+      "impact": 0,
       "urgency": "high",
       "requires_approval": true,
-      "owner": "Manager",
+      "owner": "Owner",
       "deadline": "",
       "merged_from": [],
-      "approval_score": 0.4712
+      "approval_score": 0.4553
     },
     {
-      "id": "shelf_cost_Loaded_Fries",
-      "agent": "SHELF",
+      "id": "voice_pricing_market_351",
+      "agent": "VOICE",
       "category": "cost",
-      "title": "Feature Loaded Fries as add-on upsell \u2014 projected $420/mo revenue lift",
-      "description": "Loaded Fries \u2014 High margin item under-promoted on DoorDash",
-      "impact": 420,
+      "title": "Marathon's differentiation is quality/variety \u2014 no need to match",
+      "description": "",
+      "impact": 0,
       "urgency": "medium",
       "requires_approval": true,
       "owner": "Owner",
       "deadline": "",
       "merged_from": [],
-      "approval_score": 0.5996
+      "approval_score": 0.4053
+    },
+    {
+      "id": "shelf_cost_Lamb_Shoulder_(gyro/shawarma_base)",
+      "agent": "SHELF",
+      "category": "cost",
+      "title": "Current pricing favorable \u2014 maintain",
+      "description": "Lamb Shoulder (gyro/shawarma base) \u2014 Price -7.5% vs baseline \u2014 primary protein cost driver",
+      "impact": 1680,
+      "urgency": "low",
+      "requires_approval": true,
+      "owner": "Owner",
+      "deadline": "",
+      "merged_from": [],
+      "approval_score": 0.575
     }
   ],
   "conflicts": [],
   "forecast_72hr": [
-    353.0419451181477,
-    349.7625030141095,
-    351.7599730227634,
-    -116.07562206645008,
-    -115.86293691456666,
-    -115.58930201205109,
-    -115.26965255076465,
-    -114.91099387868593,
-    -114.5164820788207,
-    -114.0870896281028,
-    -113.62742314719227,
-    42.26513854392999,
-    37.67691331722172,
-    38.36443155185322,
-    44.96144762494414,
-    32.142890971893124,
-    40.71677517887138,
-    39.7661390092358,
-    46.90490134569127,
-    48.529684955672444,
-    38.25997541360903,
-    150.17278929473412,
-    359.10000787871235,
-    362.169119715949,
-    353.0419451181477,
-    349.7625030141095,
-    351.7599730227634,
-    -116.07562206645008,
-    -115.86293691456666,
-    -115.58930201205109,
-    -115.26965255076465,
-    -114.91099387868593,
-    -114.5164820788207,
-    -114.0870896281028,
-    -113.62742314719227,
-    42.26513854392999,
-    37.67691331722172,
-    38.36443155185322,
-    44.96144762494414,
-    32.142890971893124,
-    40.71677517887138,
-    39.7661390092358,
-    46.90490134569127,
-    48.529684955672444,
-    38.25997541360903,
-    150.17278929473412,
-    359.10000787871235,
-    362.169119715949,
-    353.0419451181477,
-    349.7625030141095,
-    351.7599730227634,
-    -116.07562206645008,
-    -115.86293691456666,
-    -115.58930201205109,
-    -115.26965255076465,
-    -114.91099387868593,
-    -114.5164820788207,
-    -114.0870896281028,
-    -113.62742314719227,
-    42.26513854392999,
-    37.67691331722172,
-    38.36443155185322,
-    44.96144762494414,
-    32.142890971893124,
-    40.71677517887138,
-    39.7661390092358,
-    46.90490134569127,
-    48.529684955672444,
-    38.25997541360903,
-    150.17278929473412,
-    359.10000787871235,
-    362.169119715949
+    226.78739145269316,
+    220.59065880408986,
+    229.00836393062093,
+    228.53262837269142,
+    221.6046019941814,
+    227.80668566343638,
+    226.88524473263166,
+    331.01360416785514,
+    540.737523268516,
+    536.5638252999929,
+    578.8338765404409,
+    578.2594440586375,
+    560.9104035944603,
+    76.78457861913972,
+    76.51507818044786,
+    76.22758108219591,
+    75.92020218194011,
+    75.59059827886634,
+    75.233535419046,
+    74.84090724216725,
+    74.40925476180985,
+    231.23085124658238,
+    227.0704267762115,
+    231.94841451630808,
+    226.78739145269316,
+    220.59065880408986,
+    229.00836393062093,
+    228.53262837269142,
+    221.6046019941814,
+    227.80668566343638,
+    226.88524473263166,
+    331.01360416785514,
+    540.737523268516,
+    536.5638252999929,
+    578.8338765404409,
+    578.2594440586375,
+    560.9104035944603,
+    76.78457861913972,
+    76.51507818044786,
+    76.22758108219591,
+    75.92020218194011,
+    75.59059827886634,
+    75.233535419046,
+    74.84090724216725,
+    74.40925476180985,
+    231.23085124658238,
+    227.0704267762115,
+    231.94841451630808,
+    226.78739145269316,
+    220.59065880408986,
+    229.00836393062093,
+    228.53262837269142,
+    221.6046019941814,
+    227.80668566343638,
+    226.88524473263166,
+    331.01360416785514,
+    540.737523268516,
+    536.5638252999929,
+    578.8338765404409,
+    578.2594440586375,
+    560.9104035944603,
+    76.78457861913972,
+    76.51507818044786,
+    76.22758108219591,
+    75.92020218194011,
+    75.59059827886634,
+    75.233535419046,
+    74.84090724216725,
+    74.40925476180985,
+    231.23085124658238,
+    227.0704267762115,
+    231.94841451630808
   ],
-  "deviation_pct": 0.6352,
+  "deviation_pct": 0.4589,
   "alert": true,
   "goals": {
     "daily": {
       "target": 3000.0,
-      "actual_so_far": 2988.36,
-      "projected": 2988.36,
-      "gap": 11.64,
-      "on_pace": false
+      "actual_so_far": 2716.24,
+      "projected": 5705.77,
+      "gap": -2705.77,
+      "on_pace": true
     },
     "weekly": {
       "target": 18000.0,
-      "actual_so_far": 6014.55,
-      "projected": 10261.52,
-      "gap": 7738.48,
-      "on_pace": false
+      "actual_so_far": 17185.29,
+      "projected": 35195.2,
+      "gap": -17195.2,
+      "on_pace": true
     }
   },
   "rush_hours": [
     {
-      "window": "Wed Apr 29 10:00 PM - 12:00 AM",
-      "expected_revenue": 721.27,
+      "window": "Sat May 02 12:00 AM - 02:00 AM",
+      "expected_revenue": 1157.09,
       "urgency": "high"
     },
     {
-      "window": "Thu Apr 30 10:00 PM - 12:00 AM",
-      "expected_revenue": 721.27,
+      "window": "Sun May 03 12:00 AM - 02:00 AM",
+      "expected_revenue": 1157.09,
       "urgency": "high"
     },
     {
-      "window": "Fri May 01 10:00 PM - 12:00 AM",
-      "expected_revenue": 721.27,
+      "window": "Mon May 04 12:00 AM - 02:00 AM",
+      "expected_revenue": 1157.09,
       "urgency": "high"
     }
   ],
-  "pulse_summary": "PULSE BRIEFING \u2014 Tuesday Apr 28, 11:16 PM\n\n\u26a0\ufe0f TODAY: $2988.36 earned, $2988.36 projected vs $3000.0 target\n   Behind by $11.64 \u2014 push a promo or prep for late night surge\n\u26a0\ufe0f THIS WEEK: $6014.55 earned, $10261.52 projected vs $18000.0 target\n\n\ud83d\udea8 ANOMALY: Revenue is 63.5% off expected pattern \u2014 investigate immediately\n\n\u23f0 PREDICTED RUSH WINDOWS (next 72hrs):\n   Wed Apr 29 10:00 PM - 12:00 AM \u2014 $721.27 expected [HIGH]\n   Thu Apr 30 10:00 PM - 12:00 AM \u2014 $721.27 expected [HIGH]\n   Fri May 01 10:00 PM - 12:00 AM \u2014 $721.27 expected [HIGH]",
+  "pulse_summary": "PULSE BRIEFING \u2014 Friday May 01, 01:56 PM\n\n\u2705 TODAY: $2716.24 earned, $5705.77 projected vs $3000.0 target\n\u2705 THIS WEEK: $17185.29 earned, $35195.2 projected vs $18000.0 target\n\n\ud83d\udea8 ANOMALY: Revenue is 45.9% off expected pattern \u2014 investigate immediately\n\n\u23f0 PREDICTED RUSH WINDOWS (next 72hrs):\n   Sat May 02 12:00 AM - 02:00 AM \u2014 $1157.09 expected [HIGH]\n   Sun May 03 12:00 AM - 02:00 AM \u2014 $1157.09 expected [HIGH]\n   Mon May 04 12:00 AM - 02:00 AM \u2014 $1157.09 expected [HIGH]",
   "reviews": [
     {
-      "review_id": "r1",
-      "author": "Alex T.",
-      "rating": 2,
-      "priority": "critical",
-      "original_review": "Waited 40 min for a gyro at 11pm, cashier was rude, food was cold.",
-      "draft_reply": "Hi Alex, we sincerely apologize \u2014 this is not our standard. We are reviewing Friday late-night coverage and retraining front-of-house staff immediately. Please DM us for a full refund."
-    },
-    {
-      "review_id": "r2",
-      "author": "Sara K.",
+      "id": "g_001",
+      "platform": "Google",
+      "author": "TerpFan2024",
       "rating": 5,
-      "priority": "low",
-      "original_review": "Fatima made the best shawarma I have ever had. I drive 20 min just for this.",
-      "draft_reply": "Thank you Sara! Fatima is truly one of a kind \u2014 we will pass along your kind words directly."
+      "text": "Best late-night spot near UMD. The gyro is massive and the staff is super fast after midnight.",
+      "sentiment": "positive",
+      "tags": [
+        "gyro",
+        "late_night",
+        "speed"
+      ],
+      "cross_ref": null
     },
     {
-      "review_id": "r3",
-      "author": "Marcus B.",
-      "rating": 3,
-      "priority": "high",
-      "original_review": "DoorDash order arrived 25 minutes late and fries were soggy.",
-      "draft_reply": "Marcus, late delivery is unacceptable \u2014 we are addressing the DoorDash dispatch window. Here is a $5 credit for your next order."
+      "id": "y_003",
+      "platform": "Yelp",
+      "author": "UMD_Alumni_Fan",
+      "rating": 5,
+      "text": "Been going here since 2019. Aarav is still there and still the fastest checkout on campus.",
+      "sentiment": "positive",
+      "tags": [
+        "aarav",
+        "cashier",
+        "loyalty"
+      ],
+      "cross_ref": null
+    },
+    {
+      "id": "y_005",
+      "platform": "Yelp",
+      "author": "LateNightRegular",
+      "rating": 5,
+      "text": "Open until 3 AM and quality stays consistent. Michael keeps the night crew sharp.",
+      "sentiment": "positive",
+      "tags": [
+        "michael",
+        "late_night",
+        "consistency"
+      ],
+      "cross_ref": null
+    },
+    {
+      "id": "g_002",
+      "platform": "Google",
+      "author": "CollegeParkLocal",
+      "rating": 4,
+      "text": "Love this place but Thursday nights around 11 PM there's always a huge wait. Need more staff then.",
+      "sentiment": "mixed",
+      "tags": [
+        "staffing",
+        "thursday_late",
+        "wait_time"
+      ],
+      "cross_ref": "thu_understaffing"
     }
   ],
   "pricing_alerts": [
     {
-      "alert_id": "pa1",
-      "item": "Gyro Platter",
-      "recommended_action": "Counter Rival Deli 20% promo \u2014 run 15% off Gyro Platter this weekend",
-      "detail": "Rival Deli launched 20% off gyros on DoorDash. Matching with 15% off protects $3,200 weekend revenue.",
-      "financial_impact": 3200,
-      "urgency": "high",
-      "deadline": "This Friday"
+      "alert_id": "market_351",
+      "type": "market_signal",
+      "competitor": "Subway (Route 1, 0.2mi)",
+      "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
+      "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
+      "financial_note": "Subway targets different segment, low overlap risk",
+      "urgency": "medium"
+    },
+    {
+      "alert_id": "price_842",
+      "type": "competitor_pricing",
+      "competitor": "Chipotle (Route 1, 0.3mi)",
+      "signal": "burrito bowl dropped to $10.95 \u2014 $2.55 below Marathon gyro wrap",
+      "recommended_action": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
+      "financial_note": "Matching would cost ~$3,400/mo in revenue",
+      "urgency": "high"
     }
   ],
   "temporal_alerts": [
     {
-      "alert_id": "ta1",
-      "recommended_action": "Staff +2 on Friday 10PM\u20131AM \u2014 projected 1.6x demand spike",
-      "insight": "Friday late-night shows 1.6x normal order volume. Current schedule insufficient.",
-      "financial_impact": 1400,
-      "window": "Fri 10PM\u20131AM"
+      "alert_id": "shift_260",
+      "type": "staffing_pressure",
+      "window": "Lunch rush window \u2014 monitor queue depth",
+      "recommended_action": "Add one cook to Thursday 10PM-2AM shift",
+      "financial_impact": 720,
+      "urgency": "medium"
     }
   ],
   "shelf_flags": {
+    "generated_at": "2026-05-01T13:55:13.881396",
+    "source": "external_paradigm_refresh",
     "flag": true,
-    "cluster": "A",
-    "financial_impact": 4100,
+    "staffing_pressure": "medium",
+    "staffing_note": "Lunch rush window \u2014 monitor queue depth",
     "executive_summary": {
       "business_health_score": 72,
-      "top_risk": "Labor overtime cost eroding margin",
-      "top_opportunity": "Fatima Hassan upsell potential on weekend peak"
-    },
-    "cost_intelligence": {
-      "weekly_labor_cost": 9200,
-      "overtime_cost_this_week": 330,
-      "labor_pct_of_revenue": 33.9,
-      "flagged_items": [
-        {
-          "item": "Chicken Shawarma",
-          "current_margin_pct": 18.2,
-          "root_cause": "Chicken breast cost up 14% from supplier since Jan",
-          "recommended_action": "Renegotiate with supplier or switch to thigh cut \u2014 saves $680/mo",
-          "financial_impact": 680,
-          "urgency": "high"
-        },
-        {
-          "item": "Loaded Fries",
-          "current_margin_pct": 62.0,
-          "root_cause": "High margin item under-promoted on DoorDash",
-          "recommended_action": "Feature Loaded Fries as add-on upsell \u2014 projected $420/mo revenue lift",
-          "financial_impact": 420,
-          "urgency": "medium"
-        }
-      ],
-      "cost_creep_alerts": [
-        {
-          "item": "Pita Bread",
-          "supplier": "Bestway Foods",
-          "increase_3mo_pct": 11.4,
-          "action": "Negotiate bulk rate or trial alternate supplier"
-        }
-      ]
+      "staffing_pressure": "medium"
     },
     "employee_intelligence": {
       "employee_of_the_week": {
-        "name": "Fatima Hassan",
-        "role": "Cook",
-        "score": 97
+        "name": "Priya Sharma",
+        "score": 98,
+        "reason": "100/100 performance score, outstanding customer praise"
       },
-      "employees": [
-        {
-          "name": "Priya Sharma",
-          "role": "Cashier",
-          "monthly_cost": 1200,
-          "performance_score": 95,
-          "flags": []
-        },
-        {
-          "name": "Aarav Patel",
-          "role": "Cashier",
-          "monthly_cost": 1008,
-          "performance_score": 88,
-          "flags": []
-        },
-        {
-          "name": "Michael Rivera",
-          "role": "Shift Supervisor",
-          "monthly_cost": 3960,
-          "performance_score": 80,
-          "flags": [
-            "Overtime: 5hr this week \u2014 $110 extra cost"
-          ],
-          "urgency": "high"
-        },
-        {
-          "name": "Sophia Kim",
-          "role": "Cashier",
-          "monthly_cost": 672,
-          "performance_score": 82,
-          "flags": []
-        },
-        {
-          "name": "Daniel Brooks",
-          "role": "Cook",
-          "monthly_cost": 1600,
-          "performance_score": 60,
-          "flags": [
-            "Health-code near-miss \u2014 mandatory retraining required"
-          ],
-          "urgency": "high"
-        },
-        {
-          "name": "Emily Chen",
-          "role": "Front Desk",
-          "monthly_cost": 520,
-          "performance_score": 78,
-          "flags": []
-        },
-        {
-          "name": "Jordan Lee",
-          "role": "Delivery Driver",
-          "monthly_cost": 1680,
-          "performance_score": 74,
-          "flags": [
-            "Late arrivals on Friday \u2014 DoorDash SLA at risk"
-          ],
-          "urgency": "medium"
-        },
-        {
-          "name": "Fatima Hassan",
-          "role": "Cook",
-          "monthly_cost": 2040,
-          "performance_score": 97,
-          "flags": []
-        }
-      ]
+      "employees": []
     },
     "employee_feedback": {
-      "frank_briefing_line": "Fatima Hassan is this week star \u2014 customers drive 20min for her shawarma. Daniel Brooks needs retraining before next health inspection.",
-      "warnings": [
+      "warnings": []
+    },
+    "competitor_landscape": [
+      {
+        "competitor": "Subway (Route 1, 0.2mi)",
+        "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
+        "impact": "lunch_traffic_risk",
+        "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
+        "financial_note": "Subway targets different segment, low overlap risk"
+      },
+      {
+        "competitor": "Chipotle (Route 1, 0.3mi)",
+        "signal": "burrito bowl dropped to $10.95 \u2014 $2.55 below Marathon gyro wrap",
+        "impact": "price_pressure",
+        "recommended_action": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
+        "financial_note": "Matching would cost ~$3,400/mo in revenue"
+      }
+    ],
+    "cost_intelligence": {
+      "flagged_items": [
         {
-          "employee": "Michael Rivera",
-          "role": "Shift Supervisor",
-          "urgency": "high",
-          "message": "Working overtime this week \u2014 review hours with manager.",
-          "message_to_employee": "Hey Michael \u2014 you are at 45hrs this week. Let us adjust next week schedule to keep you at 40.",
-          "action": "Cap next week hours at 40",
-          "financial_impact": 110
+          "item": "Lamb Shoulder (gyro/shawarma base)",
+          "financial_impact": 1680,
+          "monthly_impact": 1680,
+          "root_cause": "Price -7.5% vs baseline \u2014 primary protein cost driver",
+          "recommended_action": "Current pricing favorable \u2014 maintain",
+          "urgency": "low",
+          "flag": "stable"
         },
         {
-          "employee": "Daniel Brooks",
-          "role": "Cook",
+          "item": "DoorDash Marketplace Commission",
+          "financial_impact": 4368,
+          "monthly_impact": 4368,
+          "root_cause": "30% commission on delivery revenue (~13% of total)",
+          "recommended_action": "Negotiate direct delivery for orders >$25 or push Marathon app",
           "urgency": "high",
-          "message": "Health-code concern on record \u2014 retraining required.",
-          "message_to_employee": "Daniel \u2014 mandatory food safety retraining is scheduled for this Thursday 2PM. Attendance required before your next shift.",
-          "action": "Schedule retraining Thursday 2PM",
-          "financial_impact": 500
+          "flag": "cost_spike"
         },
         {
-          "employee": "Jordan Lee",
-          "role": "Delivery Driver",
-          "urgency": "medium",
-          "message": "Punctuality flagged \u2014 please check Friday schedule.",
-          "message_to_employee": "Jordan \u2014 you have had 3 late Friday arrivals this month. DoorDash on-time rate matters for our rating. Can we adjust your Friday start time?",
-          "action": "Adjust Friday start time",
-          "financial_impact": 200
+          "item": "Overtime Labor \u2014 Michael Rivera (7h OT this week)",
+          "financial_impact": 924,
+          "monthly_impact": 924,
+          "root_cause": "Supervisor working 47h this week (7h above threshold)",
+          "recommended_action": "Hire part-time evening cashier to absorb 4-6h/week OT",
+          "urgency": "high",
+          "flag": "cost_spike"
         }
       ],
-      "recognitions": [
-        {
-          "employee": "Fatima Hassan",
-          "role": "Cook",
-          "urgency": "low",
-          "message": "Exceptional food quality \u2014 customers specifically request her dishes.",
-          "message_to_employee": "Fatima \u2014 a customer wrote they drive 20 minutes just for your shawarma. Thank you for representing Marathon Deli so well.",
-          "action": "Consider for employee of the month"
+      "cogs_snapshot": {
+        "lamb_shoulder": {
+          "unit": "lb",
+          "current_price": 7.77,
+          "vs_baseline": "-7.5%",
+          "flagged": true
         },
-        {
-          "employee": "Priya Sharma",
-          "role": "Cashier",
-          "urgency": "low",
-          "message": "100/100 customer satisfaction score this week.",
-          "message_to_employee": "Priya \u2014 you scored 100/100 in customer satisfaction this week. Incredible consistency.",
-          "action": "Highlight at next team meeting"
+        "feta_cheese": {
+          "unit": "lb",
+          "current_price": 5.98,
+          "vs_baseline": "-3.6%",
+          "flagged": false
+        },
+        "pita_bread": {
+          "unit": "case_48",
+          "current_price": 21.78,
+          "vs_baseline": "-3.2%",
+          "flagged": false
+        },
+        "cooking_oil": {
+          "unit": "gal",
+          "current_price": 14.45,
+          "vs_baseline": "-2.4%",
+          "flagged": false
+        },
+        "shawarma_spice": {
+          "unit": "lb",
+          "current_price": 11.85,
+          "vs_baseline": "-1.2%",
+          "flagged": false
+        },
+        "chicken": {
+          "unit": "lb",
+          "current_price": 3.38,
+          "vs_baseline": "+5.6%",
+          "flagged": true
         }
-      ]
+      },
+      "monthly_revenue": 112000,
+      "cost_creep": {
+        "feta_cheese": "+3.6%",
+        "pita_bread": "+3.2%"
+      },
+      "total_monthly_flagged": 6972,
+      "as_pct_revenue": 6.2
     }
   },
   "cost_intelligence": {
-    "weekly_labor_cost": 9200,
-    "overtime_cost_this_week": 330,
-    "labor_pct_of_revenue": 33.9,
     "flagged_items": [
       {
-        "item": "Chicken Shawarma",
-        "current_margin_pct": 18.2,
-        "root_cause": "Chicken breast cost up 14% from supplier since Jan",
-        "recommended_action": "Renegotiate with supplier or switch to thigh cut \u2014 saves $680/mo",
-        "financial_impact": 680,
-        "urgency": "high"
+        "item": "Lamb Shoulder (gyro/shawarma base)",
+        "financial_impact": 1680,
+        "monthly_impact": 1680,
+        "root_cause": "Price -7.5% vs baseline \u2014 primary protein cost driver",
+        "recommended_action": "Current pricing favorable \u2014 maintain",
+        "urgency": "low",
+        "flag": "stable"
       },
       {
-        "item": "Loaded Fries",
-        "current_margin_pct": 62.0,
-        "root_cause": "High margin item under-promoted on DoorDash",
-        "recommended_action": "Feature Loaded Fries as add-on upsell \u2014 projected $420/mo revenue lift",
-        "financial_impact": 420,
-        "urgency": "medium"
-      }
-    ],
-    "cost_creep_alerts": [
+        "item": "DoorDash Marketplace Commission",
+        "financial_impact": 4368,
+        "monthly_impact": 4368,
+        "root_cause": "30% commission on delivery revenue (~13% of total)",
+        "recommended_action": "Negotiate direct delivery for orders >$25 or push Marathon app",
+        "urgency": "high",
+        "flag": "cost_spike"
+      },
       {
-        "item": "Pita Bread",
-        "supplier": "Bestway Foods",
-        "increase_3mo_pct": 11.4,
-        "action": "Negotiate bulk rate or trial alternate supplier"
+        "item": "Overtime Labor \u2014 Michael Rivera (7h OT this week)",
+        "financial_impact": 924,
+        "monthly_impact": 924,
+        "root_cause": "Supervisor working 47h this week (7h above threshold)",
+        "recommended_action": "Hire part-time evening cashier to absorb 4-6h/week OT",
+        "urgency": "high",
+        "flag": "cost_spike"
       }
     ],
+    "cogs_snapshot": {
+      "lamb_shoulder": {
+        "unit": "lb",
+        "current_price": 7.77,
+        "vs_baseline": "-7.5%",
+        "flagged": true
+      },
+      "feta_cheese": {
+        "unit": "lb",
+        "current_price": 5.98,
+        "vs_baseline": "-3.6%",
+        "flagged": false
+      },
+      "pita_bread": {
+        "unit": "case_48",
+        "current_price": 21.78,
+        "vs_baseline": "-3.2%",
+        "flagged": false
+      },
+      "cooking_oil": {
+        "unit": "gal",
+        "current_price": 14.45,
+        "vs_baseline": "-2.4%",
+        "flagged": false
+      },
+      "shawarma_spice": {
+        "unit": "lb",
+        "current_price": 11.85,
+        "vs_baseline": "-1.2%",
+        "flagged": false
+      },
+      "chicken": {
+        "unit": "lb",
+        "current_price": 3.38,
+        "vs_baseline": "+5.6%",
+        "flagged": true
+      }
+    },
     "monthly_revenue": 112000,
-    "top_items": [
-      "Gyro Platter",
-      "Falafel Wrap",
-      "Chicken Shawarma",
-      "Loaded Fries"
-    ]
+    "cost_creep": {
+      "feta_cheese": "+3.6%",
+      "pita_bread": "+3.2%"
+    },
+    "total_monthly_flagged": 6972,
+    "as_pct_revenue": 6.2
   },
   "employee_intelligence": {
     "employee_of_the_week": {
-      "name": "Fatima Hassan",
-      "role": "Cook",
-      "score": 97
+      "name": "Priya Sharma",
+      "score": 98,
+      "reason": "100/100 performance score, outstanding customer praise"
     },
-    "employees": [
-      {
-        "name": "Priya Sharma",
-        "role": "Cashier",
-        "monthly_cost": 1200,
-        "performance_score": 95,
-        "flags": [],
-        "hourly_rate": 15,
-        "hours_per_week": 20
-      },
-      {
-        "name": "Aarav Patel",
-        "role": "Cashier",
-        "monthly_cost": 1008,
-        "performance_score": 88,
-        "flags": [],
-        "hourly_rate": 14,
-        "hours_per_week": 18
-      },
-      {
-        "name": "Michael Rivera",
-        "role": "Shift Supervisor",
-        "monthly_cost": 3960,
-        "performance_score": 80,
-        "flags": [
-          "Overtime: 5hr this week \u2014 $110 extra cost"
-        ],
-        "urgency": "high",
-        "hourly_rate": 22,
-        "hours_per_week": 45
-      },
-      {
-        "name": "Sophia Kim",
-        "role": "Cashier",
-        "monthly_cost": 672,
-        "performance_score": 82,
-        "flags": [],
-        "hourly_rate": 14,
-        "hours_per_week": 12
-      },
-      {
-        "name": "Daniel Brooks",
-        "role": "Cook",
-        "monthly_cost": 1600,
-        "performance_score": 60,
-        "flags": [
-          "Health-code near-miss \u2014 mandatory retraining required"
-        ],
-        "urgency": "high",
-        "hourly_rate": 16,
-        "hours_per_week": 25
-      },
-      {
-        "name": "Emily Chen",
-        "role": "Front Desk",
-        "monthly_cost": 520,
-        "performance_score": 78,
-        "flags": [],
-        "hourly_rate": 13,
-        "hours_per_week": 10
-      },
-      {
-        "name": "Jordan Lee",
-        "role": "Delivery Driver",
-        "monthly_cost": 1680,
-        "performance_score": 74,
-        "flags": [
-          "Late arrivals on Friday \u2014 DoorDash SLA at risk"
-        ],
-        "urgency": "medium",
-        "hourly_rate": 15,
-        "hours_per_week": 28
-      },
-      {
-        "name": "Fatima Hassan",
-        "role": "Cook",
-        "monthly_cost": 2040,
-        "performance_score": 97,
-        "flags": [],
-        "hourly_rate": 17,
-        "hours_per_week": 30
-      }
-    ]
+    "employees": []
   },
   "employee_feedback": {
-    "frank_briefing_line": "Fatima Hassan is this week star \u2014 customers drive 20min for her shawarma. Daniel Brooks needs retraining before next health inspection.",
-    "warnings": [
-      {
-        "employee": "Michael Rivera",
-        "role": "Shift Supervisor",
-        "urgency": "high",
-        "message": "Working overtime this week \u2014 review hours with manager.",
-        "message_to_employee": "Hey Michael \u2014 you are at 45hrs this week. Let us adjust next week schedule to keep you at 40.",
-        "action": "Cap next week hours at 40",
-        "financial_impact": 110
-      },
-      {
-        "employee": "Daniel Brooks",
-        "role": "Cook",
-        "urgency": "high",
-        "message": "Health-code concern on record \u2014 retraining required.",
-        "message_to_employee": "Daniel \u2014 mandatory food safety retraining is scheduled for this Thursday 2PM. Attendance required before your next shift.",
-        "action": "Schedule retraining Thursday 2PM",
-        "financial_impact": 500
-      },
-      {
-        "employee": "Jordan Lee",
-        "role": "Delivery Driver",
-        "urgency": "medium",
-        "message": "Punctuality flagged \u2014 please check Friday schedule.",
-        "message_to_employee": "Jordan \u2014 you have had 3 late Friday arrivals this month. DoorDash on-time rate matters for our rating. Can we adjust your Friday start time?",
-        "action": "Adjust Friday start time",
-        "financial_impact": 200
-      }
-    ],
-    "recognitions": [
-      {
-        "employee": "Fatima Hassan",
-        "role": "Cook",
-        "urgency": "low",
-        "message": "Exceptional food quality \u2014 customers specifically request her dishes.",
-        "message_to_employee": "Fatima \u2014 a customer wrote they drive 20 minutes just for your shawarma. Thank you for representing Marathon Deli so well.",
-        "action": "Consider for employee of the month"
-      },
-      {
-        "employee": "Priya Sharma",
-        "role": "Cashier",
-        "urgency": "low",
-        "message": "100/100 customer satisfaction score this week.",
-        "message_to_employee": "Priya \u2014 you scored 100/100 in customer satisfaction this week. Incredible consistency.",
-        "action": "Highlight at next team meeting"
-      }
-    ]
+    "warnings": []
   },
   "employee_of_the_week": {
-    "name": "Fatima Hassan",
-    "role": "Cook",
-    "score": 97
+    "name": "Priya Sharma",
+    "score": 98,
+    "reason": "100/100 performance score, outstanding customer praise"
   },
   "health_score": 72,
   "staffing": {
@@ -666,14 +566,14 @@
             ],
             "preferred_start": "09:00",
             "preferred_end": "18:00",
-            "max_hours_per_week": 45,
-            "current_hours_assigned": 31,
+            "max_hours_per_week": 46,
+            "current_hours_assigned": 32,
             "day_match": true,
             "time_match": true,
             "preference_score": 2,
             "preference_label": "preferred",
             "shift_duration_hrs": 4.0,
-            "projected_hours": 35.0,
+            "projected_hours": 36.0,
             "over_cap": false,
             "hours_remaining": 14,
             "hour_cap_label": "available",
@@ -883,14 +783,14 @@
             ],
             "preferred_start": "09:00",
             "preferred_end": "18:00",
-            "max_hours_per_week": 45,
-            "current_hours_assigned": 31,
+            "max_hours_per_week": 46,
+            "current_hours_assigned": 32,
             "day_match": true,
             "time_match": true,
             "preference_score": 2,
             "preference_label": "preferred",
             "shift_duration_hrs": 4.0,
-            "projected_hours": 35.0,
+            "projected_hours": 36.0,
             "over_cap": false,
             "hours_remaining": 14,
             "hour_cap_label": "available",
@@ -1100,14 +1000,14 @@
             ],
             "preferred_start": "09:00",
             "preferred_end": "18:00",
-            "max_hours_per_week": 45,
-            "current_hours_assigned": 31,
+            "max_hours_per_week": 46,
+            "current_hours_assigned": 32,
             "day_match": true,
             "time_match": true,
             "preference_score": 2,
             "preference_label": "preferred",
             "shift_duration_hrs": 4.0,
-            "projected_hours": 35.0,
+            "projected_hours": 36.0,
             "over_cap": false,
             "hours_remaining": 14,
             "hour_cap_label": "available",
@@ -1317,14 +1217,14 @@
             ],
             "preferred_start": "09:00",
             "preferred_end": "18:00",
-            "max_hours_per_week": 45,
-            "current_hours_assigned": 31,
+            "max_hours_per_week": 46,
+            "current_hours_assigned": 32,
             "day_match": true,
             "time_match": false,
             "preference_score": 1,
             "preference_label": "acceptable",
             "shift_duration_hrs": 5.0,
-            "projected_hours": 36.0,
+            "projected_hours": 37.0,
             "over_cap": false,
             "hours_remaining": 14,
             "hour_cap_label": "available",
@@ -1534,14 +1434,14 @@
             ],
             "preferred_start": "09:00",
             "preferred_end": "18:00",
-            "max_hours_per_week": 45,
-            "current_hours_assigned": 31,
+            "max_hours_per_week": 46,
+            "current_hours_assigned": 32,
             "day_match": true,
             "time_match": false,
             "preference_score": 1,
             "preference_label": "acceptable",
             "shift_duration_hrs": 5.0,
-            "projected_hours": 36.0,
+            "projected_hours": 37.0,
             "over_cap": false,
             "hours_remaining": 14,
             "hour_cap_label": "available",
@@ -1751,14 +1651,14 @@
             ],
             "preferred_start": "09:00",
             "preferred_end": "18:00",
-            "max_hours_per_week": 45,
-            "current_hours_assigned": 31,
+            "max_hours_per_week": 46,
+            "current_hours_assigned": 32,
             "day_match": false,
             "time_match": false,
             "preference_score": 0,
             "preference_label": "not_preferred",
             "shift_duration_hrs": 8.0,
-            "projected_hours": 39.0,
+            "projected_hours": 40.0,
             "over_cap": false,
             "hours_remaining": 14,
             "hour_cap_label": "available",
@@ -1968,14 +1868,14 @@
             ],
             "preferred_start": "09:00",
             "preferred_end": "18:00",
-            "max_hours_per_week": 45,
-            "current_hours_assigned": 31,
+            "max_hours_per_week": 46,
+            "current_hours_assigned": 32,
             "day_match": false,
             "time_match": true,
             "preference_score": 1,
             "preference_label": "acceptable",
             "shift_duration_hrs": 5.0,
-            "projected_hours": 36.0,
+            "projected_hours": 37.0,
             "over_cap": false,
             "hours_remaining": 14,
             "hour_cap_label": "available",
@@ -2115,38 +2015,10 @@
       }
     ]
   },
-  "employee_alerts": [
-    {
-      "employee": "Michael Rivera",
-      "role": "Shift Supervisor",
-      "urgency": "high",
-      "message": "Working overtime this week \u2014 review hours with manager.",
-      "message_to_employee": "Hey Michael \u2014 you are at 45hrs this week. Let us adjust next week schedule to keep you at 40.",
-      "action": "Cap next week hours at 40",
-      "financial_impact": 110
-    },
-    {
-      "employee": "Daniel Brooks",
-      "role": "Cook",
-      "urgency": "high",
-      "message": "Health-code concern on record \u2014 retraining required.",
-      "message_to_employee": "Daniel \u2014 mandatory food safety retraining is scheduled for this Thursday 2PM. Attendance required before your next shift.",
-      "action": "Schedule retraining Thursday 2PM",
-      "financial_impact": 500
-    },
-    {
-      "employee": "Jordan Lee",
-      "role": "Delivery Driver",
-      "urgency": "medium",
-      "message": "Punctuality flagged \u2014 please check Friday schedule.",
-      "message_to_employee": "Jordan \u2014 you have had 3 late Friday arrivals this month. DoorDash on-time rate matters for our rating. Can we adjust your Friday start time?",
-      "action": "Adjust Friday start time",
-      "financial_impact": 200
-    }
-  ],
+  "employee_alerts": [],
   "dataset": {
     "business_id": "Marathon Deli",
-    "location": "College Park MD",
+    "location": "College Park, MD",
     "monthly_revenue": 112000
   }
 }

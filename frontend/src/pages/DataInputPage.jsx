@@ -315,7 +315,7 @@ function DatasetEditor() {
 // ── Page ──────────────────────────────────────────────────────────
 export default function DataInputPage() {
   const { user } = useAuth()
-  const isManager = user?.role === 'manager' || user?.role === 'admin'
+  const isManager = user?.role === 'ceo' || user?.role === 'manager' || user?.role === 'admin'
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 22, maxWidth: 860 }}>

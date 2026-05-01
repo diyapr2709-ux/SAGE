@@ -12,8 +12,9 @@ import json
 from pathlib import Path
 from typing import Optional
 
-_STORE_PATH     = Path("sage/data/active_dataset.json")
-_LLM_STORE_PATH = Path("sage/data/active_llm_dataset.json")
+_ROOT           = Path(__file__).resolve().parent.parent.parent.parent
+_STORE_PATH     = _ROOT / "sage/data/active_dataset.json"
+_LLM_STORE_PATH = _ROOT / "sage/data/active_llm_dataset.json"
 
 _dataset_store:     Optional[dict] = None
 _llm_dataset_store: Optional[dict] = None

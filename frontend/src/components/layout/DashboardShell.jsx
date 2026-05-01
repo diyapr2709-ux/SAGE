@@ -1,29 +1,51 @@
 import { useState, useEffect, useRef } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Bell, RefreshCw, Zap, Users, TrendingUp, MessageSquare, Calendar, ShoppingCart, X, CheckCircle } from 'lucide-react'
+import { Search, Bell, RefreshCw, Zap, Users, TrendingUp, MessageSquare, Calendar, ShoppingCart, X, CheckCircle, Mail } from 'lucide-react'
 import Sidebar from './Sidebar'
 import { useAuth } from '../../context/AuthContext'
-import { apiRunFrank, apiDashboardManager, apiNotifications, apiGetDataset } from '../../api/client'
+import { apiRunFrank, apiDashboardManager, apiNotifications, apiGetDataset, apiGetMessages, apiGetMessageUsers } from '../../api/client'
 
 // ── Search index builder ──────────────────────────────────────────
-function buildIndex(d) {
-  if (!d) return []
-  const items = []
+const STATIC_PAGES = [
+  { type: 'page', icon: TrendingUp,    label: 'Revenue & Forecast',  sub: 'PULSE agent',   route: '/dashboard/revenue',    keywords: 'revenue forecast pulse sales income' },
+  { type: 'page', icon: Calendar,      label: 'Scheduling',          sub: 'CREW agent',    route: '/dashboard/scheduling', keywords: 'schedule shift crew staffing hours' },
+  { type: 'page', icon: MessageSquare, label: 'Reviews',             sub: 'VOICE agent',   route: '/dashboard/reviews',    keywords: 'reviews reputation yelp google voice' },
+  { type: 'page', icon: ShoppingCart,  label: 'Cost Intelligence',   sub: 'SHELF agent',   route: '/dashboard/costintel',  keywords: 'cost shelf labor food margin' },
+  { type: 'page', icon: Users,         label: 'Team',                sub: 'Employees',     route: '/dashboard/team',       keywords: 'team employees staff roster' },
+  { type: 'page', icon: Mail,          label: 'Messages',            sub: 'Inbox / Outbox',route: '/dashboard/employee',   keywords: 'messages inbox outbox email chat' },
+]
 
-  // Employees
-  const employees = d.employee_intelligence?.employees || d.employees || []
-  employees.forEach(e => {
+function buildIndex(d, users) {
+  const items = [...STATIC_PAGES]
+
+  // Registered users (from DB)
+  ;(users || []).forEach(u => {
     items.push({
-      type: 'employee', icon: Users, label: e.name,
-      sub: `${e.role} · ${e.hourly_rate ? `$${e.hourly_rate}/hr` : e.monthly_cost ? `$${e.monthly_cost}/mo` : ''}`,
-      route: '/dashboard/team', keywords: `${e.name} ${e.role}`.toLowerCase(),
+      type: 'employee', icon: Users, label: u.full_name,
+      sub: `${u.role} · ${u.email}`,
+      route: '/dashboard/team',
+      keywords: `${u.full_name} ${u.role} ${u.email}`.toLowerCase(),
     })
   })
 
+  if (!d) return items
+
+  // Employees from FRANK data (may overlap, dedup by name)
+  const frankEmps = d.employee_intelligence?.employees || d.employees || []
+  const existingNames = new Set((users || []).map(u => u.full_name?.toLowerCase()))
+  frankEmps.forEach(e => {
+    if (!existingNames.has(e.name?.toLowerCase())) {
+      items.push({
+        type: 'employee', icon: Users, label: e.name,
+        sub: `${e.role} · ${e.hourly_rate ? `$${e.hourly_rate}/hr` : ''}`,
+        route: '/dashboard/team', keywords: `${e.name} ${e.role}`.toLowerCase(),
+      })
+    }
+  })
+
   // Recommendations
-  const recs = d.recommendations || []
-  recs.forEach(r => {
+  ;(d.recommendations || []).forEach(r => {
     items.push({
       type: 'recommendation', icon: Zap, label: r.title,
       sub: `${r.agent} · ${r.urgency} urgency`,
@@ -32,52 +54,44 @@ function buildIndex(d) {
   })
 
   // Reviews
-  const reviews = d.reviews || []
-  reviews.forEach(r => {
+  ;(d.reviews || []).forEach(r => {
     const text = r.reply_text || r.original_review || r.text || ''
     items.push({
-      type: 'review', icon: MessageSquare, label: text.slice(0, 60) + (text.length > 60 ? '…' : ''),
-      sub: `${r.platform || r.author || 'Review'} · ${r.rating ? `${r.rating}★` : r.sentiment || ''}`,
+      type: 'review', icon: MessageSquare,
+      label: text.slice(0, 60) + (text.length > 60 ? '…' : ''),
+      sub: `${r.platform || 'Review'} · ${r.rating ? `${r.rating}★` : r.sentiment || ''}`,
       route: '/dashboard/reviews', keywords: text.toLowerCase(),
     })
-  })
-
-  // Revenue / Goals
-  if (d.goals) {
-    items.push({
-      type: 'metric', icon: TrendingUp, label: 'Revenue Goals & Forecast',
-      sub: 'PULSE · 72-hour forecast',
-      route: '/dashboard/revenue', keywords: 'revenue forecast goals pulse',
-    })
-  }
-
-  // Shifts
-  items.push({
-    type: 'shift', icon: Calendar, label: 'Shift Schedule',
-    sub: 'CREW · Workforce planning',
-    route: '/dashboard/scheduling', keywords: 'shift schedule crew staffing hours',
   })
 
   // Cost intel
   if (d.cost_intelligence) {
     const ci = d.cost_intelligence
-    if (ci.flagged_items) {
-      ci.flagged_items.forEach(f => {
-        items.push({
-          type: 'cost', icon: ShoppingCart, label: f.item || 'Flagged item',
-          sub: `Cost intel · ${f.urgency || ''} urgency`,
-          route: '/dashboard/costintel', keywords: `${f.item || ''} ${f.root_cause || ''} ${f.recommended_action || ''}`.toLowerCase(),
-        })
+    ;(ci.flagged_items || []).forEach(f => {
+      items.push({
+        type: 'cost', icon: ShoppingCart, label: f.item || 'Flagged item',
+        sub: `Cost intel · ${f.urgency || ''} urgency`,
+        route: '/dashboard/costintel',
+        keywords: `${f.item || ''} ${f.root_cause || ''} ${f.recommended_action || ''}`.toLowerCase(),
       })
-    }
-    items.push({
-      type: 'cost', icon: ShoppingCart, label: 'Cost Intelligence',
-      sub: `SHELF · Labor ${ci.labor_cost_pct ?? ci.labor_pct_of_revenue ?? ''}%`,
-      route: '/dashboard/costintel', keywords: 'cost labor food margin delivery shelf',
     })
   }
 
   return items
+}
+
+function scoreMatch(item, query) {
+  const q = query.toLowerCase().trim()
+  if (!q) return 0
+  const kw = item.keywords || ''
+  const label = (item.label || '').toLowerCase()
+  if (label.startsWith(q)) return 3
+  if (label.includes(q)) return 2
+  if (kw.includes(q)) return 1
+  // partial word match
+  const words = q.split(' ').filter(Boolean)
+  if (words.length > 1 && words.every(w => kw.includes(w))) return 1
+  return 0
 }
 
 const TYPE_COLOR = {
@@ -89,15 +103,20 @@ const TYPE_COLOR = {
   cost:           { bg: '#FDF4FF', color: '#7E22CE' },
 }
 
-function SearchBox({ dashData }) {
+function SearchBox({ dashData, users }) {
   const [query, setQuery] = useState('')
   const [open, setOpen]   = useState(false)
   const ref               = useRef(null)
   const navigate          = useNavigate()
-  const index             = buildIndex(dashData)
+  const index             = buildIndex(dashData, users)
 
   const results = query.trim().length > 0
-    ? index.filter(item => item.keywords.includes(query.toLowerCase())).slice(0, 8)
+    ? index
+        .map(item => ({ item, score: scoreMatch(item, query) }))
+        .filter(({ score }) => score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 8)
+        .map(({ item }) => item)
     : []
 
   useEffect(() => {
@@ -209,22 +228,28 @@ function SearchBox({ dashData }) {
 
 // ── Notification Bell ─────────────────────────────────────────────
 function NotificationBell() {
-  const [count, setCount]   = useState(0)
-  const [items, setItems]   = useState([])
-  const [open, setOpen]     = useState(false)
-  const navigate            = useNavigate()
-  const ref                 = useRef(null)
+  const [count, setCount]       = useState(0)
+  const [items, setItems]       = useState([])
+  const [msgCount, setMsgCount] = useState(0)
+  const [open, setOpen]         = useState(false)
+  const navigate                = useNavigate()
+  const ref                     = useRef(null)
 
   useEffect(() => {
     const load = () => {
       apiNotifications()
         .then(res => { setCount(res.data.count || 0); setItems(res.data.items || []) })
         .catch(() => {})
+      apiGetMessages()
+        .then(res => setMsgCount((res.data.messages || []).filter(m => !m.is_read).length))
+        .catch(() => {})
     }
     load()
-    const id = setInterval(load, 30000)  // poll every 30s
+    const id = setInterval(load, 30000)
     return () => clearInterval(id)
   }, [])
+
+  const totalCount = count + msgCount
 
   useEffect(() => {
     const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
@@ -241,7 +266,7 @@ function NotificationBell() {
         whileTap={{ scale: 0.92 }}
       >
         <Bell size={18} />
-        {count > 0 && (
+        {totalCount > 0 && (
           <div style={{
             position: 'absolute', top: 4, right: 4,
             minWidth: 16, height: 16, borderRadius: 99,
@@ -249,9 +274,9 @@ function NotificationBell() {
             fontSize: '0.6rem', fontWeight: 800,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '0 4px', boxShadow: '0 0 6px rgba(239,68,68,0.5)',
-          }}>{count > 9 ? '9+' : count}</div>
+          }}>{totalCount > 9 ? '9+' : totalCount}</div>
         )}
-        {count === 0 && (
+        {totalCount === 0 && (
           <div style={{ position: 'absolute', top: 6, right: 6, width: 7, height: 7, borderRadius: '50%', background: 'var(--yellow-400)', boxShadow: '0 0 8px rgba(251,191,36,0.6)' }} />
         )}
       </motion.button>
@@ -271,7 +296,10 @@ function NotificationBell() {
           >
             <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border-soft)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)' }}>Notifications</span>
-              {count > 0 && <div style={{ padding: '2px 8px', borderRadius: 99, background: '#FEE2E2', color: '#DC2626', fontSize: '0.68rem', fontWeight: 700 }}>{count} pending</div>}
+              <div style={{ display: 'flex', gap: 4 }}>
+                {count > 0 && <div style={{ padding: '2px 8px', borderRadius: 99, background: '#FEE2E2', color: '#DC2626', fontSize: '0.68rem', fontWeight: 700 }}>{count} shifts</div>}
+                {msgCount > 0 && <div style={{ padding: '2px 8px', borderRadius: 99, background: '#EFF6FF', color: '#1D4ED8', fontSize: '0.68rem', fontWeight: 700 }}>{msgCount} messages</div>}
+              </div>
             </div>
             {items.length > 0 ? (
               <div style={{ maxHeight: 320, overflowY: 'auto' }}>
@@ -306,7 +334,7 @@ function NotificationBell() {
 }
 
 // ── Top Bar ───────────────────────────────────────────────────────
-function TopBar({ onRunFrank, running, dashData, bizInfo }) {
+function TopBar({ onRunFrank, running, dashData, bizInfo, users }) {
   const { user } = useAuth()
   const now = new Date()
   const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
@@ -337,7 +365,7 @@ function TopBar({ onRunFrank, running, dashData, bizInfo }) {
         </p>
       </div>
 
-      <SearchBox dashData={dashData} />
+      <SearchBox dashData={dashData} users={users} />
 
       <motion.button
         onClick={onRunFrank}
@@ -379,13 +407,36 @@ export default function DashboardShell() {
   const [frankData, setFrankData] = useState(null)
   const [dashData, setDashData]   = useState(null)
   const [bizInfo, setBizInfo]     = useState(null)
+  const [searchUsers, setSearchUsers] = useState([])
   const location                  = useLocation()
+  const { user }                  = useAuth()
 
   // Pre-fetch dashboard data for search index and biz name
   useEffect(() => {
-    apiDashboardManager().then(res => setDashData(res.data)).catch(() => {})
+    const isManager = user?.role === 'ceo' || user?.role === 'manager' || user?.role === 'admin'
+
+    // Manager-only endpoints — skip for employees to avoid 403 noise
+    if (isManager) {
+      apiDashboardManager().then(res => setDashData(res.data)).catch(() => {})
+      apiGetMessageUsers().then(res => setSearchUsers(res.data.users || [])).catch(() => {})
+    }
+
     apiGetDataset().then(res => setBizInfo(res.data)).catch(() => {})
-  }, [])
+
+    // Build partial user list from message senders (works for all roles)
+    apiGetMessages().then(res => {
+      const seen = {}
+      ;(res.data.messages || []).forEach(m => {
+        if (m.sender_email && !seen[m.sender_email]) {
+          seen[m.sender_email] = { full_name: m.sender, email: m.sender_email, role: 'ceo' }
+        }
+      })
+      setSearchUsers(prev => {
+        const existingEmails = new Set(prev.map(u => u.email))
+        return [...prev, ...Object.values(seen).filter(u => !existingEmails.has(u.email))]
+      })
+    }).catch(() => {})
+  }, [user?.role])
 
   const sidebarWidth = collapsed ? 72 : 260
 
@@ -414,7 +465,7 @@ export default function DashboardShell() {
         display: 'flex',
         flexDirection: 'column',
       }}>
-        <TopBar onRunFrank={handleRunFrank} running={running} dashData={dashData} bizInfo={bizInfo} />
+        <TopBar onRunFrank={handleRunFrank} running={running} dashData={dashData} bizInfo={bizInfo} users={searchUsers} />
 
         <div style={{ flex: 1, padding: '28px 28px 40px' }}>
           <AnimatePresence mode="wait">

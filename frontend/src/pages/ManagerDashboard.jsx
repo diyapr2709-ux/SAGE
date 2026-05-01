@@ -6,11 +6,17 @@ import {
   DollarSign, Heart, Zap, ChevronRight, CheckCircle,
   Clock, MessageSquare, Calendar, Activity, ThumbsUp,
   ThumbsDown, Flame, BarChart2, RefreshCw, Brain, XCircle,
+  Send, Mail, Trash2, Plus, CheckSquare,
 } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts'
-import { apiDashboardManager, apiRecordFeedback, apiGetPreferences, apiGetLastOutput } from '../api/client'
+import {
+  apiDashboardManager, apiRecordFeedback, apiGetPreferences, apiGetLastOutput,
+  apiGetMessages, apiSendMessage, apiDeleteMessage, apiGetMessageUsers,
+  apiGetTasks, apiCreateTask, apiUpdateTask, apiDeleteTask,
+  apiManualRefresh,
+} from '../api/client'
 
 const fadeUp = (i = 0) => ({
   initial: { opacity: 0, y: 22 },
@@ -588,6 +594,325 @@ function LoadingState() {
   )
 }
 
+// ── Messaging Panel (CEO → Employees) ─────────────────────────────
+function MessagingPanel() {
+  const [messages, setMessages]   = useState([])
+  const [users, setUsers]         = useState([])
+  const [loading, setLoading]     = useState(true)
+  const [composing, setComposing] = useState(false)
+  const [form, setForm]           = useState({ recipient_email: '', subject: '', body: '' })
+  const [sending, setSending]     = useState(false)
+  const [sent, setSent]           = useState(false)
+  const [expanded, setExpanded]   = useState(null)
+
+  const load = useCallback(() => {
+    Promise.all([
+      apiGetMessages().catch(() => ({ data: { messages: [] } })),
+      apiGetMessageUsers().catch(() => ({ data: { users: [] } })),
+    ]).then(([msgRes, userRes]) => {
+      setMessages(msgRes.data.messages || [])
+      setUsers(userRes.data.users || [])
+    }).finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  const handleSend = async () => {
+    if (!form.body.trim()) return
+    setSending(true)
+    try {
+      await apiSendMessage({
+        recipient_email: form.recipient_email || null,
+        subject: form.subject || '(No subject)',
+        body: form.body,
+      })
+      setForm({ recipient_email: '', subject: '', body: '' })
+      setComposing(false)
+      setSent(true)
+      load()
+      setTimeout(() => setSent(false), 3000)
+    } finally { setSending(false) }
+  }
+
+  const handleDelete = async (id) => {
+    await apiDeleteMessage(id).catch(() => {})
+    load()
+  }
+
+  const employees = users.filter(u => u.role === 'employee')
+
+  return (
+    <motion.div {...fadeUp(7)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 16, padding: '22px 24px', boxShadow: 'var(--shadow-sm)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 99, background: '#EEF2FF', border: '1px solid #C7D2FE', fontSize: '0.68rem', fontWeight: 700, color: '#4338CA', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#818CF8', boxShadow: '0 0 4px #818CF8' }} />CEO
+          </div>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Message Employees</div>
+            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 1 }}>{messages.length} message{messages.length !== 1 ? 's' : ''} sent</div>
+          </div>
+        </div>
+        <motion.button onClick={() => setComposing(c => !c)} whileTap={{ scale: 0.95 }}
+          style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 9, border: '1px solid #C7D2FE', background: composing ? '#EEF2FF' : 'white', color: '#4338CA', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer' }}>
+          <Mail size={13} /> {composing ? 'Cancel' : 'New Message'}
+        </motion.button>
+      </div>
+
+      {sent && (
+        <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+          style={{ padding: '10px 14px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 9, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <CheckCircle size={14} color="#22C55E" />
+          <span style={{ fontSize: '0.82rem', color: '#166534', fontWeight: 600 }}>Message sent successfully!</span>
+        </motion.div>
+      )}
+
+      <AnimatePresence>
+        {composing && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} style={{ overflow: 'hidden', marginBottom: 16 }}>
+            <div style={{ padding: '16px', background: '#EEF2FF', border: '1px solid #C7D2FE', borderRadius: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#4338CA', marginBottom: 4, display: 'block', letterSpacing: '0.04em' }}>TO</label>
+                  <select value={form.recipient_email} onChange={e => setForm(f => ({ ...f, recipient_email: e.target.value }))}
+                    style={{ width: '100%', padding: '9px 10px', borderRadius: 8, border: '1px solid #C7D2FE', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.84rem', outline: 'none' }}>
+                    <option value="">All Employees (Broadcast)</option>
+                    {employees.map(u => (
+                      <option key={u.email} value={u.email}>{u.full_name} ({u.email})</option>
+                    ))}
+                  </select>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#4338CA', marginBottom: 4, display: 'block', letterSpacing: '0.04em' }}>SUBJECT</label>
+                  <input value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+                    placeholder="Subject…"
+                    style={{ width: '100%', padding: '9px 10px', borderRadius: 8, border: '1px solid #C7D2FE', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.84rem', outline: 'none', boxSizing: 'border-box' }} />
+                </div>
+              </div>
+              <textarea value={form.body} onChange={e => setForm(f => ({ ...f, body: e.target.value }))}
+                placeholder="Write your message here…" rows={4}
+                style={{ padding: '10px 12px', borderRadius: 8, border: '1px solid #C7D2FE', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.84rem', outline: 'none', resize: 'vertical', lineHeight: 1.55 }} />
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+                <button onClick={() => setComposing(false)} style={{ padding: '8px 16px', borderRadius: 8, border: '1px solid var(--border)', background: 'white', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', color: 'var(--text-secondary)' }}>Cancel</button>
+                <motion.button onClick={handleSend} disabled={sending || !form.body.trim()} whileTap={{ scale: 0.97 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 18px', borderRadius: 8, border: 'none', background: '#6366F1', color: 'white', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', opacity: sending || !form.body.trim() ? 0.6 : 1 }}>
+                  {sending ? <RefreshCw size={13} style={{ animation: 'spin 1s linear infinite' }} /> : <Send size={13} />}
+                  {sending ? 'Sending…' : 'Send Message'}
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {loading ? (
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textAlign: 'center', padding: '12px 0' }}>Loading…</p>
+      ) : messages.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)', fontSize: '0.82rem' }}>No messages sent yet</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {messages.map(msg => (
+            <div key={msg.id}>
+              <div onClick={() => setExpanded(expanded === msg.id ? null : msg.id)}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 9, cursor: 'pointer', background: 'var(--surface)', border: '1px solid var(--border-soft)', transition: 'background 0.12s' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#EEF2FF'}
+                onMouseLeave={e => e.currentTarget.style.background = 'var(--surface)'}>
+                <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, #818CF8, #6366F1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '0.75rem', fontWeight: 700, flexShrink: 0 }}>
+                  {msg.recipient[0]}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 700, fontSize: '0.84rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    → {msg.recipient}
+                    {msg.is_broadcast && <span style={{ fontSize: '0.62rem', fontWeight: 700, color: '#6366F1', background: '#EEF2FF', border: '1px solid #C7D2FE', padding: '1px 6px', borderRadius: 99 }}>Broadcast</span>}
+                  </div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{msg.subject}</div>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 1 }}>
+                    {new Date(msg.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })} · {msg.read_count} read
+                  </div>
+                </div>
+                <button onClick={e => { e.stopPropagation(); handleDelete(msg.id) }}
+                  style={{ padding: '5px', borderRadius: 6, border: '1px solid #FECACA', background: '#FFF5F5', cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
+                  <Trash2 size={12} color="#EF4444" />
+                </button>
+              </div>
+              <AnimatePresence>
+                {expanded === msg.id && (
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} style={{ overflow: 'hidden' }}>
+                    <div style={{ padding: '12px 14px', background: '#F5F3FF', border: '1px solid #DDD6FE', borderRadius: '0 0 9px 9px', marginTop: -4, borderTop: 'none' }}>
+                      <p style={{ fontSize: '0.84rem', color: 'var(--text-primary)', lineHeight: 1.65, whiteSpace: 'pre-wrap', margin: 0 }}>{msg.body}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      )}
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </motion.div>
+  )
+}
+
+// ── Manager Task Panel ─────────────────────────────────────────────
+const PRIORITY_STYLE = {
+  high:   { bg: '#FFF5F5', border: '#FECACA', text: '#DC2626' },
+  medium: { bg: '#FFFBEB', border: '#FDE68A', text: '#92400E' },
+  low:    { bg: '#F0FDF4', border: '#BBF7D0', text: '#166534' },
+}
+
+function ManagerTaskPanel({ users }) {
+  const [tasks, setTasks]       = useState([])
+  const [loading, setLoading]   = useState(true)
+  const [composing, setComposing] = useState(false)
+  const [form, setForm]         = useState({ title: '', notes: '', priority: 'medium', due_date: '', assigned_to_email: '' })
+  const [saving, setSaving]     = useState(false)
+  const [filter, setFilter]     = useState('all')   // all | pending | done
+
+  const load = useCallback(() => {
+    apiGetTasks().then(r => setTasks(r.data.tasks || [])).catch(() => {}).finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  const handleCreate = async () => {
+    if (!form.title.trim()) return
+    setSaving(true)
+    try {
+      await apiCreateTask({ ...form, due_date: form.due_date || null, assigned_to_email: form.assigned_to_email || null })
+      setForm({ title: '', notes: '', priority: 'medium', due_date: '', assigned_to_email: '' })
+      setComposing(false)
+      load()
+    } finally { setSaving(false) }
+  }
+
+  const handleStatus = async (task, status) => {
+    await apiUpdateTask(task.id, { status })
+    load()
+  }
+
+  const handleDelete = async (id) => {
+    await apiDeleteTask(id)
+    load()
+  }
+
+  const employees = (users || []).filter(u => u.role === 'employee')
+
+  const filtered = filter === 'all'
+    ? tasks
+    : filter === 'done'
+    ? tasks.filter(t => t.status === 'done')
+    : tasks.filter(t => t.status !== 'done')
+
+  const pending = tasks.filter(t => t.status !== 'done').length
+
+  return (
+    <motion.div {...fadeUp(8)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 16, padding: '22px 24px', boxShadow: 'var(--shadow-sm)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 99, background: '#FFFBEB', border: '1px solid #FDE68A', fontSize: '0.68rem', fontWeight: 700, color: '#92400E', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#FBBF24', boxShadow: '0 0 4px #FBBF24' }} />CREW
+          </div>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>
+              Task Management {pending > 0 && <span style={{ fontSize: '0.72rem', color: '#92400E', background: '#FFFBEB', border: '1px solid #FDE68A', padding: '2px 8px', borderRadius: 99, marginLeft: 4 }}>{pending} open</span>}
+            </div>
+            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 1 }}>Assign and track tasks across your team</div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <div style={{ display: 'flex', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, padding: 3 }}>
+            {['all', 'pending', 'done'].map(f => (
+              <button key={f} onClick={() => setFilter(f)} style={{ padding: '4px 10px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600, textTransform: 'capitalize', background: filter === f ? 'white' : 'transparent', color: filter === f ? 'var(--text-primary)' : 'var(--text-muted)', boxShadow: filter === f ? 'var(--shadow-sm)' : 'none', transition: 'all 0.15s' }}>{f}</button>
+            ))}
+          </div>
+          <motion.button onClick={() => setComposing(c => !c)} whileTap={{ scale: 0.95 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '7px 14px', borderRadius: 9, border: '1px solid #FDE68A', background: composing ? '#FFFBEB' : 'white', color: '#92400E', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer' }}>
+            <Plus size={12} /> {composing ? 'Cancel' : 'New Task'}
+          </motion.button>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {composing && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} style={{ overflow: 'hidden', marginBottom: 16 }}>
+            <div style={{ padding: '16px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+                placeholder="Task title…" autoFocus
+                style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid #FDE68A', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.9rem', fontWeight: 600, outline: 'none' }} />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+                <select value={form.assigned_to_email} onChange={e => setForm(f => ({ ...f, assigned_to_email: e.target.value }))}
+                  style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid #FDE68A', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', outline: 'none' }}>
+                  <option value="">Assign to…</option>
+                  {employees.map(u => <option key={u.email} value={u.email}>{u.full_name}</option>)}
+                </select>
+                <select value={form.priority} onChange={e => setForm(f => ({ ...f, priority: e.target.value }))}
+                  style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid #FDE68A', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', outline: 'none' }}>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+                <input type="date" value={form.due_date} onChange={e => setForm(f => ({ ...f, due_date: e.target.value }))}
+                  style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid #FDE68A', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', outline: 'none' }} />
+              </div>
+              <input value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+                placeholder="Notes / instructions (optional)…"
+                style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #FDE68A', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.82rem', outline: 'none' }} />
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button onClick={() => setComposing(false)} style={{ padding: '7px 16px', borderRadius: 8, border: '1px solid var(--border)', background: 'white', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', color: 'var(--text-secondary)' }}>Cancel</button>
+                <motion.button onClick={handleCreate} disabled={saving || !form.title.trim()} whileTap={{ scale: 0.97 }}
+                  style={{ padding: '7px 18px', borderRadius: 8, border: 'none', background: '#F59E0B', color: 'white', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', opacity: saving || !form.title.trim() ? 0.6 : 1 }}>
+                  {saving ? 'Creating…' : 'Create Task'}
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {loading ? (
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textAlign: 'center', padding: '16px' }}>Loading tasks…</p>
+      ) : filtered.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+          {filter === 'done' ? 'No completed tasks yet' : 'No tasks yet — create one above'}
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {filtered.map(task => {
+            const ps = PRIORITY_STYLE[task.priority] || PRIORITY_STYLE.medium
+            const isDone = task.status === 'done'
+            return (
+              <motion.div key={task.id} layout
+                style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '12px 14px', borderRadius: 10, background: isDone ? '#F9FAFB' : ps.bg, border: `1px solid ${isDone ? '#E5E7EB' : ps.border}`, opacity: isDone ? 0.75 : 1 }}>
+                <button onClick={() => handleStatus(task, isDone ? 'pending' : 'done')}
+                  style={{ marginTop: 2, background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}>
+                  {isDone
+                    ? <CheckCircle size={16} color="#22C55E" />
+                    : <CheckSquare size={16} color={ps.text} />}
+                </button>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 700, fontSize: '0.86rem', color: 'var(--text-primary)', textDecoration: isDone ? 'line-through' : 'none', marginBottom: 2 }}>{task.title}</div>
+                  {task.notes && <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: 4 }}>{task.notes}</div>}
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                    {task.assigned_to_email && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#1D4ED8', background: '#EFF6FF', border: '1px solid #BFDBFE', padding: '1px 7px', borderRadius: 99 }}>→ {task.assigned_to_email.split('@')[0]}</span>}
+                    <span style={{ fontSize: '0.65rem', fontWeight: 700, color: ps.text, background: 'white', border: `1px solid ${ps.border}`, padding: '1px 6px', borderRadius: 99 }}>{task.priority}</span>
+                    {task.due_date && <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Due {task.due_date}</span>}
+                    <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', background: 'var(--surface)', border: '1px solid var(--border)', padding: '1px 6px', borderRadius: 99, textTransform: 'capitalize' }}>{task.status.replace('_', ' ')}</span>
+                  </div>
+                </div>
+                <button onClick={() => handleDelete(task.id)}
+                  style={{ padding: '5px', borderRadius: 6, border: '1px solid #FECACA', background: '#FFF5F5', cursor: 'pointer', display: 'flex', flexShrink: 0 }}>
+                  <Trash2 size={12} color="#EF4444" />
+                </button>
+              </motion.div>
+            )
+          })}
+        </div>
+      )}
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </motion.div>
+  )
+}
+
 const MOCK = {
   briefing_text: "Marathon Deli is performing above expectations this week. Revenue is trending 4% above baseline with strong lunch rush performance. Michael Rivera's team is managing weekend demand well. One health-code concern from Daniel Brooks' station needs follow-up. Delivery fees from DoorDash remain high at 30% — recommend negotiating or pushing direct orders. Overall business health is strong.",
   health_score: 82, deviation_pct: 4, alert: false,
@@ -636,19 +961,38 @@ const MOCK = {
 export default function ManagerDashboard() {
   const outlet    = useOutletContext() || {}
   const frankData = outlet.frankData
-  const [data, setData]       = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [data, setData]             = useState(null)
+  const [loading, setLoading]       = useState(true)
+  const [users, setUsers]           = useState([])
+  const [refreshing, setRefreshing] = useState(false)
+  const [lastRefresh, setLastRefresh] = useState(null)
 
-  useEffect(() => {
+  const loadData = useCallback(() => {
     apiDashboardManager()
       .then(res => setData(res.data))
       .catch(() =>
-        // Fall back to last persisted FRANK output if no dataset is loaded
         apiGetLastOutput()
           .then(r => setData(r.data))
           .catch(() => setData(null))
       )
       .finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => {
+    loadData()
+    apiGetMessageUsers().then(r => setUsers(r.data.users || [])).catch(() => {})
+  }, [loadData])
+
+  const handleManualRefresh = useCallback(() => {
+    setRefreshing(true)
+    apiManualRefresh()
+      .then(res => {
+        setLastRefresh(res.data?.summary?.refreshed_at)
+        return apiGetLastOutput()
+      })
+      .then(r => setData(r.data))
+      .catch(() => {})
+      .finally(() => setRefreshing(false))
   }, [])
 
   const d         = frankData || data || MOCK
@@ -670,14 +1014,34 @@ export default function ManagerDashboard() {
 
       <motion.div {...fadeUp(0)} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
         <div>
-          <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 4 }}>Manager Dashboard</p>
+          <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 4 }}>CEO Dashboard</p>
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.2rem', letterSpacing: '0.06em', color: 'var(--text-primary)', lineHeight: 1 }}>Daily Operations</h2>
         </div>
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {data
-            ? <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 99 }}><Activity size={12} color="#22C55E" /><span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#166534' }}>Live Data</span></div>
+            ? <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 99 }}>
+                <Activity size={12} color="#22C55E" />
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#166534' }}>
+                  {lastRefresh ? `Updated ${new Date(lastRefresh).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}` : 'Live Data'}
+                </span>
+              </div>
             : <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px', background: 'var(--yellow-50)', border: '1px solid var(--yellow-200)', borderRadius: 99 }}><RefreshCw size={12} color="#92400E" /><span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#92400E' }}>Demo Mode</span></div>
           }
+          <button
+            onClick={handleManualRefresh}
+            disabled={refreshing}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              padding: '6px 14px', borderRadius: 99, border: '1px solid #A78BFA',
+              background: refreshing ? '#F3F0FF' : 'linear-gradient(135deg,#7C3AED,#6D28D9)',
+              color: refreshing ? '#7C3AED' : '#fff',
+              fontSize: '0.72rem', fontWeight: 700, cursor: refreshing ? 'not-allowed' : 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            <RefreshCw size={11} style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
+            {refreshing ? 'Refreshing…' : 'Refresh Data'}
+          </button>
         </div>
       </motion.div>
 
@@ -728,6 +1092,13 @@ export default function ManagerDashboard() {
         </div>
 
       </div>
+
+      {/* ── Messaging + Tasks row ─── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <MessagingPanel />
+        <ManagerTaskPanel users={users} />
+      </div>
+
     </div>
   )
 }

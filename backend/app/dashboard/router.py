@@ -15,11 +15,14 @@ from app.agents.frank_client import (
     run_with_dataset, run_with_llm_dataset, load_frank_output,
 )
 from app.models import User, RoleEnum
-from sage.agents.crew_stub import get_all_shifts
+
+_LEADERSHIP = {RoleEnum.CEO, RoleEnum.MANAGER, RoleEnum.ADMIN}
+from sage.agents.crew_stub import get_all_shifts, _week_date
 
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 
-_SHIFTS_DIR          = Path("sage/data/shifts")
+_ROOT                = Path(__file__).resolve().parent.parent.parent.parent
+_SHIFTS_DIR          = _ROOT / "sage/data/shifts"
 _SHIFT_REQUESTS_PATH = _SHIFTS_DIR / "shift_requests.json"
 _SHIFT_LOG_PATH      = _SHIFTS_DIR / "shift_log.json"
 _ATTENDANCE_PATH     = _SHIFTS_DIR / "attendance.json"
@@ -108,7 +111,7 @@ async def employee_view(current_user: User = Depends(get_current_user)):
 
 @router.get("/manager")
 async def manager_view(current_user: User = Depends(get_current_user)):
-    if current_user.role not in [RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if current_user.role not in _LEADERSHIP:
         raise HTTPException(403, "Not authorized")
     # Try live dataset first; fall back to last saved FRANK output
     try:
@@ -123,7 +126,7 @@ async def manager_view(current_user: User = Depends(get_current_user)):
 
 @router.get("/crew")
 async def crew_view(current_user: User = Depends(get_current_user)):
-    if current_user.role not in [RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if current_user.role not in _LEADERSHIP:
         raise HTTPException(403, "Not authorized")
     dataset, _ = _require_any_dataset()
     employees = dataset.get("employees", [])
@@ -203,7 +206,7 @@ async def submit_shift_request(
 async def get_shift_requests(current_user: User = Depends(get_current_user)):
     """Managers see all requests; employees see only their own."""
     requests = _load_shift_requests()
-    if current_user.role in [RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if current_user.role in _LEADERSHIP:
         return {"requests": requests}
     return {"requests": [r for r in requests if r["email"] == current_user.email]}
 
@@ -214,7 +217,7 @@ async def action_shift_request(
     current_user: User = Depends(get_current_user),
 ):
     """Manager approves or rejects a shift request."""
-    if current_user.role not in [RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if current_user.role not in _LEADERSHIP:
         raise HTTPException(403, "Not authorized")
     requests = _load_shift_requests()
     updated = False
@@ -240,7 +243,7 @@ async def get_shift_log(current_user: User = Depends(get_current_user)):
         logs = json.loads(_SHIFT_LOG_PATH.read_text())
     except Exception:
         return {"logs": []}
-    if current_user.role in [RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if current_user.role in _LEADERSHIP:
         return {"logs": logs}
     return {"logs": [l for l in logs if l.get("email") == current_user.email]}
 
@@ -333,7 +336,7 @@ async def clock_event(
 async def get_attendance(current_user: User = Depends(get_current_user)):
     """Return attendance records. Managers see all; employees see their own."""
     records = _load_attendance()
-    if current_user.role in [RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if current_user.role in _LEADERSHIP:
         return {"attendance": records}
     return {"attendance": [r for r in records if r.get("email") == current_user.email]}
 
@@ -348,7 +351,7 @@ async def get_shift_log_summary(current_user: User = Depends(get_current_user)):
     except Exception:
         return {"summary": [], "totals": {"total_tips": 0, "total_net_cash": 0, "entries": 0}}
 
-    if current_user.role not in [RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if current_user.role not in _LEADERSHIP:
         logs = [l for l in logs if l.get("email") == current_user.email]
 
     by_shift = {}
@@ -375,11 +378,92 @@ async def get_shift_log_summary(current_user: User = Depends(get_current_user)):
     }
 
 
+@router.get("/leaderboard")
+async def get_leaderboard(current_user: User = Depends(get_current_user)):
+    """Return employee points leaderboard computed from dataset + attendance + shift logs."""
+    dataset, _ = _require_any_dataset()
+    employees = dataset.get("employees", [])
+
+    # Base score per employee from dataset performance notes
+    POSITIVE_KW = ["outstanding","exceptional","rising star","excellent","consistent",
+                   "100/100","specifically request","high upsell","praised","great","perfect"]
+    NEGATIVE_KW = ["late","near-miss","overtime","needs review","improvement","poor","below"]
+
+    # Load attendance to count completed shifts
+    attendance = _load_attendance()
+    clocked_out = {}
+    for r in attendance:
+        if r.get("clock_out"):
+            name = r.get("name", "")
+            clocked_out[name] = clocked_out.get(name, 0) + 1
+
+    # Load shift log for tips
+    tips_by_name = {}
+    if _SHIFT_LOG_PATH.exists():
+        try:
+            logs = json.loads(_SHIFT_LOG_PATH.read_text())
+            for l in logs:
+                n = l.get("name", "")
+                tips_by_name[n] = tips_by_name.get(n, 0) + (l.get("tips") or 0)
+        except Exception:
+            pass
+
+    board = []
+    for emp in employees:
+        name  = emp.get("name", "")
+        notes = (emp.get("performance_notes") or "").lower()
+        role  = emp.get("role", "")
+
+        # 0-40 pts: performance notes
+        pos_hits = sum(1 for kw in POSITIVE_KW if kw in notes)
+        neg_hits = sum(1 for kw in NEGATIVE_KW if kw in notes)
+        perf_score = min(40, max(0, 20 + pos_hits * 8 - neg_hits * 10))
+
+        # 0-30 pts: shifts completed this week
+        shifts_done = clocked_out.get(name, 0)
+        shift_score = min(30, shifts_done * 10)
+
+        # 0-20 pts: hours per week (normalized to 40h cap)
+        hrs = emp.get("hours_per_week", 20)
+        hrs_score = min(20, int(hrs / 40 * 20))
+
+        # 0-10 pts: tips (normalized — $50 tips = 10 pts)
+        tips = tips_by_name.get(name, 0)
+        tips_score = min(10, int(tips / 50 * 10))
+
+        total = perf_score + shift_score + hrs_score + tips_score
+        badge = (
+            "🏆 Top Performer" if total >= 75 else
+            "⭐ Rising Star"   if total >= 55 else
+            "👍 On Track"      if total >= 35 else
+            "📈 Keep Going"
+        )
+        board.append({
+            "name": name,
+            "role": role,
+            "total_score": total,
+            "breakdown": {
+                "performance": perf_score,
+                "shifts_completed": shift_score,
+                "hours": hrs_score,
+                "tips": tips_score,
+            },
+            "shifts_completed": shifts_done,
+            "badge": badge,
+        })
+
+    board.sort(key=lambda x: -x["total_score"])
+    for i, e in enumerate(board):
+        e["rank"] = i + 1
+
+    return {"leaderboard": board, "week": str(_week_date("Monday")) if board else ""}
+
+
 @router.get("/notifications")
 async def get_notifications(current_user: User = Depends(get_current_user)):
     """Returns notification counts for the current user."""
     requests = _load_shift_requests()
-    if current_user.role in [RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if current_user.role in _LEADERSHIP:
         pending = [r for r in requests if r.get("status") == "pending"]
         return {"count": len(pending), "items": pending}
     # Employee sees their own request status updates

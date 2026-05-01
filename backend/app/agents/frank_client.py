@@ -8,8 +8,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.
 
 from sage.orchestrator.frank import run_frank
 
-DATASET_PATH     = Path("sage/data/active_dataset.json")
-LAST_OUTPUT_PATH = Path("sage/data/last_frank_output.json")
+_ROOT            = Path(__file__).resolve().parent.parent.parent.parent
+DATASET_PATH     = _ROOT / "sage/data/active_dataset.json"
+LAST_OUTPUT_PATH = _ROOT / "sage/data/last_frank_output.json"
 
 
 def load_active_dataset() -> Optional[dict]:
@@ -362,6 +363,11 @@ def run_with_llm_dataset(dataset: dict) -> dict:
 
     emp_intel    = shelf.get("employee_intelligence", {})
     emp_feedback = shelf.get("employee_feedback", {})
+    # Fall back: refresher format puts eotw directly at shelf level
+    if not emp_intel.get("employee_of_the_week") and shelf.get("employee_of_the_week"):
+        emp_intel = {**emp_intel, "employee_of_the_week": shelf["employee_of_the_week"]}
+    health = (shelf.get("executive_summary", {}).get("business_health_score")
+              or shelf.get("business_health_score"))
 
     # Build recommendations from all four agent outputs
     recs = []
@@ -446,7 +452,6 @@ def run_with_llm_dataset(dataset: dict) -> dict:
         _order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
         recs.sort(key=lambda r: (_order.get(r["urgency"], 2), -r["impact"]))
 
-    health = shelf.get("executive_summary", {}).get("business_health_score")
     total_impact = sum(r["impact"] for r in recs)
 
     from datetime import datetime

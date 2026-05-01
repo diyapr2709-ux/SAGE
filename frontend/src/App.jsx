@@ -35,7 +35,7 @@ function RoleRedirect() {
     } catch { return null }
   })()
   if (!role) return <Navigate to="/login" replace />
-  if (role === 'admin' || role === 'manager') return <Navigate to="/dashboard/overview" replace />
+  if (role === 'admin' || role === 'manager' || role === 'ceo') return <Navigate to="/dashboard/overview" replace />
   return <Navigate to="/dashboard/employee" replace />
 }
 
@@ -47,16 +47,16 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardShell /></ProtectedRoute>}>
             <Route index element={<RoleRedirect />} />
-            <Route path="overview"   element={<ProtectedRoute allowedRoles={['manager','admin']}><ManagerDashboard /></ProtectedRoute>} />
-            <Route path="employee"   element={<ProtectedRoute allowedRoles={['employee','manager','admin']}><EmployeeDashboard /></ProtectedRoute>} />
+            <Route path="overview"   element={<ProtectedRoute allowedRoles={['ceo','manager','admin']}><ManagerDashboard /></ProtectedRoute>} />
+            <Route path="employee"   element={<ProtectedRoute allowedRoles={['employee','ceo','manager','admin']}><EmployeeDashboard /></ProtectedRoute>} />
             <Route path="admin"      element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
-            <Route path="revenue"    element={<ProtectedRoute allowedRoles={['manager','admin']}><RevenuePage /></ProtectedRoute>} />
-            <Route path="scheduling" element={<ProtectedRoute allowedRoles={['manager','admin']}><SchedulingPage /></ProtectedRoute>} />
-            <Route path="reviews"    element={<ProtectedRoute allowedRoles={['manager','admin']}><ReviewsPage /></ProtectedRoute>} />
-            <Route path="costintel"  element={<ProtectedRoute allowedRoles={['manager','admin']}><CostIntelPage /></ProtectedRoute>} />
-            <Route path="team"       element={<ProtectedRoute allowedRoles={['manager','admin']}><TeamPage /></ProtectedRoute>} />
-            <Route path="data"       element={<ProtectedRoute allowedRoles={['manager','admin','employee']}><DataInputPage /></ProtectedRoute>} />
-            <Route path="reports"    element={<ProtectedRoute allowedRoles={['manager','admin']}><ReportsPage /></ProtectedRoute>} />
+            <Route path="revenue"    element={<ProtectedRoute allowedRoles={['ceo','manager','admin']}><RevenuePage /></ProtectedRoute>} />
+            <Route path="scheduling" element={<ProtectedRoute allowedRoles={['ceo','manager','admin']}><SchedulingPage /></ProtectedRoute>} />
+            <Route path="reviews"    element={<ProtectedRoute allowedRoles={['ceo','manager','admin']}><ReviewsPage /></ProtectedRoute>} />
+            <Route path="costintel"  element={<ProtectedRoute allowedRoles={['ceo','manager','admin']}><CostIntelPage /></ProtectedRoute>} />
+            <Route path="team"       element={<ProtectedRoute allowedRoles={['ceo','manager','admin']}><TeamPage /></ProtectedRoute>} />
+            <Route path="data"       element={<ProtectedRoute allowedRoles={['ceo','manager','admin','employee']}><DataInputPage /></ProtectedRoute>} />
+            <Route path="reports"    element={<ProtectedRoute allowedRoles={['ceo','manager','admin']}><ReportsPage /></ProtectedRoute>} />
           </Route>
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

@@ -1,7 +1,7 @@
 {
   "business_id": "Marathon Deli",
-  "business_type": "restaurant",
-  "location": "College Park MD",
+  "business_type": "deli",
+  "location": "College Park, MD",
   "cluster": "A",
   "employees": [
     {
@@ -9,77 +9,57 @@
       "role": "Cashier",
       "hourly_rate": 15,
       "hours_per_week": 20,
-      "performance_notes": "consistently praised by customers, outstanding overall performance, 100/100 score"
+      "performance_notes": "consistently praised by customers, outstanding overall performance, 100/100 score this quarter"
     },
     {
       "name": "Aarav Patel",
       "role": "Cashier",
       "hourly_rate": 14,
       "hours_per_week": 18,
-      "performance_notes": "excellent customer feedback, consistent, fast checkout"
+      "performance_notes": "excellent customer feedback, consistent, fast checkout, students specifically request his lane"
     },
     {
       "name": "Michael Rivera",
       "role": "Shift Supervisor",
       "hourly_rate": 22,
-      "hours_per_week": 45,
-      "performance_notes": "strong leader, managing weekend rush, 5 hours overtime this week \u2014 needs review"
+      "hours_per_week": 46,
+      "performance_notes": "strong leader, managing late-night rush well, 6 hours overtime this week \u2014 needs review before payroll"
     },
     {
       "name": "Sophia Kim",
       "role": "Cashier",
       "hourly_rate": 14,
       "hours_per_week": 12,
-      "performance_notes": "reliable, prefers afternoon shifts, good upsell rate"
+      "performance_notes": "reliable, prefers afternoon shifts, high upsell rate on baklava and sides"
     },
     {
       "name": "Daniel Brooks",
       "role": "Cook",
       "hourly_rate": 16,
       "hours_per_week": 25,
-      "performance_notes": "fast prep times, one health-code near-miss last month, needs retraining"
+      "performance_notes": "fast gyro prep times, one health-code near-miss last month related to cooler temp \u2014 needs retraining"
     },
     {
       "name": "Emily Chen",
       "role": "Front Desk",
       "hourly_rate": 13,
       "hours_per_week": 10,
-      "performance_notes": "student worker, limited availability, very friendly"
+      "performance_notes": "UMD student worker, limited availability Mon-Wed, very friendly, excellent with online orders"
     },
     {
       "name": "Jordan Lee",
       "role": "Delivery Driver",
       "hourly_rate": 15,
       "hours_per_week": 28,
-      "performance_notes": "fast delivery times, high DoorDash ratings, some late arrivals on Friday"
+      "performance_notes": "fastest delivery times on campus, high DoorDash ratings (4.9 stars), late arrival on last two Fridays"
     },
     {
       "name": "Fatima Hassan",
       "role": "Cook",
       "hourly_rate": 17,
       "hours_per_week": 30,
-      "performance_notes": "exceptional food quality, customers specifically request her dishes, rising star"
+      "performance_notes": "exceptional gyro and shawarma quality, customers specifically request her dishes, rising star this month"
     }
   ],
-  "dataset": {
-    "monthly_revenue": 112000,
-    "weekly_labor_cost": 9200,
-    "avg_ticket_size": 18.5,
-    "delivery_fees": {
-      "doordash_pct": 35,
-      "ubereats_pct": 20,
-      "grubhub_pct": 10
-    },
-    "top_items": [
-      "Gyro Platter",
-      "Falafel Wrap",
-      "Chicken Shawarma",
-      "Loaded Fries"
-    ],
-    "competitor_promo": "Rival Deli launched 20% off gyros this week on DoorDash",
-    "open_issues": [
-      "walk-in cooler temperature fluctuation",
-      "POS terminal 2 slow"
-    ]
-  }
+  "dataset": {}
 }

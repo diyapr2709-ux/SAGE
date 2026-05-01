@@ -528,7 +528,7 @@ export default function SchedulingPage() {
             <AttendanceFeed attendance={attendance} />
           </motion.div>
         )}
-        {(user?.role === 'manager' || user?.role === 'admin') && (
+        {(user?.role === 'ceo' || user?.role === 'manager' || user?.role === 'admin') && (
           <motion.div {...fadeUp(3)}>
             <ShiftRequestsPanel />
           </motion.div>
@@ -536,7 +536,7 @@ export default function SchedulingPage() {
       </div>
 
       {/* ── Cash & Tips Summary (managers only) ────────────── */}
-      {(user?.role === 'manager' || user?.role === 'admin') && (
+      {(user?.role === 'ceo' || user?.role === 'manager' || user?.role === 'admin') && (
         <motion.div {...fadeUp(4)}>
           <ShiftLogSummary />
         </motion.div>

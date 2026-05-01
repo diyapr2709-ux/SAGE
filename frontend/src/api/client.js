@@ -73,11 +73,38 @@ export const apiGetLastOutput   = ()     => client.get('/run/last-output')
 export const apiRunFrank = () =>
   client.post('/run')
 
+// ── Manual data refresh (external paradigm + FRANK) ───────────────
+export const apiManualRefresh    = ()  => client.post('/run/refresh')
+export const apiPreviewRefresh   = ()  => client.get('/run/refresh/preview')
+
 // ── Dataset upload / info ──────────────────────────────────────────
 export const apiUploadDataset = (dataset) =>
   client.post('/run/dataset', dataset)
 
 export const apiGetDataset = () =>
   client.get('/run/dataset')
+
+// ── LLM dataset (pre-computed VOICE + SHELF outputs) ──────────────
+export const apiUploadLlmDataset = (dataset) =>
+  client.post('/run/llm-dataset', dataset)
+
+export const apiRunFrankLlm = () =>
+  client.post('/run/llm-dataset/run')
+
+// ── Messaging ─────────────────────────────────────────────────────
+export const apiGetMessages      = ()     => client.get('/messages')
+export const apiSendMessage      = (data) => client.post('/messages', data)
+export const apiMarkMessageRead  = (id)   => client.put(`/messages/${id}/read`)
+export const apiDeleteMessage    = (id)   => client.delete(`/messages/${id}`)
+export const apiGetMessageUsers  = ()     => client.get('/messages/users')
+
+// ── Leaderboard ───────────────────────────────────────────────────
+export const apiGetLeaderboard = () => client.get('/dashboard/leaderboard')
+
+// ── Tasks ─────────────────────────────────────────────────────────
+export const apiGetTasks    = ()           => client.get('/tasks')
+export const apiCreateTask  = (data)       => client.post('/tasks', data)
+export const apiUpdateTask  = (id, data)   => client.put(`/tasks/${id}`, data)
+export const apiDeleteTask  = (id)         => client.delete(`/tasks/${id}`)
 
 export default client

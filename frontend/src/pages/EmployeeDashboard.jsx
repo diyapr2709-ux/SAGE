@@ -5,7 +5,7 @@ import {
   Star, CheckSquare, Clock, Zap, AlertTriangle, CheckCircle,
   Calendar, RefreshCw, XCircle, MessageSquare,
   Flame, Plus, ChevronDown, ChevronUp, User, DollarSign, Users,
-  LogIn, LogOut,
+  LogIn, LogOut, Trash2, Edit3, Mail, Send,
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import {
@@ -13,6 +13,9 @@ import {
   apiSubmitShiftRequest, apiGetShiftRequests,
   apiGetShiftLog, apiPostShiftLog,
   apiClock, apiGetAttendance,
+  apiGetMessages, apiMarkMessageRead,
+  apiGetTasks, apiCreateTask, apiUpdateTask, apiDeleteTask,
+  apiGetLeaderboard,
 } from '../api/client'
 
 const fadeUp = (i = 0) => ({
@@ -306,6 +309,7 @@ function ClockInPanel({ myShifts, user }) {
   }, [load])
 
   const now = new Date()
+  const todayStr = now.toISOString().split('T')[0]
 
   const handleClock = async (shiftId, action) => {
     setActing(`${shiftId}-${action}`)
@@ -319,9 +323,10 @@ function ClockInPanel({ myShifts, user }) {
   }
 
   const eligibleShifts = myShifts.map(shift => {
-    const [sh, sm] = shift.shift_start.split(':').map(Number)
-    const [eh, em] = shift.shift_end.split(':').map(Number)
-    const shiftDate = new Date(shift.shift_date + 'T00:00:00')
+    const [sh, sm] = (shift.shift_start || '09:00').split(':').map(Number)
+    const [eh, em] = (shift.shift_end || '17:00').split(':').map(Number)
+    const dateStr   = shift.shift_date || todayStr
+    const shiftDate = new Date(dateStr + 'T00:00:00')
     const startDt   = new Date(shiftDate); startDt.setHours(sh, sm, 0)
     const endDt     = new Date(shiftDate); endDt.setHours(eh, em, 0)
     if (eh < sh) endDt.setDate(endDt.getDate() + 1) // overnight
@@ -330,6 +335,8 @@ function ClockInPanel({ myShifts, user }) {
     const isActive    = now >= startDt && now <= endDt
     const isUpcoming  = minsToStart > 0 && minsToStart <= 30
     const isPast      = now > endDt
+    const isToday     = dateStr === todayStr
+    const isFuture    = dateStr > todayStr
 
     const clIn  = attendance.find(r => r.shift_id === shift.shift_id && r.clock_in && !r.clock_out)
     const clOut = attendance.find(r => r.shift_id === shift.shift_id && r.clock_out)
@@ -340,13 +347,14 @@ function ClockInPanel({ myShifts, user }) {
       elapsed = mins < 60 ? `${mins}m` : `${Math.floor(mins / 60)}h ${mins % 60}m`
     }
 
-    return { ...shift, startDt, endDt, minsToStart, isActive, isUpcoming, isPast, clIn, clOut, elapsed }
-  }).filter(s => !s.isPast || s.clIn || s.clOut) // hide past unclocked shifts
+    return { ...shift, dateStr, startDt, endDt, minsToStart, isActive, isUpcoming, isPast, isToday, isFuture, clIn, clOut, elapsed }
+  // Show today's shifts, future shifts, or any shift with clock activity
+  }).filter(s => s.isToday || s.isFuture || s.clIn || s.clOut)
 
   if (eligibleShifts.length === 0) return (
     <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 14, padding: '18px 20px', boxShadow: 'var(--shadow-xs)', textAlign: 'center' }}>
       <Clock size={18} color="var(--text-muted)" style={{ marginBottom: 8 }} />
-      <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>No active or upcoming shifts to clock into</p>
+      <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>No shifts this week to clock into</p>
     </div>
   )
 
@@ -367,8 +375,9 @@ function ClockInPanel({ myShifts, user }) {
                 <div>
                   <div style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--text-primary)' }}>
                     {s.shift_id}
-                    {s.isUpcoming && <span style={{ marginLeft: 6, fontSize: '0.65rem', color: '#3B82F6', background: '#EFF6FF', border: '1px solid #BFDBFE', padding: '1px 6px', borderRadius: 99 }}>starts in {Math.round(s.minsToStart)}m</span>}
-                    {s.isActive && !s.clIn && <span style={{ marginLeft: 6, fontSize: '0.65rem', color: '#16A34A', background: '#F0FDF4', border: '1px solid #BBF7D0', padding: '1px 6px', borderRadius: 99 }}>ACTIVE</span>}
+                    {s.isUpcoming && !s.clIn && !s.clOut && <span style={{ marginLeft: 6, fontSize: '0.65rem', color: '#3B82F6', background: '#EFF6FF', border: '1px solid #BFDBFE', padding: '1px 6px', borderRadius: 99 }}>starts in {Math.round(s.minsToStart)}m</span>}
+                    {s.isActive && !s.clIn && !s.clOut && <span style={{ marginLeft: 6, fontSize: '0.65rem', color: '#16A34A', background: '#F0FDF4', border: '1px solid #BBF7D0', padding: '1px 6px', borderRadius: 99 }}>ACTIVE</span>}
+                    {!s.clIn && !s.clOut && !s.isActive && !s.isUpcoming && <span style={{ marginLeft: 6, fontSize: '0.65rem', color: '#6366F1', background: '#EEF2FF', border: '1px solid #C7D2FE', padding: '1px 6px', borderRadius: 99 }}>Scheduled</span>}
                     {s.clIn && <span style={{ marginLeft: 6, fontSize: '0.65rem', color: '#16A34A', background: '#F0FDF4', border: '1px solid #BBF7D0', padding: '1px 6px', borderRadius: 99 }}>● Working · {s.elapsed}</span>}
                     {s.clOut && <span style={{ marginLeft: 6, fontSize: '0.65rem', color: '#6B7280', background: '#F9FAFB', border: '1px solid #E5E7EB', padding: '1px 6px', borderRadius: 99 }}>Done · {s.clOut.duration_min}min</span>}
                   </div>
@@ -377,7 +386,7 @@ function ClockInPanel({ myShifts, user }) {
                   </div>
                 </div>
 
-                {!s.clOut && (s.isActive || s.isUpcoming || s.clIn) && (
+                {!s.clOut && (
                   <motion.button
                     onClick={() => handleClock(s.shift_id, s.clIn ? 'out' : 'in')}
                     disabled={!!acting}
@@ -706,15 +715,242 @@ function TeamBoard({ teamToday, allShifts }) {
   )
 }
 
-function TaskItem({ text }) {
-  const [done, setDone] = useState(false)
+// ── Persistent Task Manager ───────────────────────────────────────
+const PRIORITY_STYLE = {
+  high:   { bg: '#FFF5F5', border: '#FECACA', text: '#DC2626', dot: '#EF4444' },
+  medium: { bg: '#FFFBEB', border: '#FDE68A', text: '#92400E', dot: '#FBBF24' },
+  low:    { bg: '#F0FDF4', border: '#BBF7D0', text: '#166534', dot: '#22C55E' },
+}
+
+function TaskManager({ user }) {
+  const [tasks, setTasks]       = useState([])
+  const [loading, setLoading]   = useState(true)
+  const [adding, setAdding]     = useState(false)
+  const [form, setForm]         = useState({ title: '', notes: '', priority: 'medium', due_date: '' })
+  const [saving, setSaving]     = useState(false)
+  const [editing, setEditing]   = useState(null)
+
+  const load = useCallback(() => {
+    apiGetTasks().then(r => setTasks(r.data.tasks || [])).catch(() => {}).finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  const handleCreate = async () => {
+    if (!form.title.trim()) return
+    setSaving(true)
+    try {
+      await apiCreateTask({ ...form, due_date: form.due_date || null })
+      setForm({ title: '', notes: '', priority: 'medium', due_date: '' })
+      setAdding(false)
+      load()
+    } finally { setSaving(false) }
+  }
+
+  const handleStatus = async (task, status) => {
+    await apiUpdateTask(task.id, { status })
+    load()
+  }
+
+  const handleDelete = async (id) => {
+    await apiDeleteTask(id)
+    load()
+  }
+
+  const pending   = tasks.filter(t => t.status !== 'done')
+  const done      = tasks.filter(t => t.status === 'done')
+
   return (
-    <motion.div onClick={() => setDone(d => !d)} whileTap={{ scale: 0.98 }}
-      style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 9, cursor: 'pointer', background: done ? '#F0FDF4' : 'var(--surface)', border: `1px solid ${done ? '#BBF7D0' : 'var(--border-soft)'}`, transition: 'all 0.15s ease' }}>
-      <CheckSquare size={15} color={done ? '#22C55E' : 'var(--blue-400)'} />
-      <span style={{ fontSize: '0.85rem', color: done ? '#16A34A' : 'var(--text-primary)', textDecoration: done ? 'line-through' : 'none', flex: 1 }}>{text}</span>
-      {done && <CheckCircle size={13} color="#22C55E" />}
-    </motion.div>
+    <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 14, padding: '18px 20px', boxShadow: 'var(--shadow-xs)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <CheckSquare size={15} color="#3B82F6" />
+          <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1D4ED8' }}>
+            My Tasks {pending.length > 0 && <span style={{ background: '#EFF6FF', color: '#3B82F6', borderRadius: 99, padding: '1px 6px', fontSize: '0.65rem' }}>{pending.length}</span>}
+          </p>
+        </div>
+        <motion.button onClick={() => setAdding(a => !a)} whileTap={{ scale: 0.95 }}
+          style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', borderRadius: 8, border: '1px solid #BFDBFE', background: adding ? '#EFF6FF' : 'white', color: '#3B82F6', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}>
+          <Plus size={12} /> {adding ? 'Cancel' : 'Add Task'}
+        </motion.button>
+      </div>
+
+      <AnimatePresence>
+        {adding && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} style={{ overflow: 'hidden', marginBottom: 12 }}>
+            <div style={{ padding: '12px 14px', background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: 10, display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+                placeholder="Task title…" autoFocus
+                style={{ padding: '8px 10px', borderRadius: 7, border: '1px solid #BFDBFE', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.84rem', outline: 'none' }} />
+              <div style={{ display: 'flex', gap: 8 }}>
+                <select value={form.priority} onChange={e => setForm(f => ({ ...f, priority: e.target.value }))}
+                  style={{ flex: 1, padding: '7px 8px', borderRadius: 7, border: '1px solid #BFDBFE', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', outline: 'none' }}>
+                  <option value="high">High priority</option>
+                  <option value="medium">Medium priority</option>
+                  <option value="low">Low priority</option>
+                </select>
+                <input type="date" value={form.due_date} onChange={e => setForm(f => ({ ...f, due_date: e.target.value }))}
+                  style={{ flex: 1, padding: '7px 8px', borderRadius: 7, border: '1px solid #BFDBFE', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', outline: 'none' }} />
+              </div>
+              <input value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+                placeholder="Notes (optional)…"
+                style={{ padding: '7px 10px', borderRadius: 7, border: '1px solid #BFDBFE', background: 'white', fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', outline: 'none' }} />
+              <motion.button onClick={handleCreate} disabled={saving || !form.title.trim()} whileTap={{ scale: 0.97 }}
+                style={{ padding: '8px', borderRadius: 8, border: 'none', background: '#3B82F6', color: 'white', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', opacity: saving || !form.title.trim() ? 0.6 : 1 }}>
+                {saving ? 'Saving…' : 'Create Task'}
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {loading ? (
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textAlign: 'center', padding: '12px 0' }}>Loading tasks…</p>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          {pending.length === 0 && done.length === 0 && (
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textAlign: 'center', padding: '12px 0' }}>No tasks yet — add one above</p>
+          )}
+          {pending.map(task => {
+            const ps = PRIORITY_STYLE[task.priority] || PRIORITY_STYLE.medium
+            return (
+              <motion.div key={task.id} layout
+                style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 12px', borderRadius: 9, background: ps.bg, border: `1px solid ${ps.border}` }}>
+                <button onClick={() => handleStatus(task, task.status === 'in_progress' ? 'pending' : 'in_progress')}
+                  style={{ marginTop: 2, background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}>
+                  <CheckSquare size={15} color={task.status === 'in_progress' ? '#3B82F6' : ps.text} />
+                </button>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--text-primary)' }}>{task.title}</div>
+                  {task.notes && <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 1 }}>{task.notes}</div>}
+                  <div style={{ display: 'flex', gap: 6, marginTop: 4, flexWrap: 'wrap', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.65rem', fontWeight: 700, color: ps.text, background: 'white', border: `1px solid ${ps.border}`, padding: '1px 6px', borderRadius: 99 }}>{task.priority}</span>
+                    {task.status === 'in_progress' && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#3B82F6', background: '#EFF6FF', border: '1px solid #BFDBFE', padding: '1px 6px', borderRadius: 99 }}>In Progress</span>}
+                    {task.due_date && <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Due {task.due_date}</span>}
+                    {task.created_by && task.created_by !== user?.full_name && <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>From: {task.created_by}</span>}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
+                  <button onClick={() => handleStatus(task, 'done')} title="Mark done"
+                    style={{ padding: '4px', borderRadius: 6, border: '1px solid #BBF7D0', background: '#F0FDF4', cursor: 'pointer', display: 'flex' }}>
+                    <CheckCircle size={12} color="#16A34A" />
+                  </button>
+                  <button onClick={() => handleDelete(task.id)} title="Delete"
+                    style={{ padding: '4px', borderRadius: 6, border: '1px solid #FECACA', background: '#FFF5F5', cursor: 'pointer', display: 'flex' }}>
+                    <Trash2 size={12} color="#EF4444" />
+                  </button>
+                </div>
+              </motion.div>
+            )
+          })}
+          {done.length > 0 && (
+            <details style={{ marginTop: 4 }}>
+              <summary style={{ fontSize: '0.72rem', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px 0', userSelect: 'none' }}>
+                {done.length} completed task{done.length > 1 ? 's' : ''}
+              </summary>
+              {done.map(task => (
+                <div key={task.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 8, background: '#F9FAFB', border: '1px solid #E5E7EB', marginTop: 5, opacity: 0.7 }}>
+                  <CheckCircle size={13} color="#22C55E" />
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textDecoration: 'line-through', flex: 1 }}>{task.title}</span>
+                  <button onClick={() => handleStatus(task, 'pending')} style={{ fontSize: '0.65rem', color: '#3B82F6', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Undo</button>
+                  <button onClick={() => handleDelete(task.id)} style={{ padding: '3px', borderRadius: 5, border: '1px solid #FECACA', background: '#FFF5F5', cursor: 'pointer', display: 'flex' }}>
+                    <Trash2 size={10} color="#EF4444" />
+                  </button>
+                </div>
+              ))}
+            </details>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Message Inbox ─────────────────────────────────────────────────
+function MessageInbox({ user }) {
+  const [messages, setMessages]   = useState([])
+  const [loading, setLoading]     = useState(true)
+  const [expanded, setExpanded]   = useState(null)
+
+  const load = useCallback(() => {
+    apiGetMessages().then(r => {
+      setMessages(r.data.messages || [])
+    }).catch(() => {}).finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  const handleOpen = async (msg) => {
+    setExpanded(expanded === msg.id ? null : msg.id)
+    if (!msg.is_read) {
+      await apiMarkMessageRead(msg.id).catch(() => {})
+      setMessages(msgs => msgs.map(m => m.id === msg.id ? { ...m, is_read: true } : m))
+    }
+  }
+
+  const unreadCount = messages.filter(m => !m.is_read).length
+
+  return (
+    <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 14, padding: '18px 20px', boxShadow: 'var(--shadow-xs)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+        <Mail size={15} color="#6366F1" />
+        <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4338CA' }}>
+          Messages {unreadCount > 0 && (
+            <span style={{ background: '#EEF2FF', color: '#6366F1', borderRadius: 99, padding: '1px 6px', fontSize: '0.65rem', marginLeft: 4 }}>{unreadCount} new</span>
+          )}
+        </p>
+      </div>
+
+      {loading ? (
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textAlign: 'center', padding: '12px 0' }}>Loading messages…</p>
+      ) : messages.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '20px 0' }}>
+          <Mail size={22} color="var(--text-muted)" style={{ marginBottom: 8 }} />
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>No messages yet</p>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          {messages.map(msg => (
+            <div key={msg.id}>
+              <motion.div
+                onClick={() => handleOpen(msg)}
+                whileTap={{ scale: 0.99 }}
+                style={{
+                  display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 12px', borderRadius: 9, cursor: 'pointer',
+                  background: !msg.is_read ? '#EEF2FF' : 'var(--surface)',
+                  border: `1px solid ${!msg.is_read ? '#C7D2FE' : 'var(--border-soft)'}`,
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                <div style={{ width: 32, height: 32, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, #6366F1, #8B5CF6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.8rem' }}>
+                  {msg.sender[0]}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                    <span style={{ fontWeight: 700, fontSize: '0.84rem', color: 'var(--text-primary)' }}>{msg.sender}</span>
+                    {msg.is_broadcast && <span style={{ fontSize: '0.62rem', fontWeight: 700, color: '#6366F1', background: '#EEF2FF', border: '1px solid #C7D2FE', padding: '1px 6px', borderRadius: 99 }}>All Employees</span>}
+                    {!msg.is_read && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#6366F1', flexShrink: 0 }} />}
+                  </div>
+                  <div style={{ fontWeight: 600, fontSize: '0.8rem', color: 'var(--text-secondary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{msg.subject}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 1 }}>
+                    {new Date(msg.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                </div>
+              </motion.div>
+              <AnimatePresence>
+                {expanded === msg.id && (
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} style={{ overflow: 'hidden' }}>
+                    <div style={{ padding: '12px 14px', background: '#F5F3FF', border: '1px solid #DDD6FE', borderRadius: '0 0 9px 9px', marginTop: -4, borderTop: 'none' }}>
+                      <p style={{ fontSize: '0.84rem', color: 'var(--text-primary)', lineHeight: 1.65, whiteSpace: 'pre-wrap', margin: 0 }}>{msg.body}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -729,6 +965,8 @@ export function EmployeeDashboard() {
   const [shiftsLoading, setShiftsL] = useState(true)
   const [activeTab, setActiveTab]   = useState('mine')  // 'mine' | 'open' | 'all'
 
+  const [leaderboard, setLeaderboard] = useState([])
+
   useEffect(() => {
     apiDashboardEmployee()
       .then(res => setData(res.data)).catch(() => setData(null))
@@ -738,6 +976,8 @@ export function EmployeeDashboard() {
       .finally(() => setShiftsL(false))
     apiGetShiftRequests()
       .then(res => setMyReqs(res.data.requests || [])).catch(() => setMyReqs([]))
+    apiGetLeaderboard()
+      .then(res => setLeaderboard(res.data.leaderboard || [])).catch(() => setLeaderboard([]))
   }, [])
 
   const handleShiftRequest = useCallback(async (payload) => {
@@ -827,9 +1067,9 @@ export function EmployeeDashboard() {
       )}
 
       {/* ── Clock In/Out ─────────────────────────────────── */}
-      {myShifts.length > 0 && (
+      {allShifts.length > 0 && (
         <motion.div {...fadeUp(2)}>
-          <ClockInPanel myShifts={myShifts} user={user} />
+          <ClockInPanel myShifts={myShifts.length > 0 ? myShifts : allShifts} user={user} />
         </motion.div>
       )}
 
@@ -988,24 +1228,23 @@ export function EmployeeDashboard() {
       {/* ── Bottom grid ──────────────────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
 
-        {/* My Tasks */}
-        <motion.div {...fadeUp(3)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 14, padding: '18px 20px', boxShadow: 'var(--shadow-xs)' }}>
-          <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 12 }}>My Tasks</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-            {tasks.length > 0
-              ? tasks.map((t, i) => <TaskItem key={i} text={t} />)
-              : <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>No tasks assigned</p>
-            }
-          </div>
+        {/* My Tasks (persistent) */}
+        <motion.div {...fadeUp(3)}>
+          <TaskManager user={user} />
+        </motion.div>
+
+        {/* Message Inbox */}
+        <motion.div {...fadeUp(4)}>
+          <MessageInbox user={user} />
         </motion.div>
 
         {/* Team Today */}
-        <motion.div {...fadeUp(4)}>
+        <motion.div {...fadeUp(5)}>
           <TeamBoard teamToday={teamToday} allShifts={allShifts} />
         </motion.div>
 
         {/* Cash & Tips */}
-        <motion.div {...fadeUp(5)}>
+        <motion.div {...fadeUp(6)}>
           <ShiftLogPanel shifts={allShifts} user={user} />
         </motion.div>
       </div>
@@ -1013,7 +1252,7 @@ export function EmployeeDashboard() {
       {/* ── Alerts + Rush + EOTW row ─────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
         {/* Warnings / Recognitions */}
-        <motion.div {...fadeUp(6)} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <motion.div {...fadeUp(7)} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {warnings.length > 0 && (
             <div style={{ background: 'white', border: '1px solid #FECACA', borderRadius: 14, padding: '16px 18px', boxShadow: 'var(--shadow-xs)' }}>
               <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 10 }}>
@@ -1054,7 +1293,7 @@ export function EmployeeDashboard() {
 
         {/* Rush Hours */}
         {rushHours.length > 0 && (
-          <motion.div {...fadeUp(7)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 14, padding: '16px 18px', boxShadow: 'var(--shadow-xs)' }}>
+          <motion.div {...fadeUp(8)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 14, padding: '16px 18px', boxShadow: 'var(--shadow-xs)' }}>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 10 }}>
               <Flame size={13} color="#F59E0B" />
               <p style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#92400E' }}>Rush Windows</p>
@@ -1071,7 +1310,7 @@ export function EmployeeDashboard() {
 
         {/* EOTW */}
         {eotw?.name && (
-          <motion.div {...fadeUp(8)} style={{ background: 'linear-gradient(135deg, #FFFBEB, #FEF3C7)', border: '1px solid #FDE68A', borderRadius: 14, padding: '16px 18px', boxShadow: '0 4px 16px rgba(251,191,36,0.12)' }}>
+          <motion.div {...fadeUp(9)} style={{ background: 'linear-gradient(135deg, #FFFBEB, #FEF3C7)', border: '1px solid #FDE68A', borderRadius: 14, padding: '16px 18px', boxShadow: '0 4px 16px rgba(251,191,36,0.12)' }}>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 10 }}>
               <Star size={13} fill="#FBBF24" color="#FBBF24" />
               <p style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#92400E' }}>Employee of the Week</p>
@@ -1082,6 +1321,53 @@ export function EmployeeDashboard() {
                 <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#78350F' }}>{eotw.name}</div>
                 <div style={{ fontSize: '0.72rem', color: '#B45309' }}>{eotw.role || 'Team Member'}</div>
               </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Points Leaderboard */}
+        {leaderboard.length > 0 && (
+          <motion.div {...fadeUp(10)} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden', boxShadow: 'var(--shadow-xs)' }}>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: '12px 16px', borderBottom: '1px solid var(--border-soft)', background: 'var(--off-white)' }}>
+              <Users size={13} color="#7C3AED" />
+              <p style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7C3AED' }}>Team Leaderboard</p>
+            </div>
+            <div style={{ padding: '10px 0' }}>
+              {leaderboard.slice(0, 6).map((emp, i) => {
+                const isMe = user?.full_name && emp.name?.toLowerCase().includes(user.full_name.split(' ')[0]?.toLowerCase())
+                const rankColors = ['#FBBF24', '#94A3B8', '#CD7F32']
+                const rankColor  = rankColors[i] || 'var(--text-muted)'
+                return (
+                  <div key={emp.name} style={{
+                    display: 'flex', alignItems: 'center', gap: 10, padding: '8px 16px',
+                    background: isMe ? '#F5F3FF' : 'transparent',
+                    borderLeft: isMe ? '3px solid #7C3AED' : '3px solid transparent',
+                    transition: 'background 0.15s',
+                  }}>
+                    <div style={{ width: 20, fontWeight: 800, fontSize: '0.78rem', color: rankColor, textAlign: 'center', flexShrink: 0 }}>
+                      {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`}
+                    </div>
+                    <div style={{ width: 30, height: 30, borderRadius: '50%', background: isMe ? 'linear-gradient(135deg,#7C3AED,#A78BFA)' : 'var(--surface)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.78rem', color: isMe ? 'white' : 'var(--text-secondary)', flexShrink: 0 }}>
+                      {emp.name?.[0] || '?'}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: isMe ? 700 : 600, fontSize: '0.8rem', color: isMe ? '#5B21B6' : 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {emp.name}{isMe ? ' (you)' : ''}
+                      </div>
+                      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>{emp.badge}</div>
+                    </div>
+                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                      <div style={{ fontWeight: 800, fontSize: '0.88rem', color: isMe ? '#7C3AED' : 'var(--text-primary)' }}>{emp.total_score}</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>pts</div>
+                    </div>
+                    <div style={{ width: 48, flexShrink: 0 }}>
+                      <div style={{ height: 5, borderRadius: 99, background: 'var(--surface)', overflow: 'hidden' }}>
+                        <div style={{ height: '100%', borderRadius: 99, width: `${Math.round(emp.total_score)}%`, background: isMe ? 'linear-gradient(90deg,#7C3AED,#A78BFA)' : 'linear-gradient(90deg,#60A5FA,#3B82F6)', transition: 'width 0.6s ease' }} />
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </motion.div>
         )}

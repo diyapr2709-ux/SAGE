@@ -101,10 +101,10 @@ function NavyPanel() {
 function RolePicker({ onSelect }) {
   const roles = [
     { key: 'employee', icon: Users, title: 'Employee',
-      desc: 'View your schedule, tasks, feedback and daily briefing',
+      desc: 'View your schedule, tasks, messages, and daily briefing',
       color: '#3B82F6', bg: '#EFF6FF', border: '#BFDBFE' },
-    { key: 'manager', icon: Briefcase, title: 'Manager / Admin',
-      desc: 'Full access - revenue, staffing, cost intel, and agent insights',
+    { key: 'ceo', icon: Briefcase, title: 'CEO',
+      desc: 'Full access — revenue, staffing, cost intel, messaging, and agent insights',
       color: '#7C3AED', bg: '#F5F3FF', border: '#DDD6FE' },
   ]
   return (
@@ -214,9 +214,9 @@ function AuthForm({ selectedRole, onBack }) {
   const { login }               = useAuth()
   const navigate                = useNavigate()
 
-  const isManager   = selectedRole === 'manager'
-  const accentColor = isManager ? '#7C3AED' : '#3B82F6'
-  const roleLabel   = isManager ? 'Manager / Admin' : 'Employee'
+  const isCeo       = selectedRole === 'ceo'
+  const accentColor = isCeo ? '#7C3AED' : '#3B82F6'
+  const roleLabel   = isCeo ? 'CEO' : 'Employee'
 
   const validate = () => {
     const errs = {}
@@ -232,19 +232,17 @@ function AuthForm({ selectedRole, onBack }) {
     if (!validate()) return
     setLoading(true); setError('')
     try {
-      // DEV MOCK — remove when backend is ready
-
       if (tab === 'login') {
-       const res = await apiLogin(email, password)
-       login(res.data.access_token)
-       navigate('/dashboard', { replace: true })
-    } else {
-     const registerRole = selectedRole === 'manager' ? 'manager' : 'employee'
-     await apiRegister({ email, password, full_name: fullName, role: registerRole })
-     const res = await apiLogin(email, password)
-     login(res.data.access_token)
-     navigate('/dashboard', { replace: true })
-    }
+        const res = await apiLogin(email, password)
+        login(res.data.access_token)
+        navigate('/dashboard', { replace: true })
+      } else {
+        const registerRole = selectedRole === 'ceo' ? 'ceo' : 'employee'
+        await apiRegister({ email, password, full_name: fullName, role: registerRole })
+        const res = await apiLogin(email, password)
+        login(res.data.access_token)
+        navigate('/dashboard', { replace: true })
+      }
    } catch (err) {
       const msg = err.response?.data?.detail
       setError(typeof msg === 'string' ? msg : 'Something went wrong. Please try again.')
@@ -268,8 +266,8 @@ function AuthForm({ selectedRole, onBack }) {
       </motion.button>
 
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px',
-        background: isManager ? '#F5F3FF' : '#EFF6FF',
-        border: `1px solid ${isManager ? '#DDD6FE' : '#BFDBFE'}`,
+        background: isCeo ? '#F5F3FF' : '#EFF6FF',
+        border: `1px solid ${isCeo ? '#DDD6FE' : '#BFDBFE'}`,
         borderRadius: 99, marginBottom: 16 }}>
         <div style={{ width: 6, height: 6, borderRadius: '50%', background: accentColor }} />
         <span style={{ fontSize: '0.75rem', fontWeight: 700, color: accentColor, letterSpacing: '0.04em' }}>{roleLabel}</span>
