@@ -436,21 +436,33 @@ def run_with_llm_dataset(dataset: dict) -> dict:
                 "owner": "Manager", "deadline": "", "merged_from": [],
             })
 
-    # Score and sort: use owner preference model if available, else urgency+impact
+    # ── Step 1: Cross-agent evidence fusion (Bayesian corroboration) ─────────────
     try:
-        from sage.preferences.owner_model import load_model as _lpm, score_recommendation as _sr, reorder_recommendations as _ro
+        from sage.preferences.fusion import fuse_recommendations, get_fusion_summary
+        recs = fuse_recommendations(recs)
+        fusion_summary = get_fusion_summary(recs)
+    except Exception:
+        fusion_summary = {}
+
+    # ── Step 2: Thompson Sampling bandit ranking ──────────────────────────────────
+    try:
+        from sage.preferences.bandit import rank_recommendations, get_arm_stats
+        recs = rank_recommendations(recs)
+        bandit_stats = get_arm_stats()
+    except Exception:
+        bandit_stats = {}
+        _order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
+        recs.sort(key=lambda r: (_order.get(r["urgency"], 2), -r["impact"]))
+
+    # ── Step 3: IRL approval score overlay (for UI display only, not re-sorting) ──
+    try:
+        from sage.preferences.owner_model import load_model as _lpm, score_recommendation as _sr
         _pref_model = _lpm()
         for r in recs:
             r["approval_score"] = _sr({"category": r["category"], "agent": r["agent"],
                                         "financial_impact": r["impact"], "urgency": r["urgency"]}, _pref_model)
-        if _pref_model.total_decisions >= 3:
-            recs = _ro(recs, _pref_model)
-        else:
-            _order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
-            recs.sort(key=lambda r: (_order.get(r["urgency"], 2), -r["impact"]))
     except Exception:
-        _order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
-        recs.sort(key=lambda r: (_order.get(r["urgency"], 2), -r["impact"]))
+        pass
 
     total_impact = sum(r["impact"] for r in recs)
 

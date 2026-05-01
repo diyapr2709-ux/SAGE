@@ -463,9 +463,9 @@ def run_refresh_cycle() -> dict:
     """
     Full refresh cycle:
       1. Generate fresh dataset
-      2. Save to disk
-      3. Reload into in-memory stores
-      4. Run FRANK pipeline
+      2. Save to disk + reload in-memory
+      3. Evaluate any pending outcome measurements → feed delayed rewards to bandit
+      4. Run FRANK pipeline (now uses Thompson Sampling + Bayesian fusion)
     Returns summary of what changed.
     """
     from app.agents.dataset_pipe import pass_llm_dataset
@@ -475,9 +475,17 @@ def run_refresh_cycle() -> dict:
     dataset = generate_fresh_dataset()
 
     # Save + reload in-memory
-    result = pass_llm_dataset(dataset)
+    pass_llm_dataset(dataset)
 
-    # Run FRANK
+    # Evaluate pending outcomes from approved recs (delayed reward loop)
+    outcome_results = []
+    try:
+        from sage.preferences.outcome_tracker import evaluate_pending_outcomes
+        outcome_results = evaluate_pending_outcomes(dataset)
+    except Exception:
+        pass
+
+    # Run FRANK with fusion + bandit ranking
     frank_result = run_with_llm_dataset(dataset)
 
     summary = {
@@ -488,5 +496,7 @@ def run_refresh_cycle() -> dict:
         "avg_rating": dataset["llm_outputs"]["voice"]["avg_rating"],
         "employee_of_week": dataset["llm_outputs"]["shelf"]["employee_intelligence"]["employee_of_the_week"]["name"],
         "frank_ran": "briefing_text" in frank_result,
+        "outcomes_evaluated": len(outcome_results),
+        "outcomes_confirmed": sum(1 for o in outcome_results if o.get("confirmed")),
     }
     return summary

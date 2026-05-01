@@ -34,9 +34,13 @@ async def record_recommendation_feedback(
     payload: FeedbackPayload,
     current_user: User = Depends(get_current_user),
 ):
-    """Record an owner approval / rejection / edit event and update the preference model."""
+    """Record an owner approval / rejection / edit event and update preference model + bandit."""
     try:
         from sage.preferences.owner_model import record_feedback, get_preference_summary
+        from sage.preferences.bandit import update_arm
+        from sage.preferences.outcome_tracker import record_approved_outcome
+
+        # IRL model update
         model = record_feedback(
             recommendation_id=payload.recommendation_id,
             category=payload.category,
@@ -46,6 +50,21 @@ async def record_recommendation_feedback(
             action=payload.action,
             edit_note=payload.edit_note or "",
         )
+
+        # Thompson Sampling bandit update
+        update_arm(payload.category, payload.agent, payload.urgency, payload.action)
+
+        # If approved, register an outcome expectation for measurement on next refresh
+        if payload.action == "approved":
+            record_approved_outcome({
+                "id":       payload.recommendation_id,
+                "category": payload.category,
+                "agent":    payload.agent,
+                "urgency":  payload.urgency,
+                "title":    payload.edit_note or payload.recommendation_id,
+                "impact":   payload.financial_impact,
+            })
+
         return {"ok": True, "model": get_preference_summary()}
     except Exception as e:
         raise HTTPException(500, f"Preference update failed: {e}")
@@ -53,10 +72,16 @@ async def record_recommendation_feedback(
 
 @router.get("/preferences")
 async def get_owner_preferences(current_user: User = Depends(get_current_user)):
-    """Return the current owner preference model and any drift indicator."""
+    """Return IRL preference model, Thompson Sampling bandit stats, and outcome loop summary."""
     try:
         from sage.preferences.owner_model import get_preference_summary
-        return get_preference_summary()
+        from sage.preferences.bandit import get_arm_stats
+        from sage.preferences.outcome_tracker import get_outcome_summary
+        return {
+            **get_preference_summary(),
+            "bandit": get_arm_stats(),
+            "outcomes": get_outcome_summary(),
+        }
     except Exception as e:
         raise HTTPException(500, f"Could not load preference model: {e}")
 

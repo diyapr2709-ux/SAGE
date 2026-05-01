@@ -1,0 +1,18 @@
+[
+  {
+    "recommendation_id": "r1",
+    "category": "cost",
+    "agent": "SHELF",
+    "urgency": "high",
+    "action_taken": "Reduce lamb cost",
+    "outcome_type": "cost_reduction",
+    "baseline_value": 1680.0,
+    "expected_direction": "decrease",
+    "approved_at": "2026-05-01T18:09:57.485316+00:00",
+    "measure_after": "2026-05-01T19:09:57.485316+00:00",
+    "measured": false,
+    "confirmed": null,
+    "measured_value": null,
+    "measured_at": null
+  }
+]

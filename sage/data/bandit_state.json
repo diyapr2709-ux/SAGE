@@ -1,0 +1,14 @@
+{
+  "arms": {
+    "cost|SHELF|high": {
+      "alpha": 6.0,
+      "beta": 1.0
+    },
+    "staffing|CREW|medium": {
+      "alpha": 1.0,
+      "beta": 2.0
+    }
+  },
+  "total_pulls": 6,
+  "last_updated": "2026-05-01T18:09:57.479695+00:00"
+}
