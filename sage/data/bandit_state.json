@@ -1,14 +1,34 @@
 {
   "arms": {
     "cost|SHELF|high": {
-      "alpha": 6.0,
+      "alpha": 11.0,
       "beta": 1.0
     },
     "staffing|CREW|medium": {
       "alpha": 1.0,
+      "beta": 3.0
+    },
+    "cost|SHELF|medium": {
+      "alpha": 2.0,
+      "beta": 1.0
+    },
+    "staffing|CREW|high": {
+      "alpha": 1.0,
+      "beta": 3.0
+    },
+    "reputation|VOICE|medium": {
+      "alpha": 2.0,
+      "beta": 1.0
+    },
+    "compliance|SHELF|high": {
+      "alpha": 2.0,
+      "beta": 2.0
+    },
+    "revenue|PULSE|high": {
+      "alpha": 1.0,
       "beta": 2.0
     }
   },
-  "total_pulls": 6,
-  "last_updated": "2026-05-01T18:09:57.479695+00:00"
+  "total_pulls": 14,
+  "last_updated": "2026-05-01T18:17:19.740345+00:00"
 }

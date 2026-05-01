@@ -172,10 +172,16 @@ async def employee_shifts(current_user: User = Depends(get_current_user)):
 
     shifts_data = json.loads(json.dumps(get_all_shifts(employees), cls=_Enc))
     requests = _load_shift_requests()
-    # Attach any pending requests to their shifts
     req_map = {r["shift_id"]: r for r in requests}
     for shift in shifts_data.get("shifts", []):
         sid = shift.get("shift_id")
+        # Hoist role from first assigned employee to top-level for frontend convenience
+        emps = shift.get("employees", [])
+        if emps and not shift.get("role"):
+            shift["role"] = (emps[0].get("employee_role") or "").replace("_", " ").title()
+        # Hoist employee names list
+        if emps and not shift.get("assigned_names"):
+            shift["assigned_names"] = [e.get("name", "") for e in emps]
         if sid and sid in req_map:
             shift["pending_request"] = req_map[sid]
     return shifts_data

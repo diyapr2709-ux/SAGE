@@ -52,14 +52,25 @@ P_ISSUE_PRIOR = 0.40
 
 
 def _load_agent_reliability() -> Dict[str, float]:
-    """Pull approval-rate-based reliability from owner_model if available."""
+    """
+    Agent reliability = P(signal correct | agent fires).
+    Uses DEFAULT_RELIABILITY priors, blended with learned approval rates
+    only when there is enough feedback evidence (≥15 decisions).
+    Owner approval rate ≠ agent accuracy — approval rate is a noisy proxy,
+    so we blend conservatively: 30% learned, 70% prior until well-calibrated.
+    """
     try:
         from sage.preferences.owner_model import load_model
         model = load_model()
-        return {ag: model.agent_weights.get(ag, _DEFAULT_RELIABILITY.get(ag, 0.70))
-                for ag in _DEFAULT_RELIABILITY}
+        if model.total_decisions >= 15:
+            blend = 0.30
+            return {
+                ag: round(blend * model.agent_weights.get(ag, r) + (1 - blend) * r, 4)
+                for ag, r in _DEFAULT_RELIABILITY.items()
+            }
     except Exception:
-        return _DEFAULT_RELIABILITY.copy()
+        pass
+    return _DEFAULT_RELIABILITY.copy()
 
 
 def bayesian_corroboration_score(agents_signalling: List[str],
@@ -132,11 +143,13 @@ def fuse_recommendations(recs: list) -> list:
         rec["corroboration_score"] = score
         rec["corroborated_by"] = agents
 
-        # Urgency upgrade if score > 0.80 and currently medium
-        if score > 0.80 and rec.get("urgency") == "medium":
+        # Urgency upgrade thresholds (calibrated to realistic posteriors):
+        # 2-agent corroboration ≈ 0.70–0.85 → medium→high
+        # 3-agent corroboration ≈ 0.90+    → high→critical
+        if score > 0.65 and rec.get("urgency") == "medium":
             rec["urgency"] = "high"
             rec["urgency_upgraded"] = True
-        elif score > 0.90 and rec.get("urgency") == "high":
+        elif score > 0.85 and rec.get("urgency") == "high":
             rec["urgency"] = "critical"
             rec["urgency_upgraded"] = True
 
