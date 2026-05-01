@@ -43,7 +43,7 @@
       "role": "Shift Supervisor",
       "hourly_rate": 22,
       "hours_per_week": 46,
-      "performance_notes": "strong leader, 7h overtime this week \u2014 needs review"
+      "performance_notes": "strong leader, 4h overtime this week \u2014 needs review"
     },
     {
       "name": "Sophia Kim",
@@ -83,39 +83,39 @@
   ],
   "llm_outputs": {
     "voice": {
-      "generated_at": "2026-05-01T13:55:13.881396",
+      "generated_at": "2026-05-01T14:20:22.809293",
       "source": "external_paradigm_refresh",
-      "avg_rating": 4.8,
-      "positive_reviews": 3,
+      "avg_rating": 4.2,
+      "positive_reviews": 2,
       "negative_reviews": 0,
       "umd_context": {
-        "event": "Spring break",
-        "impact": "low",
-        "note": "Campus empties \u2014 reduce staffing 40%, monitor costs"
+        "event": "Finals week",
+        "impact": "high",
+        "note": "Peak late-night demand, +35% orders expected 10PM-2AM"
       },
       "pricing_alerts": [
         {
-          "alert_id": "market_351",
+          "alert_id": "market_503",
+          "type": "market_signal",
+          "competitor": "Wingstop (Route 1, 0.5mi)",
+          "signal": "running 2-for-$14 wing deal on Thursdays \u2014 capturing late-night crowd",
+          "recommended_action": "Counter with Thursday-only $1 baklava add-on promo",
+          "financial_note": "Estimated 12% Thursday traffic loss without response",
+          "urgency": "medium"
+        },
+        {
+          "alert_id": "market_954",
           "type": "market_signal",
           "competitor": "Subway (Route 1, 0.2mi)",
           "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
           "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
           "financial_note": "Subway targets different segment, low overlap risk",
           "urgency": "medium"
-        },
-        {
-          "alert_id": "price_842",
-          "type": "competitor_pricing",
-          "competitor": "Chipotle (Route 1, 0.3mi)",
-          "signal": "burrito bowl dropped to $10.95 \u2014 $2.55 below Marathon gyro wrap",
-          "recommended_action": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
-          "financial_note": "Matching would cost ~$3,400/mo in revenue",
-          "urgency": "high"
         }
       ],
       "temporal_alerts": [
         {
-          "alert_id": "shift_260",
+          "alert_id": "shift_327",
           "type": "staffing_pressure",
           "window": "Lunch rush window \u2014 monitor queue depth",
           "recommended_action": "Add one cook to Thursday 10PM-2AM shift",
@@ -125,11 +125,39 @@
       ],
       "compliance_alerts": [],
       "market_events": [
-        "Sysco delivery driver shortage in MD \u2014 pita lead time up 2 days",
         "Cooking oil futures up 4% this week on crop report",
-        "Maryland minimum wage increase to $15.50 effective July 1"
+        "Greek feta import tariff review in progress \u2014 monitor for Q3 impact",
+        "USDA: chicken breast prices stabilizing after Q1 spike"
       ],
       "replies": [
+        {
+          "id": "g_003",
+          "platform": "Google",
+          "author": "GreekFoodLover",
+          "rating": 5,
+          "text": "Fatima's shawarma is unreal. Came back three Fridays in a row just for that. Marathon is a gem.",
+          "sentiment": "positive",
+          "tags": [
+            "shawarma",
+            "fatima",
+            "repeat_customer"
+          ],
+          "cross_ref": null
+        },
+        {
+          "id": "g_004",
+          "platform": "Google",
+          "author": "NightOwlUMD",
+          "rating": 3,
+          "text": "Food is great but had a cold gyro once \u2014 felt like it sat too long. Staff was apologetic though.",
+          "sentiment": "mixed",
+          "tags": [
+            "food_temp",
+            "gyro",
+            "service_recovery"
+          ],
+          "cross_ref": null
+        },
         {
           "id": "g_001",
           "platform": "Google",
@@ -145,63 +173,35 @@
           "cross_ref": null
         },
         {
-          "id": "y_003",
+          "id": "y_004",
           "platform": "Yelp",
-          "author": "UMD_Alumni_Fan",
-          "rating": 5,
-          "text": "Been going here since 2019. Aarav is still there and still the fastest checkout on campus.",
-          "sentiment": "positive",
-          "tags": [
-            "aarav",
-            "cashier",
-            "loyalty"
-          ],
-          "cross_ref": null
-        },
-        {
-          "id": "y_005",
-          "platform": "Yelp",
-          "author": "LateNightRegular",
-          "rating": 5,
-          "text": "Open until 3 AM and quality stays consistent. Michael keeps the night crew sharp.",
-          "sentiment": "positive",
-          "tags": [
-            "michael",
-            "late_night",
-            "consistency"
-          ],
-          "cross_ref": null
-        },
-        {
-          "id": "g_002",
-          "platform": "Google",
-          "author": "CollegeParkLocal",
+          "author": "BudgetStudentEats",
           "rating": 4,
-          "text": "Love this place but Thursday nights around 11 PM there's always a huge wait. Need more staff then.",
+          "text": "$14 for a gyro wrap seems steep vs Chipotle at $11 nearby. Worth it for the taste but the gap is growing.",
           "sentiment": "mixed",
           "tags": [
-            "staffing",
-            "thursday_late",
-            "wait_time"
+            "pricing",
+            "competitor_chipotle",
+            "value"
           ],
-          "cross_ref": "thu_understaffing"
+          "cross_ref": "gyro_price_hold"
         }
       ]
     },
     "shelf": {
-      "generated_at": "2026-05-01T13:55:13.881396",
+      "generated_at": "2026-05-01T14:20:22.809293",
       "source": "external_paradigm_refresh",
       "flag": true,
       "staffing_pressure": "medium",
       "staffing_note": "Lunch rush window \u2014 monitor queue depth",
       "executive_summary": {
-        "business_health_score": 72,
+        "business_health_score": 76,
         "staffing_pressure": "medium"
       },
       "employee_intelligence": {
         "employee_of_the_week": {
           "name": "Priya Sharma",
-          "score": 98,
+          "score": 97,
           "reason": "100/100 performance score, outstanding customer praise"
         },
         "employees": []
@@ -211,18 +211,18 @@
       },
       "competitor_landscape": [
         {
+          "competitor": "Wingstop (Route 1, 0.5mi)",
+          "signal": "running 2-for-$14 wing deal on Thursdays \u2014 capturing late-night crowd",
+          "impact": "traffic_diversion",
+          "recommended_action": "Counter with Thursday-only $1 baklava add-on promo",
+          "financial_note": "Estimated 12% Thursday traffic loss without response"
+        },
+        {
           "competitor": "Subway (Route 1, 0.2mi)",
           "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
           "impact": "lunch_traffic_risk",
           "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
           "financial_note": "Subway targets different segment, low overlap risk"
-        },
-        {
-          "competitor": "Chipotle (Route 1, 0.3mi)",
-          "signal": "burrito bowl dropped to $10.95 \u2014 $2.55 below Marathon gyro wrap",
-          "impact": "price_pressure",
-          "recommended_action": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
-          "financial_note": "Matching would cost ~$3,400/mo in revenue"
         }
       ],
       "cost_intelligence": {
@@ -231,10 +231,10 @@
             "item": "Lamb Shoulder (gyro/shawarma base)",
             "financial_impact": 1680,
             "monthly_impact": 1680,
-            "root_cause": "Price -7.5% vs baseline \u2014 primary protein cost driver",
-            "recommended_action": "Current pricing favorable \u2014 maintain",
-            "urgency": "low",
-            "flag": "stable"
+            "root_cause": "Price +7.0% vs baseline \u2014 primary protein cost driver",
+            "recommended_action": "Pre-order 2-week supply to lock in current price",
+            "urgency": "high",
+            "flag": "cost_spike"
           },
           {
             "item": "DoorDash Marketplace Commission",
@@ -246,60 +246,60 @@
             "flag": "cost_spike"
           },
           {
-            "item": "Overtime Labor \u2014 Michael Rivera (7h OT this week)",
-            "financial_impact": 924,
-            "monthly_impact": 924,
-            "root_cause": "Supervisor working 47h this week (7h above threshold)",
-            "recommended_action": "Hire part-time evening cashier to absorb 4-6h/week OT",
-            "urgency": "high",
-            "flag": "cost_spike"
+            "item": "Overtime Labor \u2014 Michael Rivera (4h OT this week)",
+            "financial_impact": 528,
+            "monthly_impact": 528,
+            "root_cause": "Supervisor working 44h this week (4h above threshold)",
+            "recommended_action": "Monitor \u2014 within acceptable buffer",
+            "urgency": "medium",
+            "flag": "watch"
           }
         ],
         "cogs_snapshot": {
           "lamb_shoulder": {
             "unit": "lb",
-            "current_price": 7.77,
-            "vs_baseline": "-7.5%",
+            "current_price": 8.99,
+            "vs_baseline": "+7.0%",
             "flagged": true
           },
           "feta_cheese": {
             "unit": "lb",
-            "current_price": 5.98,
-            "vs_baseline": "-3.6%",
+            "current_price": 6.01,
+            "vs_baseline": "-3.0%",
             "flagged": false
           },
           "pita_bread": {
             "unit": "case_48",
-            "current_price": 21.78,
-            "vs_baseline": "-3.2%",
+            "current_price": 22.64,
+            "vs_baseline": "+0.6%",
             "flagged": false
           },
           "cooking_oil": {
             "unit": "gal",
-            "current_price": 14.45,
-            "vs_baseline": "-2.4%",
+            "current_price": 15.3,
+            "vs_baseline": "+3.4%",
             "flagged": false
           },
           "shawarma_spice": {
             "unit": "lb",
-            "current_price": 11.85,
-            "vs_baseline": "-1.2%",
+            "current_price": 12.13,
+            "vs_baseline": "+1.1%",
             "flagged": false
           },
           "chicken": {
             "unit": "lb",
-            "current_price": 3.38,
-            "vs_baseline": "+5.6%",
-            "flagged": true
+            "current_price": 3.09,
+            "vs_baseline": "-3.4%",
+            "flagged": false
           }
         },
         "monthly_revenue": 112000,
         "cost_creep": {
-          "feta_cheese": "+3.6%",
-          "pita_bread": "+3.2%"
+          "feta_cheese": "+3.0%",
+          "pita_bread": "+0.6%"
         },
-        "total_monthly_flagged": 6972,
-        "as_pct_revenue": 6.2
+        "total_monthly_flagged": 6576,
+        "as_pct_revenue": 5.9
       }
     }
   }

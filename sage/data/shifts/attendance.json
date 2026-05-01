@@ -8,5 +8,15 @@
     "clock_out": null,
     "duration_min": null,
     "note": ""
+  },
+  {
+    "shift_id": "mon_morning_01",
+    "email": "priya@marathondeli.com",
+    "name": "Priya Sharma",
+    "action": "in",
+    "clock_in": "2026-05-01T18:13:05.866202",
+    "clock_out": "2026-05-01T18:19:10.792975",
+    "duration_min": 6.1,
+    "note": ""
   }
 ]

@@ -1,6 +1,43 @@
 {
-  "briefing_text": "SAGE Morning Briefing \u2014 Friday, May 01 2026\nBusiness: Marathon Deli\n\nHealth Score: 72/100\n6 recommendations | $10,981 total impact\n\nTop actions:\n  [SHELF] Negotiate direct delivery for orders >$25 or push Marathon app ($4,368)\n  [PULSE] Revenue Anomaly Detected ($4,009)\n  [SHELF] Hire part-time evening cashier to absorb 4-6h/week OT ($924)",
+  "briefing_text": "SAGE Morning Briefing \u2014 Friday, May 01 2026\nBusiness: Marathon Deli\n\nHealth Score: 76/100\n6 recommendations | $10,771 total impact\n\nTop actions:\n  [SHELF] Pre-order 2-week supply to lock in current price ($1,680)\n  [SHELF] Monitor \u2014 within acceptable buffer ($528)\n  [SHELF] Negotiate direct delivery for orders >$25 or push Marathon app ($4,368)",
   "recommendations": [
+    {
+      "id": "shelf_cost_Lamb_Shoulder_(gyro/shawarma_base)",
+      "agent": "SHELF",
+      "category": "cost",
+      "title": "Pre-order 2-week supply to lock in current price",
+      "description": "Lamb Shoulder (gyro/shawarma base) \u2014 Price +7.0% vs baseline \u2014 primary protein cost driver",
+      "impact": 1680,
+      "urgency": "high",
+      "requires_approval": true,
+      "owner": "Owner",
+      "deadline": "",
+      "merged_from": [],
+      "corroboration_score": 0.0,
+      "corroborated_by": [],
+      "bandit_score": 0.9434,
+      "approval_score": 0.2097
+    },
+    {
+      "id": "shelf_cost_Overtime_Labor_\u2014_Michael_Rivera_(4h_OT_this_week)",
+      "agent": "SHELF",
+      "category": "cost",
+      "title": "Monitor \u2014 within acceptable buffer",
+      "description": "Overtime Labor \u2014 Michael Rivera (4h OT this week) \u2014 Supervisor working 44h this week (4h above threshold)",
+      "impact": 528,
+      "urgency": "high",
+      "requires_approval": true,
+      "owner": "Owner",
+      "deadline": "",
+      "merged_from": [],
+      "corroboration_score": 0.7273,
+      "corroborated_by": [
+        "SHELF"
+      ],
+      "urgency_upgraded": true,
+      "bandit_score": 0.8839,
+      "approval_score": 0.1875
+    },
     {
       "id": "shelf_cost_DoorDash_Marketplace_Commission",
       "agent": "SHELF",
@@ -13,52 +50,32 @@
       "owner": "Owner",
       "deadline": "",
       "merged_from": [],
-      "approval_score": 0.675
+      "corroboration_score": 0.7273,
+      "corroborated_by": [
+        "SHELF"
+      ],
+      "bandit_score": 0.8684,
+      "approval_score": 0.2865
     },
     {
       "id": "pulse_alert",
       "agent": "PULSE",
       "category": "revenue",
       "title": "Revenue Anomaly Detected",
-      "description": "Deviation: 45.9% from forecast.",
-      "impact": 4009.27,
+      "description": "Deviation: 48.5% from forecast.",
+      "impact": 4195.13,
       "urgency": "high",
       "requires_approval": true,
       "owner": "Owner",
       "deadline": "",
       "merged_from": [],
-      "approval_score": 0.675
+      "corroboration_score": 0.0,
+      "corroborated_by": [],
+      "bandit_score": 0.7534,
+      "approval_score": 0.8311
     },
     {
-      "id": "shelf_cost_Overtime_Labor_\u2014_Michael_Rivera_(7h_OT_this_week)",
-      "agent": "SHELF",
-      "category": "cost",
-      "title": "Hire part-time evening cashier to absorb 4-6h/week OT",
-      "description": "Overtime Labor \u2014 Michael Rivera (7h OT this week) \u2014 Supervisor working 47h this week (7h above threshold)",
-      "impact": 924,
-      "urgency": "high",
-      "requires_approval": true,
-      "owner": "Owner",
-      "deadline": "",
-      "merged_from": [],
-      "approval_score": 0.6748
-    },
-    {
-      "id": "voice_pricing_price_842",
-      "agent": "VOICE",
-      "category": "cost",
-      "title": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
-      "description": "",
-      "impact": 0,
-      "urgency": "high",
-      "requires_approval": true,
-      "owner": "Owner",
-      "deadline": "",
-      "merged_from": [],
-      "approval_score": 0.4553
-    },
-    {
-      "id": "voice_pricing_market_351",
+      "id": "voice_pricing_market_954",
       "agent": "VOICE",
       "category": "cost",
       "title": "Marathon's differentiation is quality/variety \u2014 no need to match",
@@ -69,135 +86,171 @@
       "owner": "Owner",
       "deadline": "",
       "merged_from": [],
-      "approval_score": 0.4053
+      "corroboration_score": 0.0,
+      "corroborated_by": [],
+      "bandit_score": 0.5798,
+      "approval_score": 0.2548
     },
     {
-      "id": "shelf_cost_Lamb_Shoulder_(gyro/shawarma_base)",
-      "agent": "SHELF",
+      "id": "voice_pricing_market_503",
+      "agent": "VOICE",
       "category": "cost",
-      "title": "Current pricing favorable \u2014 maintain",
-      "description": "Lamb Shoulder (gyro/shawarma base) \u2014 Price -7.5% vs baseline \u2014 primary protein cost driver",
-      "impact": 1680,
-      "urgency": "low",
+      "title": "Counter with Thursday-only $1 baklava add-on promo",
+      "description": "",
+      "impact": 0,
+      "urgency": "medium",
       "requires_approval": true,
       "owner": "Owner",
       "deadline": "",
       "merged_from": [],
-      "approval_score": 0.575
+      "corroboration_score": 0.5862,
+      "corroborated_by": [
+        "VOICE"
+      ],
+      "bandit_score": 0.4422,
+      "approval_score": 0.2548
     }
   ],
   "conflicts": [],
   "forecast_72hr": [
-    226.78739145269316,
-    220.59065880408986,
-    229.00836393062093,
-    228.53262837269142,
-    221.6046019941814,
-    227.80668566343638,
-    226.88524473263166,
-    331.01360416785514,
-    540.737523268516,
-    536.5638252999929,
-    578.8338765404409,
-    578.2594440586375,
-    560.9104035944603,
-    76.78457861913972,
-    76.51507818044786,
-    76.22758108219591,
-    75.92020218194011,
-    75.59059827886634,
-    75.233535419046,
-    74.84090724216725,
-    74.40925476180985,
-    231.23085124658238,
-    227.0704267762115,
-    231.94841451630808,
-    226.78739145269316,
-    220.59065880408986,
-    229.00836393062093,
-    228.53262837269142,
-    221.6046019941814,
-    227.80668566343638,
-    226.88524473263166,
-    331.01360416785514,
-    540.737523268516,
-    536.5638252999929,
-    578.8338765404409,
-    578.2594440586375,
-    560.9104035944603,
-    76.78457861913972,
-    76.51507818044786,
-    76.22758108219591,
-    75.92020218194011,
-    75.59059827886634,
-    75.233535419046,
-    74.84090724216725,
-    74.40925476180985,
-    231.23085124658238,
-    227.0704267762115,
-    231.94841451630808,
-    226.78739145269316,
-    220.59065880408986,
-    229.00836393062093,
-    228.53262837269142,
-    221.6046019941814,
-    227.80668566343638,
-    226.88524473263166,
-    331.01360416785514,
-    540.737523268516,
-    536.5638252999929,
-    578.8338765404409,
-    578.2594440586375,
-    560.9104035944603,
-    76.78457861913972,
-    76.51507818044786,
-    76.22758108219591,
-    75.92020218194011,
-    75.59059827886634,
-    75.233535419046,
-    74.84090724216725,
-    74.40925476180985,
-    231.23085124658238,
-    227.0704267762115,
-    231.94841451630808
+    227.37634679224914,
+    221.19391249942683,
+    229.644010711481,
+    229.2267106869518,
+    222.3498651057461,
+    228.59441115722817,
+    343.5620828167696,
+    521.7266814910266,
+    541.5261872049939,
+    558.9368993386906,
+    579.5333329766618,
+    578.9167372747386,
+    77.65578279552037,
+    77.37440723301168,
+    77.07374264843492,
+    76.752125660908,
+    76.40630938744388,
+    76.0312466221115,
+    75.61961109651705,
+    75.16736477698927,
+    230.20916983246693,
+    231.44987456857763,
+    227.2543849673332,
+    232.1162679552508,
+    227.37634679224914,
+    221.19391249942683,
+    229.644010711481,
+    229.2267106869518,
+    222.3498651057461,
+    228.59441115722817,
+    343.5620828167696,
+    521.7266814910266,
+    541.5261872049939,
+    558.9368993386906,
+    579.5333329766618,
+    578.9167372747386,
+    77.65578279552037,
+    77.37440723301168,
+    77.07374264843492,
+    76.752125660908,
+    76.40630938744388,
+    76.0312466221115,
+    75.61961109651705,
+    75.16736477698927,
+    230.20916983246693,
+    231.44987456857763,
+    227.2543849673332,
+    232.1162679552508,
+    227.37634679224914,
+    221.19391249942683,
+    229.644010711481,
+    229.2267106869518,
+    222.3498651057461,
+    228.59441115722817,
+    343.5620828167696,
+    521.7266814910266,
+    541.5261872049939,
+    558.9368993386906,
+    579.5333329766618,
+    578.9167372747386,
+    77.65578279552037,
+    77.37440723301168,
+    77.07374264843492,
+    76.752125660908,
+    76.40630938744388,
+    76.0312466221115,
+    75.61961109651705,
+    75.16736477698927,
+    230.20916983246693,
+    231.44987456857763,
+    227.2543849673332,
+    232.1162679552508
   ],
-  "deviation_pct": 0.4589,
+  "deviation_pct": 0.4846,
   "alert": true,
   "goals": {
     "daily": {
       "target": 3000.0,
-      "actual_so_far": 2716.24,
-      "projected": 5705.77,
-      "gap": -2705.77,
+      "actual_so_far": 2904.4,
+      "projected": 5669.6,
+      "gap": -2669.6,
       "on_pace": true
     },
     "weekly": {
       "target": 18000.0,
-      "actual_so_far": 17185.29,
-      "projected": 35195.2,
-      "gap": -17195.2,
+      "actual_so_far": 17409.63,
+      "projected": 35456.72,
+      "gap": -17456.72,
       "on_pace": true
     }
   },
   "rush_hours": [
     {
       "window": "Sat May 02 12:00 AM - 02:00 AM",
-      "expected_revenue": 1157.09,
+      "expected_revenue": 1138.47,
       "urgency": "high"
     },
     {
       "window": "Sun May 03 12:00 AM - 02:00 AM",
-      "expected_revenue": 1157.09,
+      "expected_revenue": 1138.47,
       "urgency": "high"
     },
     {
       "window": "Mon May 04 12:00 AM - 02:00 AM",
-      "expected_revenue": 1157.09,
+      "expected_revenue": 1138.47,
       "urgency": "high"
     }
   ],
-  "pulse_summary": "PULSE BRIEFING \u2014 Friday May 01, 01:56 PM\n\n\u2705 TODAY: $2716.24 earned, $5705.77 projected vs $3000.0 target\n\u2705 THIS WEEK: $17185.29 earned, $35195.2 projected vs $18000.0 target\n\n\ud83d\udea8 ANOMALY: Revenue is 45.9% off expected pattern \u2014 investigate immediately\n\n\u23f0 PREDICTED RUSH WINDOWS (next 72hrs):\n   Sat May 02 12:00 AM - 02:00 AM \u2014 $1157.09 expected [HIGH]\n   Sun May 03 12:00 AM - 02:00 AM \u2014 $1157.09 expected [HIGH]\n   Mon May 04 12:00 AM - 02:00 AM \u2014 $1157.09 expected [HIGH]",
+  "pulse_summary": "PULSE BRIEFING \u2014 Friday May 01, 02:21 PM\n\n\u2705 TODAY: $2904.4 earned, $5669.6 projected vs $3000.0 target\n\u2705 THIS WEEK: $17409.63 earned, $35456.72 projected vs $18000.0 target\n\n\ud83d\udea8 ANOMALY: Revenue is 48.5% off expected pattern \u2014 investigate immediately\n\n\u23f0 PREDICTED RUSH WINDOWS (next 72hrs):\n   Sat May 02 12:00 AM - 02:00 AM \u2014 $1138.47 expected [HIGH]\n   Sun May 03 12:00 AM - 02:00 AM \u2014 $1138.47 expected [HIGH]\n   Mon May 04 12:00 AM - 02:00 AM \u2014 $1138.47 expected [HIGH]",
   "reviews": [
+    {
+      "id": "g_003",
+      "platform": "Google",
+      "author": "GreekFoodLover",
+      "rating": 5,
+      "text": "Fatima's shawarma is unreal. Came back three Fridays in a row just for that. Marathon is a gem.",
+      "sentiment": "positive",
+      "tags": [
+        "shawarma",
+        "fatima",
+        "repeat_customer"
+      ],
+      "cross_ref": null
+    },
+    {
+      "id": "g_004",
+      "platform": "Google",
+      "author": "NightOwlUMD",
+      "rating": 3,
+      "text": "Food is great but had a cold gyro once \u2014 felt like it sat too long. Staff was apologetic though.",
+      "sentiment": "mixed",
+      "tags": [
+        "food_temp",
+        "gyro",
+        "service_recovery"
+      ],
+      "cross_ref": null
+    },
     {
       "id": "g_001",
       "platform": "Google",
@@ -213,71 +266,43 @@
       "cross_ref": null
     },
     {
-      "id": "y_003",
+      "id": "y_004",
       "platform": "Yelp",
-      "author": "UMD_Alumni_Fan",
-      "rating": 5,
-      "text": "Been going here since 2019. Aarav is still there and still the fastest checkout on campus.",
-      "sentiment": "positive",
-      "tags": [
-        "aarav",
-        "cashier",
-        "loyalty"
-      ],
-      "cross_ref": null
-    },
-    {
-      "id": "y_005",
-      "platform": "Yelp",
-      "author": "LateNightRegular",
-      "rating": 5,
-      "text": "Open until 3 AM and quality stays consistent. Michael keeps the night crew sharp.",
-      "sentiment": "positive",
-      "tags": [
-        "michael",
-        "late_night",
-        "consistency"
-      ],
-      "cross_ref": null
-    },
-    {
-      "id": "g_002",
-      "platform": "Google",
-      "author": "CollegeParkLocal",
+      "author": "BudgetStudentEats",
       "rating": 4,
-      "text": "Love this place but Thursday nights around 11 PM there's always a huge wait. Need more staff then.",
+      "text": "$14 for a gyro wrap seems steep vs Chipotle at $11 nearby. Worth it for the taste but the gap is growing.",
       "sentiment": "mixed",
       "tags": [
-        "staffing",
-        "thursday_late",
-        "wait_time"
+        "pricing",
+        "competitor_chipotle",
+        "value"
       ],
-      "cross_ref": "thu_understaffing"
+      "cross_ref": "gyro_price_hold"
     }
   ],
   "pricing_alerts": [
     {
-      "alert_id": "market_351",
+      "alert_id": "market_503",
+      "type": "market_signal",
+      "competitor": "Wingstop (Route 1, 0.5mi)",
+      "signal": "running 2-for-$14 wing deal on Thursdays \u2014 capturing late-night crowd",
+      "recommended_action": "Counter with Thursday-only $1 baklava add-on promo",
+      "financial_note": "Estimated 12% Thursday traffic loss without response",
+      "urgency": "medium"
+    },
+    {
+      "alert_id": "market_954",
       "type": "market_signal",
       "competitor": "Subway (Route 1, 0.2mi)",
       "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
       "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
       "financial_note": "Subway targets different segment, low overlap risk",
       "urgency": "medium"
-    },
-    {
-      "alert_id": "price_842",
-      "type": "competitor_pricing",
-      "competitor": "Chipotle (Route 1, 0.3mi)",
-      "signal": "burrito bowl dropped to $10.95 \u2014 $2.55 below Marathon gyro wrap",
-      "recommended_action": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
-      "financial_note": "Matching would cost ~$3,400/mo in revenue",
-      "urgency": "high"
     }
   ],
   "temporal_alerts": [
     {
-      "alert_id": "shift_260",
+      "alert_id": "shift_327",
       "type": "staffing_pressure",
       "window": "Lunch rush window \u2014 monitor queue depth",
       "recommended_action": "Add one cook to Thursday 10PM-2AM shift",
@@ -286,19 +311,19 @@
     }
   ],
   "shelf_flags": {
-    "generated_at": "2026-05-01T13:55:13.881396",
+    "generated_at": "2026-05-01T14:20:22.809293",
     "source": "external_paradigm_refresh",
     "flag": true,
     "staffing_pressure": "medium",
     "staffing_note": "Lunch rush window \u2014 monitor queue depth",
     "executive_summary": {
-      "business_health_score": 72,
+      "business_health_score": 76,
       "staffing_pressure": "medium"
     },
     "employee_intelligence": {
       "employee_of_the_week": {
         "name": "Priya Sharma",
-        "score": 98,
+        "score": 97,
         "reason": "100/100 performance score, outstanding customer praise"
       },
       "employees": []
@@ -308,18 +333,18 @@
     },
     "competitor_landscape": [
       {
+        "competitor": "Wingstop (Route 1, 0.5mi)",
+        "signal": "running 2-for-$14 wing deal on Thursdays \u2014 capturing late-night crowd",
+        "impact": "traffic_diversion",
+        "recommended_action": "Counter with Thursday-only $1 baklava add-on promo",
+        "financial_note": "Estimated 12% Thursday traffic loss without response"
+      },
+      {
         "competitor": "Subway (Route 1, 0.2mi)",
         "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
         "impact": "lunch_traffic_risk",
         "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
         "financial_note": "Subway targets different segment, low overlap risk"
-      },
-      {
-        "competitor": "Chipotle (Route 1, 0.3mi)",
-        "signal": "burrito bowl dropped to $10.95 \u2014 $2.55 below Marathon gyro wrap",
-        "impact": "price_pressure",
-        "recommended_action": "Hold gyro at $13.50 \u2014 emphasize portion size and local brand",
-        "financial_note": "Matching would cost ~$3,400/mo in revenue"
       }
     ],
     "cost_intelligence": {
@@ -328,10 +353,10 @@
           "item": "Lamb Shoulder (gyro/shawarma base)",
           "financial_impact": 1680,
           "monthly_impact": 1680,
-          "root_cause": "Price -7.5% vs baseline \u2014 primary protein cost driver",
-          "recommended_action": "Current pricing favorable \u2014 maintain",
-          "urgency": "low",
-          "flag": "stable"
+          "root_cause": "Price +7.0% vs baseline \u2014 primary protein cost driver",
+          "recommended_action": "Pre-order 2-week supply to lock in current price",
+          "urgency": "high",
+          "flag": "cost_spike"
         },
         {
           "item": "DoorDash Marketplace Commission",
@@ -343,60 +368,60 @@
           "flag": "cost_spike"
         },
         {
-          "item": "Overtime Labor \u2014 Michael Rivera (7h OT this week)",
-          "financial_impact": 924,
-          "monthly_impact": 924,
-          "root_cause": "Supervisor working 47h this week (7h above threshold)",
-          "recommended_action": "Hire part-time evening cashier to absorb 4-6h/week OT",
-          "urgency": "high",
-          "flag": "cost_spike"
+          "item": "Overtime Labor \u2014 Michael Rivera (4h OT this week)",
+          "financial_impact": 528,
+          "monthly_impact": 528,
+          "root_cause": "Supervisor working 44h this week (4h above threshold)",
+          "recommended_action": "Monitor \u2014 within acceptable buffer",
+          "urgency": "medium",
+          "flag": "watch"
         }
       ],
       "cogs_snapshot": {
         "lamb_shoulder": {
           "unit": "lb",
-          "current_price": 7.77,
-          "vs_baseline": "-7.5%",
+          "current_price": 8.99,
+          "vs_baseline": "+7.0%",
           "flagged": true
         },
         "feta_cheese": {
           "unit": "lb",
-          "current_price": 5.98,
-          "vs_baseline": "-3.6%",
+          "current_price": 6.01,
+          "vs_baseline": "-3.0%",
           "flagged": false
         },
         "pita_bread": {
           "unit": "case_48",
-          "current_price": 21.78,
-          "vs_baseline": "-3.2%",
+          "current_price": 22.64,
+          "vs_baseline": "+0.6%",
           "flagged": false
         },
         "cooking_oil": {
           "unit": "gal",
-          "current_price": 14.45,
-          "vs_baseline": "-2.4%",
+          "current_price": 15.3,
+          "vs_baseline": "+3.4%",
           "flagged": false
         },
         "shawarma_spice": {
           "unit": "lb",
-          "current_price": 11.85,
-          "vs_baseline": "-1.2%",
+          "current_price": 12.13,
+          "vs_baseline": "+1.1%",
           "flagged": false
         },
         "chicken": {
           "unit": "lb",
-          "current_price": 3.38,
-          "vs_baseline": "+5.6%",
-          "flagged": true
+          "current_price": 3.09,
+          "vs_baseline": "-3.4%",
+          "flagged": false
         }
       },
       "monthly_revenue": 112000,
       "cost_creep": {
-        "feta_cheese": "+3.6%",
-        "pita_bread": "+3.2%"
+        "feta_cheese": "+3.0%",
+        "pita_bread": "+0.6%"
       },
-      "total_monthly_flagged": 6972,
-      "as_pct_revenue": 6.2
+      "total_monthly_flagged": 6576,
+      "as_pct_revenue": 5.9
     }
   },
   "cost_intelligence": {
@@ -405,10 +430,10 @@
         "item": "Lamb Shoulder (gyro/shawarma base)",
         "financial_impact": 1680,
         "monthly_impact": 1680,
-        "root_cause": "Price -7.5% vs baseline \u2014 primary protein cost driver",
-        "recommended_action": "Current pricing favorable \u2014 maintain",
-        "urgency": "low",
-        "flag": "stable"
+        "root_cause": "Price +7.0% vs baseline \u2014 primary protein cost driver",
+        "recommended_action": "Pre-order 2-week supply to lock in current price",
+        "urgency": "high",
+        "flag": "cost_spike"
       },
       {
         "item": "DoorDash Marketplace Commission",
@@ -420,65 +445,65 @@
         "flag": "cost_spike"
       },
       {
-        "item": "Overtime Labor \u2014 Michael Rivera (7h OT this week)",
-        "financial_impact": 924,
-        "monthly_impact": 924,
-        "root_cause": "Supervisor working 47h this week (7h above threshold)",
-        "recommended_action": "Hire part-time evening cashier to absorb 4-6h/week OT",
-        "urgency": "high",
-        "flag": "cost_spike"
+        "item": "Overtime Labor \u2014 Michael Rivera (4h OT this week)",
+        "financial_impact": 528,
+        "monthly_impact": 528,
+        "root_cause": "Supervisor working 44h this week (4h above threshold)",
+        "recommended_action": "Monitor \u2014 within acceptable buffer",
+        "urgency": "medium",
+        "flag": "watch"
       }
     ],
     "cogs_snapshot": {
       "lamb_shoulder": {
         "unit": "lb",
-        "current_price": 7.77,
-        "vs_baseline": "-7.5%",
+        "current_price": 8.99,
+        "vs_baseline": "+7.0%",
         "flagged": true
       },
       "feta_cheese": {
         "unit": "lb",
-        "current_price": 5.98,
-        "vs_baseline": "-3.6%",
+        "current_price": 6.01,
+        "vs_baseline": "-3.0%",
         "flagged": false
       },
       "pita_bread": {
         "unit": "case_48",
-        "current_price": 21.78,
-        "vs_baseline": "-3.2%",
+        "current_price": 22.64,
+        "vs_baseline": "+0.6%",
         "flagged": false
       },
       "cooking_oil": {
         "unit": "gal",
-        "current_price": 14.45,
-        "vs_baseline": "-2.4%",
+        "current_price": 15.3,
+        "vs_baseline": "+3.4%",
         "flagged": false
       },
       "shawarma_spice": {
         "unit": "lb",
-        "current_price": 11.85,
-        "vs_baseline": "-1.2%",
+        "current_price": 12.13,
+        "vs_baseline": "+1.1%",
         "flagged": false
       },
       "chicken": {
         "unit": "lb",
-        "current_price": 3.38,
-        "vs_baseline": "+5.6%",
-        "flagged": true
+        "current_price": 3.09,
+        "vs_baseline": "-3.4%",
+        "flagged": false
       }
     },
     "monthly_revenue": 112000,
     "cost_creep": {
-      "feta_cheese": "+3.6%",
-      "pita_bread": "+3.2%"
+      "feta_cheese": "+3.0%",
+      "pita_bread": "+0.6%"
     },
-    "total_monthly_flagged": 6972,
-    "as_pct_revenue": 6.2
+    "total_monthly_flagged": 6576,
+    "as_pct_revenue": 5.9
   },
   "employee_intelligence": {
     "employee_of_the_week": {
       "name": "Priya Sharma",
-      "score": 98,
+      "score": 97,
       "reason": "100/100 performance score, outstanding customer praise"
     },
     "employees": []
@@ -488,10 +513,10 @@
   },
   "employee_of_the_week": {
     "name": "Priya Sharma",
-    "score": 98,
+    "score": 97,
     "reason": "100/100 performance score, outstanding customer praise"
   },
-  "health_score": 72,
+  "health_score": 76,
   "staffing": {
     "shifts": [
       {

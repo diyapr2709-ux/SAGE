@@ -5,7 +5,9 @@
     "name": "Marathon Employee",
     "request_type": "swap",
     "note": "Have a conflict Friday evening",
-    "status": "pending"
+    "status": "approved",
+    "manager_note": "",
+    "reviewed_by": "ceo@marathondeli.com"
   },
   {
     "shift_id": "thu_late_night_01",
