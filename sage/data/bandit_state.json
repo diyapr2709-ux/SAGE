@@ -27,8 +27,12 @@
     "revenue|PULSE|high": {
       "alpha": 1.0,
       "beta": 2.0
+    },
+    "cost|VOICE|high": {
+      "alpha": 2.0,
+      "beta": 2.0
     }
   },
-  "total_pulls": 14,
-  "last_updated": "2026-05-01T18:17:19.740345+00:00"
+  "total_pulls": 15,
+  "last_updated": "2026-05-06T05:13:02.989669+00:00"
 }

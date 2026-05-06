@@ -1,0 +1,42 @@
+[
+  {
+    "recommendation_id": "pulse_alert",
+    "category": "revenue",
+    "agent": "PULSE",
+    "financial_impact": 4009.27,
+    "urgency": "high",
+    "action": "approved",
+    "timestamp": "2026-05-01T17:57:05.286312+00:00",
+    "edit_note": ""
+  },
+  {
+    "recommendation_id": "shelf_cost_DoorDash_Marketplace_Commission",
+    "category": "cost",
+    "agent": "SHELF",
+    "financial_impact": 4368.0,
+    "urgency": "high",
+    "action": "rejected",
+    "timestamp": "2026-05-01T18:06:31.151401+00:00",
+    "edit_note": ""
+  },
+  {
+    "recommendation_id": "pulse_alert",
+    "category": "revenue",
+    "agent": "PULSE",
+    "financial_impact": 4009.27,
+    "urgency": "high",
+    "action": "approved",
+    "timestamp": "2026-05-01T18:06:34.669684+00:00",
+    "edit_note": ""
+  },
+  {
+    "recommendation_id": "voice_pricing_market_165",
+    "category": "cost",
+    "agent": "VOICE",
+    "financial_impact": 0.0,
+    "urgency": "high",
+    "action": "approved",
+    "timestamp": "2026-05-05T18:48:27.482411+00:00",
+    "edit_note": ""
+  }
+]

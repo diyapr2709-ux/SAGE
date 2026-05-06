@@ -43,7 +43,7 @@
       "role": "Shift Supervisor",
       "hourly_rate": 22,
       "hours_per_week": 46,
-      "performance_notes": "strong leader, 4h overtime this week \u2014 needs review"
+      "performance_notes": "strong leader, 7h overtime this week \u2014 needs review"
     },
     {
       "name": "Sophia Kim",
@@ -83,10 +83,10 @@
   ],
   "llm_outputs": {
     "voice": {
-      "generated_at": "2026-05-01T14:20:22.809293",
+      "generated_at": "2026-05-06T14:00:30.048130",
       "source": "external_paradigm_refresh",
-      "avg_rating": 4.2,
-      "positive_reviews": 2,
+      "avg_rating": 4.5,
+      "positive_reviews": 3,
       "negative_reviews": 0,
       "umd_context": {
         "event": "Finals week",
@@ -95,7 +95,7 @@
       },
       "pricing_alerts": [
         {
-          "alert_id": "market_503",
+          "alert_id": "market_279",
           "type": "market_signal",
           "competitor": "Wingstop (Route 1, 0.5mi)",
           "signal": "running 2-for-$14 wing deal on Thursdays \u2014 capturing late-night crowd",
@@ -104,18 +104,18 @@
           "urgency": "medium"
         },
         {
-          "alert_id": "market_954",
+          "alert_id": "market_554",
           "type": "market_signal",
-          "competitor": "Subway (Route 1, 0.2mi)",
-          "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
-          "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
-          "financial_note": "Subway targets different segment, low overlap risk",
+          "competitor": "Raising Cane's (College Park, 1mi)",
+          "signal": "delivery radius expanded to UMD campus via DoorDash",
+          "recommended_action": "Leverage Jordan's 4.9\u2605 DoorDash rating in targeted ads",
+          "financial_note": "Jordan's avg delivery time 18min vs Cane's estimated 32min",
           "urgency": "medium"
         }
       ],
       "temporal_alerts": [
         {
-          "alert_id": "shift_327",
+          "alert_id": "shift_728",
           "type": "staffing_pressure",
           "window": "Lunch rush window \u2014 monitor queue depth",
           "recommended_action": "Add one cook to Thursday 10PM-2AM shift",
@@ -125,50 +125,22 @@
       ],
       "compliance_alerts": [],
       "market_events": [
-        "Cooking oil futures up 4% this week on crop report",
         "Greek feta import tariff review in progress \u2014 monitor for Q3 impact",
+        "Grubhub offering 0% commission for first 30 days to new Market partners",
         "USDA: chicken breast prices stabilizing after Q1 spike"
       ],
       "replies": [
         {
-          "id": "g_003",
-          "platform": "Google",
-          "author": "GreekFoodLover",
+          "id": "y_003",
+          "platform": "Yelp",
+          "author": "UMD_Alumni_Fan",
           "rating": 5,
-          "text": "Fatima's shawarma is unreal. Came back three Fridays in a row just for that. Marathon is a gem.",
+          "text": "Been going here since 2019. Aarav is still there and still the fastest checkout on campus.",
           "sentiment": "positive",
           "tags": [
-            "shawarma",
-            "fatima",
-            "repeat_customer"
-          ],
-          "cross_ref": null
-        },
-        {
-          "id": "g_004",
-          "platform": "Google",
-          "author": "NightOwlUMD",
-          "rating": 3,
-          "text": "Food is great but had a cold gyro once \u2014 felt like it sat too long. Staff was apologetic though.",
-          "sentiment": "mixed",
-          "tags": [
-            "food_temp",
-            "gyro",
-            "service_recovery"
-          ],
-          "cross_ref": null
-        },
-        {
-          "id": "g_001",
-          "platform": "Google",
-          "author": "TerpFan2024",
-          "rating": 5,
-          "text": "Best late-night spot near UMD. The gyro is massive and the staff is super fast after midnight.",
-          "sentiment": "positive",
-          "tags": [
-            "gyro",
-            "late_night",
-            "speed"
+            "aarav",
+            "cashier",
+            "loyalty"
           ],
           "cross_ref": null
         },
@@ -185,23 +157,51 @@
             "value"
           ],
           "cross_ref": "gyro_price_hold"
+        },
+        {
+          "id": "g_007",
+          "platform": "Google",
+          "author": "StudyBreakSnacker",
+          "rating": 4,
+          "text": "Sophia always remembers to ask if you want baklava with your order. Great upsell, great girl.",
+          "sentiment": "positive",
+          "tags": [
+            "upsell",
+            "sophia",
+            "baklava"
+          ],
+          "cross_ref": null
+        },
+        {
+          "id": "g_001",
+          "platform": "Google",
+          "author": "TerpFan2024",
+          "rating": 5,
+          "text": "Best late-night spot near UMD. The gyro is massive and the staff is super fast after midnight.",
+          "sentiment": "positive",
+          "tags": [
+            "gyro",
+            "late_night",
+            "speed"
+          ],
+          "cross_ref": null
         }
       ]
     },
     "shelf": {
-      "generated_at": "2026-05-01T14:20:22.809293",
+      "generated_at": "2026-05-06T14:00:30.048130",
       "source": "external_paradigm_refresh",
       "flag": true,
       "staffing_pressure": "medium",
       "staffing_note": "Lunch rush window \u2014 monitor queue depth",
       "executive_summary": {
-        "business_health_score": 76,
+        "business_health_score": 77,
         "staffing_pressure": "medium"
       },
       "employee_intelligence": {
         "employee_of_the_week": {
           "name": "Priya Sharma",
-          "score": 97,
+          "score": 96,
           "reason": "100/100 performance score, outstanding customer praise"
         },
         "employees": []
@@ -218,11 +218,11 @@
           "financial_note": "Estimated 12% Thursday traffic loss without response"
         },
         {
-          "competitor": "Subway (Route 1, 0.2mi)",
-          "signal": "$6 footlong sub promo through month end \u2014 aggressively underpricing",
-          "impact": "lunch_traffic_risk",
-          "recommended_action": "Marathon's differentiation is quality/variety \u2014 no need to match",
-          "financial_note": "Subway targets different segment, low overlap risk"
+          "competitor": "Raising Cane's (College Park, 1mi)",
+          "signal": "delivery radius expanded to UMD campus via DoorDash",
+          "impact": "delivery_competition",
+          "recommended_action": "Leverage Jordan's 4.9\u2605 DoorDash rating in targeted ads",
+          "financial_note": "Jordan's avg delivery time 18min vs Cane's estimated 32min"
         }
       ],
       "cost_intelligence": {
@@ -231,10 +231,10 @@
             "item": "Lamb Shoulder (gyro/shawarma base)",
             "financial_impact": 1680,
             "monthly_impact": 1680,
-            "root_cause": "Price +7.0% vs baseline \u2014 primary protein cost driver",
-            "recommended_action": "Pre-order 2-week supply to lock in current price",
-            "urgency": "high",
-            "flag": "cost_spike"
+            "root_cause": "Price -0.9% vs baseline \u2014 primary protein cost driver",
+            "recommended_action": "Current pricing favorable \u2014 maintain",
+            "urgency": "low",
+            "flag": "stable"
           },
           {
             "item": "DoorDash Marketplace Commission",
@@ -246,60 +246,60 @@
             "flag": "cost_spike"
           },
           {
-            "item": "Overtime Labor \u2014 Michael Rivera (4h OT this week)",
-            "financial_impact": 528,
-            "monthly_impact": 528,
-            "root_cause": "Supervisor working 44h this week (4h above threshold)",
-            "recommended_action": "Monitor \u2014 within acceptable buffer",
-            "urgency": "medium",
-            "flag": "watch"
+            "item": "Overtime Labor \u2014 Michael Rivera (7h OT this week)",
+            "financial_impact": 924,
+            "monthly_impact": 924,
+            "root_cause": "Supervisor working 47h this week (7h above threshold)",
+            "recommended_action": "Hire part-time evening cashier to absorb 4-6h/week OT",
+            "urgency": "high",
+            "flag": "cost_spike"
           }
         ],
         "cogs_snapshot": {
           "lamb_shoulder": {
             "unit": "lb",
-            "current_price": 8.99,
-            "vs_baseline": "+7.0%",
-            "flagged": true
+            "current_price": 8.33,
+            "vs_baseline": "-0.9%",
+            "flagged": false
           },
           "feta_cheese": {
             "unit": "lb",
-            "current_price": 6.01,
-            "vs_baseline": "-3.0%",
-            "flagged": false
+            "current_price": 6.51,
+            "vs_baseline": "+5.0%",
+            "flagged": true
           },
           "pita_bread": {
             "unit": "case_48",
-            "current_price": 22.64,
-            "vs_baseline": "+0.6%",
+            "current_price": 21.9,
+            "vs_baseline": "-2.7%",
             "flagged": false
           },
           "cooking_oil": {
             "unit": "gal",
-            "current_price": 15.3,
-            "vs_baseline": "+3.4%",
+            "current_price": 14.68,
+            "vs_baseline": "-0.8%",
             "flagged": false
           },
           "shawarma_spice": {
             "unit": "lb",
-            "current_price": 12.13,
-            "vs_baseline": "+1.1%",
+            "current_price": 12.47,
+            "vs_baseline": "+3.9%",
             "flagged": false
           },
           "chicken": {
             "unit": "lb",
-            "current_price": 3.09,
-            "vs_baseline": "-3.4%",
-            "flagged": false
+            "current_price": 3.06,
+            "vs_baseline": "-4.4%",
+            "flagged": true
           }
         },
         "monthly_revenue": 112000,
         "cost_creep": {
-          "feta_cheese": "+3.0%",
-          "pita_bread": "+0.6%"
+          "feta_cheese": "+5.0%",
+          "pita_bread": "+2.7%"
         },
-        "total_monthly_flagged": 6576,
-        "as_pct_revenue": 5.9
+        "total_monthly_flagged": 6972,
+        "as_pct_revenue": 6.2
       }
     }
   }

@@ -62,5 +62,21 @@
     "confirmed": false,
     "measured_value": 1400.0,
     "measured_at": "2026-05-01T18:17:19.739591+00:00"
+  },
+  {
+    "recommendation_id": "voice_pricing_market_165",
+    "category": "cost",
+    "agent": "VOICE",
+    "urgency": "high",
+    "action_taken": "voice_pricing_market_165",
+    "outcome_type": "cost_reduction",
+    "baseline_value": 0.0,
+    "expected_direction": "decrease",
+    "approved_at": "2026-05-05T18:48:27.484460+00:00",
+    "measure_after": "2026-05-05T19:48:27.484460+00:00",
+    "measured": true,
+    "confirmed": false,
+    "measured_value": 6945.0,
+    "measured_at": "2026-05-06T05:13:02.988343+00:00"
   }
 ]
